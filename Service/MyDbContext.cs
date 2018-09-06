@@ -76,5 +76,6 @@ namespace IMS.Service
         public DbSet<JournalEntity> Journals { get; set; }
         public DbSet<TaskEntity> Tasks { get; set; }
         public DbSet<ForwardEntity> Forwards { get; set; }
+        public DbSet<ForwardStateEntity> ForwardStates { get; set; }
     }
 }

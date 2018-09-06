@@ -15,12 +15,10 @@ namespace IMS.DTO
         public decimal? BalanceAmount { get; set; }
         public long JournalTypeId { get; set; }
         public string JournalTypeName { get; set; }
+        public long ForwardId { get; set; }
+        public long TaskId { get; set; }
         public long UserId { get; set; }
-        public string Mobile { get; set; }
-        public string NickName { get; set; }
-        public long GoodsId { get; set; }
-        public string OrderCode { get; set; }
+        public string Name { get; set; }
         public bool IsEnabled { get; set; }
-        public long LevelId { get; set; }
     }
 }

@@ -27,12 +27,10 @@ namespace IMS.Service.Service
             dto.Remark = entity.Remark;
             dto.RemarkEn = entity.RemarkEn;
             dto.UserId = entity.UserId;
-            dto.Mobile = entity.User.Mobile;
-            dto.NickName = entity.User.NickName;
-            dto.OrderCode = entity.OrderCode;
+            dto.Name = entity.User.Name;
             dto.IsEnabled = entity.IsEnabled;
-            dto.LevelId = entity.LevelId;
-            dto.GoodsId = entity.GoodsId;
+            dto.TaskId = entity.TaskId;
+            dto.ForwardId = entity.ForwardId;
             return dto;
         }
 
@@ -52,7 +50,7 @@ namespace IMS.Service.Service
                 }
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    entities = entities.Where(g => g.Remark.Contains(keyword) || g.User.Mobile.Contains(keyword) || g.User.NickName.Contains(keyword) || g.OrderCode.Contains(keyword));
+                    entities = entities.Where(g => g.Remark.Contains(keyword) || g.User.Mobile.Contains(keyword) || g.User.NickName.Contains(keyword));
                 }
                 if (startTime != null)
                 {
