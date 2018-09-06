@@ -12,11 +12,11 @@ namespace IMS.Service.Entity
     public class ForwardEntity : BaseEntity
     {
         public long TaskId { get; set; }
-        public TaskEntity Task { get; set; }
+        public virtual TaskEntity Task { get; set; }
         public long UserId { get; set; }
-        public UserEntity User { get; set; }
+        public virtual UserEntity User { get; set; }
         public long StateId { get; set; }
-        public ForwardStateEntity State { get; set; }
+        public virtual ForwardStateEntity State { get; set; }
         public string ImgUrl { get; set; }
     }
 }

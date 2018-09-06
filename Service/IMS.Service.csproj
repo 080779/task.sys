@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
     <Compile Include="Config\ForwardStateConfig.cs" />
+    <Compile Include="Config\SettingTypeConfig.cs" />
     <Compile Include="Config\TaskConfig.cs" />
     <Compile Include="Config\ForwardConfig.cs" />
     <Compile Include="Config\AdminConfig.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Config\TakeCashConfig.cs" />
     <Compile Include="Entity\ForwardStateEntity.cs" />
     <Compile Include="Entity\ForwardEntity.cs" />
+    <Compile Include="Entity\SettingTypeEntity.cs" />
     <Compile Include="Entity\TaskEntity.cs" />
     <Compile Include="Entity\IdNameEntity.cs" />
     <Compile Include="Entity\JournalEntity.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Service\NavBarService.cs" />
     <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\PermissionTypeService.cs" />
+    <Compile Include="Service\TaskService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Service\TakeCashService.cs" />
   </ItemGroup>

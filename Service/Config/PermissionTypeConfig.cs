@@ -7,7 +7,7 @@ namespace IMS.Service.Config
     {
         public PermissionTypeConfig()
         {
-            ToTable("tb_permissiontypes");
+            ToTable("tb_permissionTypes");
             Property(p => p.Name).HasMaxLength(30).IsRequired();
             Property(p => p.Description).HasMaxLength(100);
         }

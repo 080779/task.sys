@@ -18,7 +18,7 @@ namespace IMS.Web.Controllers
             t.Id = 1;
             t.Name = "jenney";
             t.Age = 16;
-            return new ApiResult { Status=1,Msg="ig",Data=t};
+            return new ApiResult { Status = 1, Msg = "ig", Data = t };
         }
         public class test
         {

@@ -43,7 +43,7 @@
     <Compile Include="JournalDTO.cs" />
     <Compile Include="SettingDTO.cs" />
     <Compile Include="IdNameDTO.cs" />
-    <Compile Include="NoticeDTO.cs" />
+    <Compile Include="TaskDTO.cs" />
     <Compile Include="AdminDTO.cs" />
     <Compile Include="AdminLogDTO.cs" />
     <Compile Include="BaseDTO.cs" />

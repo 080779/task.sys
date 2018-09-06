@@ -33,21 +33,21 @@
     @*<script src="~/assets/laydate/laydate.js" type="text/javascript"></script>*@
     <script src="~/assets/src/laydate.js"></script>
     <script src="~/js/wangEditor.min.js"></script>
-    <title>公告栏管理</title>
+    <title>任务管理</title>
 </head>
 
 <body>
     <div id="app">
         <div class="clearfix" style="margin-top:20px">
             <span class="l_f">
-                <a v-on:click="add" class="btn btn-success"><i class="icon-plus"></i>新增公告</a>
+                <a v-on:click="add" class="btn btn-success"><i class="icon-plus"></i>新增任务</a>
             </span>
         </div>
         <div class="search_style">
             <ul class="search_content clearfix">
                 <li>
-                    <label class="l_f">公告信息</label>
-                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="公告信息" style="width:150px" />
+                    <label class="l_f">任务信息</label>
+                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="任务信息" style="width:150px" />
                 </li>
                 <li style="width:90px;"><button type="button" v-on:click="search" class="btn_search"><i class="icon-search"></i>查询</button></li>
             </ul>
@@ -57,24 +57,36 @@
                 <thead>
                     <tr>
                         <th width="60">编号</th>
-                        <th width="100">发布时间</th>
-                        <th width="100">失效时间</th>
-                        <th width="100">公告标题</th>
+                        <th width="100">任务编号</th>
+                        <th width="100">任务标题</th>
+                        <th width="100">任务佣金</th>
+                        <th width="100">完成条件</th>
+                        <th width="100">简介说明</th>
+                        <th width="100">任务内容</th>
+                        <th width="100">开始时间</th>
+                        <th width="100">结束时间</th>
+                        <th width="100">发布人</th>
                         <th width="60">状态</th>
                         <th width="120">操作</th>
                     </tr>
                 </thead>
-                <tbody v-for="notice in notices">
+                <tbody v-for="task in tasks">
                     <tr>
-                        <td v-html="notice.id"></td>
-                        <td v-html="notice.createTime"></td>
-                        <td v-html="notice.failureTime"></td>
-                        <td v-html="notice.code"></td>
-                        <td v-html="notice.isEnabled==true?'已启用':'停用'"></td>                        
+                        <td v-html="task.id"></td>
+                        <td v-html="task.code"></td>
+                        <td v-html="task.title"></td>
+                        <td v-html="task.bonus"></td>
+                        <td v-html="task.condition"></td>
+                        <td v-html="task.explain"></td>
+                        <td v-html="task.content"></td>
+                        <td v-html="task.startTime"></td>
+                        <td v-html="task.endTime"></td>
+                        <td v-html="task.publisher"></td>
+                        <td v-html="task.isEnabled==true?'已启用':'停用'"></td>
                         <td>
                             @*<a class="btn btn-xs btn-info" v-on:click="getnotices(admin.id)">查看公告</a>*@
-                            <a v-on:click="edit(notice.id)" href="javascript:;" title="修改公告" class="btn btn-xs btn-success">修改公告</a>
-                            <a title="删除" href="javascript:;" v-on:click="del(notice.id)" class="btn btn-xs btn-warning">删除公告</a>
+                            <a v-on:click="edit(notice.id)" href="javascript:;" title="修改公告" class="btn btn-xs btn-success">修改任务</a>
+                            <a title="删除" href="javascript:;" v-on:click="del(notice.id)" class="btn btn-xs btn-warning">删除任务</a>
                         </td>
                     </tr>
                 </tbody>
@@ -127,7 +139,7 @@
     var vue = new Vue({
         el: "#app",
         data: {
-            notices: [],
+            tasks: [],
             testtime:"",
             pages: {
                 all: "", cur: 1, txtpage: ""
@@ -166,8 +178,8 @@
                 });
             },
             getpage: function () {
-                this.$http.post('/admin/notice/list', { keyword: this.searchs.keyword, startTime: this.searchs.startTime, endTime: this.searchs.endTime, pageIndex: this.pages.cur }, { emulateJSON: true }).then(function (result) {
-                    this.notices = result.data.data.notices;
+                this.$http.post('/admin/task/list', { keyword: this.searchs.keyword, startTime: this.searchs.startTime, endTime: this.searchs.endTime, pageIndex: this.pages.cur }, { emulateJSON: true }).then(function (result) {
+                    this.tasks = result.data.data.tasks;
                     this.pages.all = result.data.data.pageCount;
                 })
             },
@@ -234,7 +246,7 @@
             },
             edit: function (id) {
                 var that = this;
-                that.$http.post('/admin/notice/getmodel', { id: id }, { emulateJSON: true }).then(function (result) {
+                that.$http.post('/admin/task/getmodel', { id: id }, { emulateJSON: true }).then(function (result) {
                     that.edits = result.data.data;
                     $("#failureTime1").val(that.edits.failureTime);
                     editor2.txt.html(result.data.data.content);
@@ -261,7 +273,7 @@
                             layer.alert('公告内容不能为空', { icon: 0, title: '提示框' });
                             return;
                         }
-                        that.$http.post('/admin/notice/edit', { id: id, code: that.edits.code, content: that.edits.content, failureTime: that.edits.failureTime }, { emulateJSON: true }).then(function (result) {
+                        that.$http.post('/admin/task/edit', { id: id, code: that.edits.code, content: that.edits.content, failureTime: that.edits.failureTime }, { emulateJSON: true }).then(function (result) {
                             if (result.data.status == 1) {
                                 layer.alert(result.data.msg, { icon: 6, title: '提示框' });
                                 layer.close(index);
@@ -283,7 +295,7 @@
             del: function (id) {
                 var that = this;
                 layer.confirm("公告删除后无法恢复，确认删除吗？", { icon: 0, title: '是否删除公告' }, function (index) {
-                    that.$http.post('/admin/notice/del', { id: id }, { emulateJSON: true }).then(function (result) {
+                    that.$http.post('/admin/task/del', { id: id }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 6, title: '提示框' });
                             that.getpage();
@@ -348,8 +360,8 @@
                     that.edits.failureTime = date;
                 }
             });
-            this.$http.post('/admin/notice/list', { keyword: this.searchs.keyword, startTime: this.searchs.startTime, endTime: this.searchs.endTime, pageIndex: this.pages.cur }, { emulateJSON: true }).then(function (result) {
-                this.notices = result.data.data.notices;
+            this.$http.post('/admin/task/list', { keyword: this.searchs.keyword, startTime: this.searchs.startTime, endTime: this.searchs.endTime, pageIndex: this.pages.cur }, { emulateJSON: true }).then(function (result) {
+                this.tasks = result.data.data.tasks;
                 this.pages.all = result.data.data.pageCount;
             })
         }

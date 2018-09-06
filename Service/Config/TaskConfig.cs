@@ -11,6 +11,7 @@ namespace IMS.Service.Config
 
             Property(p => p.Code).HasMaxLength(100).IsRequired();
             Property(p => p.Title).HasMaxLength(100).IsRequired();
+            Property(p => p.Url).HasMaxLength(100);
             Property(p => p.Condition).HasMaxLength(256).IsRequired();
             Property(p => p.Explain).HasMaxLength(256).IsRequired();
             Property(p => p.Content).HasMaxLength(2048);

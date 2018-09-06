@@ -20,8 +20,8 @@ namespace IMS.Service.Service
             dto.Id = entity.Id;
             dto.Name = entity.Name;
             dto.Description = entity.Description;
-            dto.TypeName = entity.SettingType.Name;
-            dto.TypeDescription = entity.SettingType.Description;
+            dto.TypeName = entity.Type.Name;
+            dto.TypeDescription = entity.Type.Description;
             dto.Parm = entity.Parm;
             return dto;
         }
@@ -31,7 +31,7 @@ namespace IMS.Service.Service
             {
                 SettingEntity entity = new SettingEntity();
                 entity.Name = name;
-                entity.SettingTypeId = sttingTypeId;
+                entity.TypeId = sttingTypeId;
                 entity.Description = description;
                 dbc.Settings.Add(entity);
                 await dbc.SaveChangesAsync();
@@ -58,7 +58,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                SettingEntity entity = await dbc.GetAll<SettingEntity>().Include(s => s.SettingType).AsNoTracking().SingleOrDefaultAsync(g => g.Id == id);
+                SettingEntity entity = await dbc.GetAll<SettingEntity>().Include(s => s.Type).AsNoTracking().SingleOrDefaultAsync(g => g.Id == id);
                 if (entity == null)
                 {
                     return null;
@@ -71,7 +71,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                SettingEntity entity = await dbc.GetAll<SettingEntity>().Include(s => s.SettingType).AsNoTracking().SingleOrDefaultAsync(g => g.Name == name);
+                SettingEntity entity = await dbc.GetAll<SettingEntity>().Include(s => s.Type).AsNoTracking().SingleOrDefaultAsync(g => g.Name == name);
                 if (entity == null)
                 {
                     return null;
@@ -98,7 +98,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 long settingTypeId = await dbc.GetIdAsync<IdNameEntity>(i => i.Name == settingTypeName);
-                var entities = dbc.GetAll<SettingEntity>().Include(s => s.SettingType).AsNoTracking().Where(a=>a.SettingTypeId==settingTypeId);
+                var entities = dbc.GetAll<SettingEntity>().Include(s => s.Type).AsNoTracking().Where(a=>a.TypeId==settingTypeId);
                 var settingsResult = await entities.ToListAsync();
                 return settingsResult.Select(a => ToDTO(a)).ToArray();
             }
@@ -108,10 +108,10 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                var entities = dbc.GetAll<SettingEntity>().Include(s => s.SettingType).AsNoTracking();
+                var entities = dbc.GetAll<SettingEntity>().Include(s => s.Type).AsNoTracking();
                 if (settingTypeIds.Count() > 0)
                 {
-                    entities = entities.Where(a => settingTypeIds.Contains(a.SettingTypeId));
+                    entities = entities.Where(a => settingTypeIds.Contains(a.TypeId));
                 }
                 var settingsResult = await entities.ToListAsync();
                 return settingsResult.Select(a => ToDTO(a)).ToArray();
@@ -123,10 +123,10 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 SettingSearchResult result = new SettingSearchResult();
-                var entities = dbc.GetAll<SettingEntity>().Include(s => s.SettingType).AsNoTracking();
+                var entities = dbc.GetAll<SettingEntity>().Include(s => s.Type).AsNoTracking();
                 if(settingTypeIds.Count()>0)
                 {
-                    entities = entities.Where(a => settingTypeIds.Contains(a.SettingTypeId));
+                    entities = entities.Where(a => settingTypeIds.Contains(a.TypeId));
                 }
                 if (!string.IsNullOrEmpty(keyword))
                 {

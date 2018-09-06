@@ -11,7 +11,8 @@ namespace IMS.Service.Entity
         public string Name { get; set; }
         public string Parm { get; set; }
         public string Description { get; set; }
-        public long SettingTypeId { get; set; }
-        public virtual IdNameEntity SettingType { get; set; }
+        public long? LevelId { get; set; }
+        public long TypeId { get; set; }
+        public virtual IdNameEntity Type { get; set; }
     }
 }
