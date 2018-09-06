@@ -24,8 +24,8 @@ namespace IMS.Web.Jobs
                 var container = AutofacDependencyResolver.Current.ApplicationContainer;
                 using (container.BeginLifetimeScope())
                 {
-                    var orderService = container.Resolve<IOrderService>();
-                    orderService.AutoConfirm();
+                    //var orderService = container.Resolve<IOrderService>();
+                    //orderService.AutoConfirm();
                 }
                 log.Debug("执行自动确认收货和不能退货后发放佣金等完成");
             }

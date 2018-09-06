@@ -13,7 +13,7 @@ namespace IMS.Service.Service
 {
     public class TakeCashService : ITakeCashService
     {
-        public TakeCashDTO ToDTO(TakeCashEntity entity, PayCodeDTO payCode, BankAccountDTO bankAccount)
+        public TakeCashDTO ToDTO(TakeCashEntity entity)
         {
             TakeCashDTO dto = new TakeCashDTO();
             dto.Amount = entity.Amount;
@@ -24,45 +24,45 @@ namespace IMS.Service.Service
             dto.StateName = entity.State.Name;
             dto.PayTypeId = entity.PayTypeId;
             dto.PayTypeName = entity.PayType.Name;
-            dto.PayCode = payCode;
-            dto.BankAccount = bankAccount;
+            //dto.PayCode = payCode;
+            //dto.BankAccount = bankAccount;
             dto.NickName = entity.User.NickName;
             dto.Mobile = entity.User.Mobile;
             dto.Code = entity.User.Code;
             dto.AdminMobile = entity.AdminMobile;
             return dto;
         }
-        public BankAccountDTO ToDTO(BankAccountEntity entity)
-        {
-            BankAccountDTO dto = new BankAccountDTO();
-            if(entity==null)
-            {
-                return dto = null;
-            }
-            dto.Name = entity.Name;
-            dto.CreateTime = entity.CreateTime;
-            dto.Id = entity.Id;
-            dto.BankAccount = entity.BankAccount;
-            dto.BankName = entity.BankName;
-            dto.Description = entity.Description;
-            dto.UserId = entity.UserId;
-            return dto;
-        }
-        public PayCodeDTO ToDTO(PayCodeEntity entity)
-        {
-            PayCodeDTO dto = new PayCodeDTO();
-            if (entity == null)
-            {
-                return dto = null;
-            }
-            dto.Description = entity.Description;
-            dto.Name = entity.Name;
-            dto.CreateTime = entity.CreateTime;
-            dto.Id = entity.Id;
-            dto.CodeUrl = entity.CodeUrl;
-            dto.UserId = entity.UserId;
-            return dto;
-        }
+        //public BankAccountDTO ToDTO(BankAccountEntity entity)
+        //{
+        //    BankAccountDTO dto = new BankAccountDTO();
+        //    if(entity==null)
+        //    {
+        //        return dto = null;
+        //    }
+        //    dto.Name = entity.Name;
+        //    dto.CreateTime = entity.CreateTime;
+        //    dto.Id = entity.Id;
+        //    dto.BankAccount = entity.BankAccount;
+        //    dto.BankName = entity.BankName;
+        //    dto.Description = entity.Description;
+        //    dto.UserId = entity.UserId;
+        //    return dto;
+        //}
+        //public PayCodeDTO ToDTO(PayCodeEntity entity)
+        //{
+        //    PayCodeDTO dto = new PayCodeDTO();
+        //    if (entity == null)
+        //    {
+        //        return dto = null;
+        //    }
+        //    dto.Description = entity.Description;
+        //    dto.Name = entity.Name;
+        //    dto.CreateTime = entity.CreateTime;
+        //    dto.Id = entity.Id;
+        //    dto.CodeUrl = entity.CodeUrl;
+        //    dto.UserId = entity.UserId;
+        //    return dto;
+        //}
 
         public async Task<long> AddAsync(long userId, long payTypeId, decimal amount, string descripton)
         {
@@ -131,37 +131,37 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<TakeCashSearchResult> GetModelListAsync(long? userId,long? stateId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                TakeCashSearchResult result = new TakeCashSearchResult();
-                var entities = dbc.GetAll<TakeCashEntity>();
-                if(userId!=null)
-                {
-                    entities = entities.Where(a => a.UserId == userId);
-                }
-                if (stateId != null)
-                {
-                    entities = entities.Where(a => a.StateId == stateId);
-                }
-                if (!string.IsNullOrEmpty(keyword))
-                {
-                    entities = entities.Where(g => g.User.Mobile.Contains(keyword) || g.User.NickName.Contains(keyword));
-                }
-                if (startTime != null)
-                {
-                    entities = entities.Where(a => a.CreateTime >= startTime);
-                }
-                if (endTime != null)
-                {
-                    entities = entities.Where(a => SqlFunctions.DateDiff("day", endTime, a.CreateTime) <= 0);
-                }
-                result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
-                var takeCashResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-                result.TakeCashes = takeCashResult.Select(a => ToDTO(a,ToDTO(dbc.GetAll<PayCodeEntity>().SingleOrDefault(p => p.UserId == a.UserId)),ToDTO(dbc.GetAll<BankAccountEntity>().SingleOrDefault(b=>b.UserId==a.UserId)))).ToArray();
-                return result;
-            }
-        }
+        //public async Task<TakeCashSearchResult> GetModelListAsync(long? userId,long? stateId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        //{
+        //    using (MyDbContext dbc = new MyDbContext())
+        //    {
+        //        TakeCashSearchResult result = new TakeCashSearchResult();
+        //        var entities = dbc.GetAll<TakeCashEntity>();
+        //        if(userId!=null)
+        //        {
+        //            entities = entities.Where(a => a.UserId == userId);
+        //        }
+        //        if (stateId != null)
+        //        {
+        //            entities = entities.Where(a => a.StateId == stateId);
+        //        }
+        //        if (!string.IsNullOrEmpty(keyword))
+        //        {
+        //            entities = entities.Where(g => g.User.Mobile.Contains(keyword) || g.User.NickName.Contains(keyword));
+        //        }
+        //        if (startTime != null)
+        //        {
+        //            entities = entities.Where(a => a.CreateTime >= startTime);
+        //        }
+        //        if (endTime != null)
+        //        {
+        //            entities = entities.Where(a => SqlFunctions.DateDiff("day", endTime, a.CreateTime) <= 0);
+        //        }
+        //        result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
+        //        var takeCashResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+        //        result.TakeCashes = takeCashResult.Select(a => ToDTO(a,ToDTO(dbc.GetAll<PayCodeEntity>().SingleOrDefault(p => p.UserId == a.UserId)),ToDTO(dbc.GetAll<BankAccountEntity>().SingleOrDefault(b=>b.UserId==a.UserId)))).ToArray();
+        //        return result;
+        //    }
+        //}
     }
 }

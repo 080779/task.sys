@@ -15,5 +15,8 @@ namespace IMS.Service.Entity
         public TaskEntity Task { get; set; }
         public long UserId { get; set; }
         public UserEntity User { get; set; }
+        public long StateId { get; set; }
+        public ForwardStateEntity State { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

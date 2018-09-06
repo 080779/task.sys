@@ -50,7 +50,7 @@ namespace IMS.Web
                 long id=0;
                 try
                 {
-                    id = userService.WeChatPay(orderCode.InnerText);
+                    //id = userService.WeChatPay(orderCode.InnerText);
                     if (id <= 0)
                     {
                         if (id == -4)

@@ -1,4 +1,6 @@
 ﻿using IMS.Web.App_Start.Filter;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +22,12 @@ namespace IMS.Web.App_Start
             );
 
             GlobalConfiguration.Configuration.EnsureInitialized();
+
+            GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),        //小驼峰命名法,格式化日期时间
+                DateFormatString = "yyyy-MM-dd HH:mm:ss"
+            };
 
             config.Filters.Add(new ApiSYSAuthorizationFilter());
         }

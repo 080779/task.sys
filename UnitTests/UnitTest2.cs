@@ -8,11 +8,11 @@ namespace UnitTests
     [TestClass]
     public class UnitTest2
     {
-        private OrderService orderService = new OrderService();
-        [TestMethod]
-        public async Task TestMethod2()
-        {
-            await orderService.ValidOrder(1);
-        }
+        //private OrderService orderService = new OrderService();
+        //[TestMethod]
+        //public async Task TestMethod2()
+        //{
+        //    await orderService.ValidOrder(1);
+        //}
     }
 }

@@ -50,7 +50,7 @@ namespace Web
 
             // Set the dependency resolver for Web API.
             var webApiResolver = new AutofacWebApiDependencyResolver(container);
-            GlobalConfiguration.Configuration.DependencyResolver = webApiResolver;            
+            GlobalConfiguration.Configuration.DependencyResolver = webApiResolver;
 
             GlobalFilters.Filters.Add(new JsonNetActionFilter());
             GlobalFilters.Filters.Add(new SYSExceptionFilter());

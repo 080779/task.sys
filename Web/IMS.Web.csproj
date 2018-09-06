@@ -355,44 +355,26 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminController.cs" />
-    <Compile Include="Areas\Admin\Controllers\RefundController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingController.cs" />
-    <Compile Include="Areas\Admin\Controllers\ReturnController.cs" />
-    <Compile Include="Areas\Admin\Controllers\DeliverController.cs" />
-    <Compile Include="Areas\Admin\Controllers\GoodsSecondTypeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\GoodsTypeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\GoodsAreaController.cs" />
-    <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminLogController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
-    <Compile Include="Areas\Admin\Controllers\GoodsController.cs" />
-    <Compile Include="Areas\Admin\Controllers\SlideController.cs" />
     <Compile Include="Areas\Admin\Controllers\NoticeController.cs" />
     <Compile Include="Areas\Admin\Controllers\JournalController.cs" />
     <Compile Include="Areas\Admin\Controllers\TakeCashController.cs" />
-    <Compile Include="Areas\Admin\Controllers\TeamController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
     <Compile Include="Areas\Admin\Controllers\UserController.cs" />
+    <Compile Include="Areas\Admin\Models\Admin\GetJournalViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Admin\GetListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Admin\ListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Deliver\DeliverDetailViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Deliver\DeliverListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Goods\GoodsAddModel.cs" />
-    <Compile Include="Areas\Admin\Models\Goods\GoodsListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Home\HomeIndexViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Journal\ListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Order\OrderDetailViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Order\OrderExportExcelModel.cs" />
-    <Compile Include="Areas\Admin\Models\Order\OrderListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Return\ReturnDetailViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Return\ReturnListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Setting\SettingListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Team\TeamListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Team\TeamUserListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\User\GetJournalViewModel.cs" />
     <Compile Include="Areas\Admin\Models\User\UserBonusSetModel.cs" />
     <Compile Include="Areas\Admin\Models\User\UserListViewModel.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -468,7 +450,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

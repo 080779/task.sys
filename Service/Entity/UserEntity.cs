@@ -22,7 +22,7 @@ namespace IMS.Service.Entity
         /// 消费金额
         /// </summary>
         public decimal BuyAmount { get; set; } = 0;//消费金额
-        public virtual RecommendEntity Recommend { get; set; }
+        //public virtual RecommendEntity Recommend { get; set; }
         public long LevelId { get; set; }
         public virtual IdNameEntity Level { get; set; }
         public string Description { get; set; }

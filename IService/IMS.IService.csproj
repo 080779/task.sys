@@ -41,28 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAdminLogService.cs" />
-    <Compile Include="IAddressService.cs" />
-    <Compile Include="IGoodsImgService.cs" />
-    <Compile Include="IBonusRatioService.cs" />
     <Compile Include="IJournalService.cs" />
-    <Compile Include="IMainGoodsTypeService.cs" />
-    <Compile Include="IOrderApplyService.cs" />
-    <Compile Include="IOrderListService.cs" />
-    <Compile Include="IPayCodeService.cs" />
-    <Compile Include="IGoodsSecondTypeService.cs" />
-    <Compile Include="IBankAccountService.cs" />
-    <Compile Include="IOrderService.cs" />
-    <Compile Include="IGoodsService.cs" />
-    <Compile Include="IGoodsAreaService.cs" />
-    <Compile Include="IGoodsCarService.cs" />
-    <Compile Include="IGoodsTypeService.cs" />
-    <Compile Include="IMessageService.cs" />
     <Compile Include="INoticeService.cs" />
     <Compile Include="IIdNameService.cs" />
     <Compile Include="ISettingService.cs" />
-    <Compile Include="IUserTokenService.cs" />
     <Compile Include="ITypeService.cs" />
-    <Compile Include="ISlideService.cs" />
     <Compile Include="IUserService.cs" />
     <Compile Include="IAdminService.cs" />
     <Compile Include="INavBarService.cs" />

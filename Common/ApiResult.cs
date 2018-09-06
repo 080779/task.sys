@@ -9,8 +9,8 @@ namespace IMS.Common
 
     public class ApiResult
     {
-        public int status { get; set; }
-        public string msg { get; set; }
-        public object data { get; set; }
+        public int Status { get; set; }
+        public string Msg { get; set; }
+        public object Data { get; set; }
     }
 }

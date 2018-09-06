@@ -40,27 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BonusRatioDTO.cs" />
-    <Compile Include="GoodsSecondTypeDTO.cs" />
     <Compile Include="JournalDTO.cs" />
-    <Compile Include="OrderApplyDTO.cs" />
     <Compile Include="SettingDTO.cs" />
-    <Compile Include="MainGoodsTypeDTO.cs" />
     <Compile Include="IdNameDTO.cs" />
-    <Compile Include="MessageDTO.cs" />
-    <Compile Include="OrderListDTO.cs" />
-    <Compile Include="SlideDTO.cs" />
-    <Compile Include="PayCodeDTO.cs" />
-    <Compile Include="OrderDTO.cs" />
     <Compile Include="NoticeDTO.cs" />
-    <Compile Include="LogisticsDTO.cs" />
-    <Compile Include="GoodsTypeDTO.cs" />
-    <Compile Include="GoodsImgDTO.cs" />
-    <Compile Include="GoodsDTO.cs" />
-    <Compile Include="GoodsCarDTO.cs" />
-    <Compile Include="GoodsAreaDTO.cs" />
-    <Compile Include="BankAccountDTO.cs" />
-    <Compile Include="AddressDTO.cs" />
     <Compile Include="AdminDTO.cs" />
     <Compile Include="AdminLogDTO.cs" />
     <Compile Include="BaseDTO.cs" />

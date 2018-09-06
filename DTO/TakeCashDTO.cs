@@ -18,8 +18,8 @@ namespace IMS.DTO
         public string StateName { get; set; }
         public long PayTypeId { get; set; }
         public string PayTypeName { get; set; }
-        public PayCodeDTO PayCode { get; set; }
-        public BankAccountDTO BankAccount { get; set; }
+        //public PayCodeDTO PayCode { get; set; }
+        //public BankAccountDTO BankAccount { get; set; }
         public string AdminMobile { get; set; }
     }
 }
