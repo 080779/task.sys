@@ -61,7 +61,6 @@
     <Compile Include="Config\IdNameConfig.cs" />
     <Compile Include="Config\JournalConfig.cs" />
     <Compile Include="Config\UserConfig.cs" />
-    <Compile Include="Config\NoticeConfig.cs" />
     <Compile Include="Config\NavBarConfig.cs" />
     <Compile Include="Config\PermissionConfig.cs" />
     <Compile Include="Config\PermissionTypeConfig.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="Entity\TaskEntity.cs" />
     <Compile Include="Entity\IdNameEntity.cs" />
     <Compile Include="Entity\JournalEntity.cs" />
-    <Compile Include="Entity\NoticeEntity.cs" />
     <Compile Include="Entity\AdminEntity.cs" />
     <Compile Include="Entity\AdminLogEntity.cs" />
     <Compile Include="Entity\NavBarEntity.cs" />
@@ -88,7 +86,6 @@
     <Compile Include="Service\JournalService.cs" />
     <Compile Include="Service\SettingService.cs" />
     <Compile Include="Service\IdNameService.cs" />
-    <Compile Include="Service\NoticeService.cs" />
     <Compile Include="Service\NavBarService.cs" />
     <Compile Include="Service\PermissionService.cs" />
     <Compile Include="Service\PermissionTypeService.cs" />

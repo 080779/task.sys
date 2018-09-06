@@ -11,30 +11,25 @@ namespace IMS.Service.Entity
     /// </summary>
     public class UserEntity : BaseEntity
     {
-        public string Mobile { get; set; }
+        public string Mobile { get; set; } = string.Empty;
+        public string Name { get; set; }
         public string Code { get; set; }
         public string NickName { get; set; }
         public string HeadPic { get; set; }
         public decimal Amount { get; set; } = 0;//账户金额
-        public decimal FrozenAmount { get; set; } = 0;
-        public decimal BonusAmount { get; set; } = 0;//累计佣金
-        /// <summary>
-        /// 消费金额
-        /// </summary>
-        public decimal BuyAmount { get; set; } = 0;//消费金额
-        //public virtual RecommendEntity Recommend { get; set; }
-        public long LevelId { get; set; }
-        public virtual IdNameEntity Level { get; set; }
+        public long? LevelId { get; set; } = 0;
+        //public virtual IdNameEntity Level { get; set; }
         public string Description { get; set; }
         public string Salt { get; set; } = string.Empty;
         public string Password { get; set; }
         public string TradePassword { get; set; }
-        public string ShareCode { get; set; }
+        public string WechatPayCode { get; set; }
+        public string AliPayCode { get; set; }
         public int ErrorCount { get; set; } = 0;
         public DateTime ErrorTime { get; set; } = DateTime.Now;
+        public string AccountHolder { get; set; }//银行账户持有人
+        public string BankName { get; set; }
+        public string BankAccount { get; set; }
         public bool IsEnabled { get; set; } = true;
-        public bool IsReturned { get; set; } = false;//是否退过货
-        public bool IsUpgraded { get; set; } = false;//是否升级退过货
-        public bool IsNull { get; set; } = false;
     }
 }

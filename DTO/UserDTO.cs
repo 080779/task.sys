@@ -9,22 +9,17 @@ namespace IMS.DTO
     public class UserDTO : BaseDTO
     {
         public string Mobile { get; set; }
+        public string Name { get; set; }
         public string Code { get; set; }
         public string NickName { get; set; }
         public string HeadPic { get; set; }
         public decimal Amount { get; set; }
-        public decimal FrozenAmount { get; set; }
-        public decimal BonusAmount { get; set; }
-        public decimal BuyAmount { get; set; }
-        public long LevelId { get; set; }
-        public string LevelName { get; set; }
-        public string Description { get; set; }
-        public string ShareCode { get; set; }
-        public int ErrorCount { get; set; }
-        public DateTime ErrorTime { get; set; }
+        public long? LevelId { get; set; }
+        public string WechatPayCode { get; set; }
+        public string AliPayCode { get; set; }
+        public string AccountHolder { get; set; }//银行账户持有人
+        public string BankName { get; set; }
+        public string BankAccount { get; set; }
         public bool IsEnabled { get; set; }
-        public bool IsReturned { get; set; } //是否退过货
-        public bool IsUpgraded { get; set; } //是否升级退过货
-        public string Recommender { get; set; }
     }
 }

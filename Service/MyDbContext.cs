@@ -64,7 +64,6 @@ namespace IMS.Service
             return await this.Set<T>().AsNoTracking().Where(e => e.IsDeleted == false).Where(expression).Select(parameterName).SingleOrDefaultAsync();
         }
 
-        public DbSet<NoticeEntity> Notices { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<NavBarEntity> NavBars { get; set; }
         public DbSet<AdminEntity> Admins { get; set; }

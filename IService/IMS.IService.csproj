@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="IAdminLogService.cs" />
     <Compile Include="IJournalService.cs" />
-    <Compile Include="INoticeService.cs" />
     <Compile Include="IIdNameService.cs" />
     <Compile Include="ISettingService.cs" />
     <Compile Include="ITypeService.cs" />

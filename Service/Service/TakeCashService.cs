@@ -77,10 +77,10 @@ namespace IMS.Service.Service
                 {
                     return -2;
                 }
-                if(user.Level.Name=="普通会员")
-                {
-                    return -4;
-                }
+                //if(user.Level.Name=="普通会员")
+                //{
+                //    return -4;
+                //}
                 TakeCashEntity entity = new TakeCashEntity();
                 entity.UserId = userId;
                 entity.PayTypeId = payTypeId;

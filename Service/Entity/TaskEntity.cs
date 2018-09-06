@@ -11,12 +11,15 @@ namespace IMS.Service.Entity
     /// </summary>
     public class TaskEntity : BaseEntity
     {
-        public string Name { get; set; }//任务名
+        public string Code { get; set; }//任务编号
+        public string Title { get; set; }//任务名
+        public decimal Bonus { get; set; }//任务佣金
+        public string Condition { get; set; }//完成条件
         public string Explain { get; set; }//任务简介说明
         public string Content { get; set; }//任务内容
-        public decimal Bonus { get; set; }//任务佣金
         public DateTime StartTime { get; set; }//任务开始时间
         public DateTime EndTime { get; set; }//任务结束时间
         public string Publisher { get; set; }//发布人
+        public bool IsEnabled { get; set; }
     }
 }

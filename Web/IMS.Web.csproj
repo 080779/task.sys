@@ -359,7 +359,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminLogController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
-    <Compile Include="Areas\Admin\Controllers\NoticeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TaskController.cs" />
     <Compile Include="Areas\Admin\Controllers\JournalController.cs" />
     <Compile Include="Areas\Admin\Controllers\TakeCashController.cs" />
     <Compile Include="Areas\Admin\Controllers\TestController.cs" />
@@ -407,29 +407,15 @@
     <Content Include="Areas\Admin\Views\User\List.cshtml" />
     <Content Include="Areas\Admin\Views\AdminLog\List.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Permission.cshtml" />
-    <Content Include="Areas\Admin\Views\Notice\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Slide\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Goods\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Task\List.cshtml" />
     <Content Include="doc\23接口文档.xls" />
-    <Content Include="Areas\Admin\Views\GoodsArea\List.cshtml" />
-    <Content Include="Areas\Admin\Views\GoodsType\List.cshtml" />
-    <Content Include="Areas\Admin\Views\GoodsSecondType\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Order\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Test\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Team\List.cshtml" />
     <Content Include="Areas\Admin\Views\TakeCash\List.cshtml" />
     <Content Include="Areas\Admin\Views\Journal\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Deliver\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Return\List.cshtml" />
     <Content Include="Areas\Admin\Views\Setting\List.cshtml" />
     <Content Include="assets\src\theme\default\font\iconfont.eot" />
     <Content Include="assets\src\theme\default\font\iconfont.ttf" />
     <Content Include="assets\src\theme\default\font\iconfont.woff" />
-    <Content Include="Areas\Admin\Views\Deliver\Detail.cshtml" />
-    <Content Include="Areas\Admin\Views\Return\Detail.cshtml" />
-    <Content Include="Areas\Admin\Views\Refund\Detail.cshtml" />
-    <Content Include="Areas\Admin\Views\Refund\List.cshtml" />
     <Content Include="Areas\Admin\Views\Test\Index.cshtml" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -450,6 +436,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Areas\Admin\Models\Task\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

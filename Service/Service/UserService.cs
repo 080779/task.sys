@@ -21,25 +21,20 @@ namespace IMS.Service.Service
         {
             UserDTO dto = new UserDTO();
             dto.Amount = entity.Amount;
+            dto.Name = entity.Name;
             dto.Code = entity.Code;
             dto.CreateTime = entity.CreateTime;
-            dto.Description = entity.Description;
-            dto.ErrorCount = entity.ErrorCount;
-            dto.ErrorTime = entity.ErrorTime;
             dto.Id = entity.Id;
             dto.IsEnabled = entity.IsEnabled;
-            dto.LevelId = entity.LevelId;
-            dto.LevelName = entity.Level.Name;
+            dto.LevelId = entity.LevelId; 
             dto.Mobile = entity.Mobile;
             dto.NickName = entity.NickName;
-            dto.BuyAmount = entity.BuyAmount;
-            dto.IsReturned = entity.IsReturned;
-            dto.IsUpgraded = entity.IsUpgraded;
-            dto.BonusAmount = entity.BonusAmount;
-            //dto.Recommender = entity.Recommend.RecommendMobile;
             dto.HeadPic = entity.HeadPic;
-            dto.ShareCode = entity.ShareCode;
-            dto.FrozenAmount = entity.FrozenAmount;
+            dto.WechatPayCode = entity.WechatPayCode;
+            dto.AliPayCode = entity.AliPayCode;
+            dto.AccountHolder = entity.AccountHolder;
+            dto.BankName = entity.BankName;
+            dto.BankAccount = entity.BankAccount;
             return dto;
         }
 
@@ -85,7 +80,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return false;
@@ -107,12 +102,12 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return false;
                 }
-                entity.ShareCode = codeUrl;
+                entity.WechatPayCode = codeUrl;
                 await dbc.SaveChangesAsync();
                 return true;
             }
@@ -121,7 +116,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return -1;
@@ -139,7 +134,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return false;
@@ -154,7 +149,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return -1;
@@ -173,7 +168,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return -1;
@@ -188,7 +183,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Mobile == mobile);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
                 if (entity == null)
                 {
                     return -1;
@@ -203,7 +198,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Mobile == mobile);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
                 if (entity == null)
                 {
                     return -1;
@@ -232,7 +227,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Mobile == mobile);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
                 if (entity == null)
                 {
                     return -1;
@@ -285,11 +280,11 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 CalcAmountResult res = new CalcAmountResult();
-                var users = dbc.GetAll<UserEntity>().AsNoTracking().Where(u => u.IsNull == false);
+                var users = dbc.GetAll<UserEntity>().AsNoTracking();
                 var takeCash = dbc.GetAll<TakeCashEntity>().AsNoTracking().Where(t => t.State.Name == "已结款");
                 res.TotalAmount = users.Any() ? await users.SumAsync(u => u.Amount) : 0;
                 res.TotalTakeCash = takeCash.Any() ? await takeCash.SumAsync(u => u.Amount) : 0;
-                res.TotalBuyAmount = users.Any() ? await users.SumAsync(u => u.BuyAmount) : 0;
+                res.TotalBuyAmount = 0;
                 return res;
             }
         }
@@ -298,7 +293,7 @@ namespace IMS.Service.Service
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().AsNoTracking().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Id == id);
+                UserEntity entity = await dbc.GetAll<UserEntity>().AsNoTracking().SingleOrDefaultAsync(u => u.Id == id);
                 if (entity == null)
                 {
                     return null;
@@ -325,7 +320,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 UserSearchResult result = new UserSearchResult();
-                var user = await dbc.GetAll<UserEntity>().AsNoTracking().Where(u => u.IsNull == false).SingleOrDefaultAsync(u => u.Mobile == mobile);
+                var user = await dbc.GetAll<UserEntity>().AsNoTracking().SingleOrDefaultAsync(u => u.Mobile == mobile);
                 if (user == null)
                 {
                     return null;
@@ -339,7 +334,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 UserSearchResult result = new UserSearchResult();
-                var users = dbc.GetAll<UserEntity>().AsNoTracking().Where(u => u.IsNull == false);
+                var users = dbc.GetAll<UserEntity>().AsNoTracking();
 
                 if (levelId != null)
                 {

@@ -9,7 +9,9 @@ namespace IMS.Service.Config
         {
             ToTable("tb_tasks");
 
-            Property(p => p.Name).HasMaxLength(100).IsRequired();
+            Property(p => p.Code).HasMaxLength(100).IsRequired();
+            Property(p => p.Title).HasMaxLength(100).IsRequired();
+            Property(p => p.Condition).HasMaxLength(256).IsRequired();
             Property(p => p.Explain).HasMaxLength(256).IsRequired();
             Property(p => p.Content).HasMaxLength(2048);
             Property(p => p.Publisher).HasMaxLength(100);
