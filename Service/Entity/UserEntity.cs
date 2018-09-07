@@ -14,6 +14,7 @@ namespace IMS.Service.Entity
         public string Mobile { get; set; } = string.Empty;
         public string Name { get; set; }
         public string Code { get; set; }
+        public string TrueName { get; set; }
         public string NickName { get; set; }
         public string HeadPic { get; set; }
         public decimal Amount { get; set; } = 0;//账户金额

@@ -12,7 +12,8 @@ namespace IMS.IService
         Task<long> AddAsync(string title,decimal bonus,string condition,string explain,string content,DateTime startTime,DateTime endTime);
         Task<bool> EditAsync(long id, string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime);
         Task<bool> DelAsync(long id);
-        Task<TaskSearchResult> GetModelListAsync(string keyword, DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
+        Task<TaskSearchResult> GetModelListAsync(int? within, int pageIndex, int pageSize);
+        Task<TaskSearchResult> GetModelListAsync(string keyword,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
     }
     public class TaskSearchResult
     {

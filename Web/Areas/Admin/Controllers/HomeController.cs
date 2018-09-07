@@ -20,7 +20,6 @@ namespace IMS.Web.Areas.Admin.Controllers
             HomeIndexViewModel model = new HomeIndexViewModel();
             model.Mobile = (await adminService.GetModelAsync(userId)).Mobile;
             model.PermissionTypes = await permissionTypeService.GetModelList();
-            model.SysTitle= await settingService.GetParmByNameAsync("系统标题");
             return View(model);
         }
         public ActionResult Home()

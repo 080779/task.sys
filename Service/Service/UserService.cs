@@ -16,7 +16,6 @@ namespace IMS.Service.Service
 {
     public class UserService : IUserService
     {
-        private static ILog log = LogManager.GetLogger(typeof(UserService));
         public UserDTO ToDTO(UserEntity entity)
         {
             UserDTO dto = new UserDTO();
@@ -38,41 +37,24 @@ namespace IMS.Service.Service
             return dto;
         }
 
-        public async Task<long> AddAsync(string mobile, string password, string tradePassword, long levelTypeId, string recommendMobile,string nickName,string avatarUrl)
+        public async Task<long> AddAsync(string name, string password,string nickName,string avatarUrl)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
-                if (entity != null)
+                long id = await dbc.GetIdAsync<UserEntity>(u => u.Name == name);
+                if (id>0)
                 {
                     return -1;
                 }
                 UserEntity user = new UserEntity();
-                user.LevelId = levelTypeId;
-                user.Mobile = mobile;
+                user.Name = name;
                 user.Salt = CommonHelper.GetCaptcha(4);
                 user.Password = CommonHelper.GetMD5(password + user.Salt);
-                user.TradePassword = CommonHelper.GetMD5(tradePassword + user.Salt);
                 user.NickName = string.IsNullOrEmpty(nickName) ? "无昵称" : nickName;
                 user.HeadPic = string.IsNullOrEmpty(avatarUrl) ? "/images/headpic.png" : avatarUrl;
                 dbc.Users.Add(user);
                 await dbc.SaveChangesAsync();
                 return user.Id;
-            }
-        }
-
-        public async Task<bool> AddAmountAsync(string mobile, decimal amount)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                UserEntity user= await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
-                if(user==null)
-                {
-                    return false;
-                }
-                user.Amount = user.Amount + amount;
-                await dbc.SaveChangesAsync();
-                return true;
             }
         }
 
@@ -98,20 +80,6 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<bool> UpdateShareCodeAsync(long id, string codeUrl)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
-                if (entity == null)
-                {
-                    return false;
-                }
-                entity.WechatPayCode = codeUrl;
-                await dbc.SaveChangesAsync();
-                return true;
-            }
-        }
         public async Task<long> DeleteAsync(long id)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -121,10 +89,7 @@ namespace IMS.Service.Service
                 {
                     return -1;
                 }
-                if(entity.Mobile=="15615615616")
-                {
-                    return -2;
-                }
+                entity.IsDeleted = true;
                 await dbc.SaveChangesAsync();
                 return 1;
             }
@@ -145,25 +110,6 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<long> ResetPasswordAsync(long id, string password, string newPassword)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
-                if (entity == null)
-                {
-                    return -1;
-                }
-                if (entity.Password != CommonHelper.GetMD5(password + entity.Salt))
-                {
-                    return -2;
-                }
-                entity.Password = CommonHelper.GetMD5(newPassword + entity.Salt);
-                await dbc.SaveChangesAsync();
-                return entity.Id;
-            }
-        }
-
         public async Task<long> ResetPasswordAsync(long id, string password)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -177,57 +123,13 @@ namespace IMS.Service.Service
                 await dbc.SaveChangesAsync();
                 return entity.Id;
             }
-        }
+        }  
 
-        public async Task<long> ResetPasswordAsync(string mobile, string password)
+        public async Task<long> CheckLoginAsync(string name, string password)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
-                if (entity == null)
-                {
-                    return -1;
-                }
-                entity.Password = CommonHelper.GetMD5(password + entity.Salt);
-                await dbc.SaveChangesAsync();
-                return entity.Id;
-            }
-        }
-
-        public async Task<long> ResetTradePasswordAsync(string mobile, string password)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
-                if (entity == null)
-                {
-                    return -1;
-                }
-                entity.TradePassword = CommonHelper.GetMD5(password + entity.Salt);
-                await dbc.SaveChangesAsync();
-                return entity.Id;
-            }
-        }
-    
-
-        public async Task<long> UserCheck(string mobile)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                long id = await dbc.GetIdAsync<UserEntity>(u => u.Mobile == mobile);
-                if (id == 0)
-                {
-                    return -1;
-                }
-                return id;
-            }
-        }
-
-        public async Task<long> CheckLoginAsync(string mobile, string password)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Mobile == mobile);
+                UserEntity entity = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Name == name);
                 if (entity == null)
                 {
                     return -1;
@@ -244,20 +146,11 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<long> CheckTradePasswordAsync(long id, string tradePassword)
+        public async Task<long> CheckUserNameAsync(string name)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
-                if(user==null)
-                {
-                    return -1;
-                }
-                if (user.TradePassword != CommonHelper.GetMD5(tradePassword + user.Salt))
-                {
-                    return -2;
-                }
-                return 1;
+                return await dbc.GetIdAsync<UserEntity>(u => u.Name == name);
             }
         }
 
@@ -266,7 +159,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 long res = dbc.GetId<UserEntity>(u => u.Id == id);
-                if (res == 0)
+                if (res <= 0)
                 {
                     return false;
                 }
@@ -274,18 +167,21 @@ namespace IMS.Service.Service
             }
         }
 
-
-        public async Task<CalcAmountResult> CalcCount()
+        public async Task<bool> BindInfoAsync(long id, string mobile, string trueName, string wechatPayCode, string aliPayCode)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                CalcAmountResult res = new CalcAmountResult();
-                var users = dbc.GetAll<UserEntity>().AsNoTracking();
-                var takeCash = dbc.GetAll<TakeCashEntity>().AsNoTracking().Where(t => t.State.Name == "已结款");
-                res.TotalAmount = users.Any() ? await users.SumAsync(u => u.Amount) : 0;
-                res.TotalTakeCash = takeCash.Any() ? await takeCash.SumAsync(u => u.Amount) : 0;
-                res.TotalBuyAmount = 0;
-                return res;
+                UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
+                if (user == null)
+                {
+                    return false;
+                }
+                user.Mobile = mobile;
+                user.TrueName = trueName;
+                user.WechatPayCode = wechatPayCode;
+                user.AliPayCode = aliPayCode;
+                await dbc.SaveChangesAsync();
+                return true;
             }
         }
 
@@ -302,44 +198,13 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<string> GetMobileById(long id)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                string mobile = await dbc.GetParameterAsync<UserEntity>(u => u.Id == id, u => u.Mobile);
-                if(mobile==null)
-                {
-                    return "";
-                }
-                return mobile;
-            }
-        }
-
-        public async Task<UserDTO> GetModelByMobileAsync(string mobile)
-        {
-            using (MyDbContext dbc = new MyDbContext())
-            {
-                UserSearchResult result = new UserSearchResult();
-                var user = await dbc.GetAll<UserEntity>().AsNoTracking().SingleOrDefaultAsync(u => u.Mobile == mobile);
-                if (user == null)
-                {
-                    return null;
-                }
-                return ToDTO(user);
-            }
-        }
-
-        public async Task<UserSearchResult> GetModelListAsync(long? levelId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        public async Task<UserSearchResult> GetModelListAsync(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 UserSearchResult result = new UserSearchResult();
                 var users = dbc.GetAll<UserEntity>().AsNoTracking();
 
-                if (levelId != null)
-                {
-                    users = users.Where(a => a.LevelId == levelId);
-                }
                 if (!string.IsNullOrEmpty(keyword))
                 {
                     users = users.Where(a => a.Mobile.Contains(keyword) || a.Code.Contains(keyword) || a.NickName.Contains(keyword));

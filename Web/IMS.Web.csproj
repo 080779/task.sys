@@ -369,12 +369,10 @@
     <Compile Include="Areas\Admin\Models\Admin\ListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Home\HomeIndexViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Journal\ListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\Setting\SettingListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Settting\SettingListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashListViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\User\GetJournalViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\User\UserBonusSetModel.cs" />
-    <Compile Include="Areas\Admin\Models\User\UserListViewModel.cs" />
-    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\AppImgController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -426,6 +424,7 @@
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Login\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -436,7 +435,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Models\Task\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

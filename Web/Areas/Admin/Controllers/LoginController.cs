@@ -14,10 +14,9 @@ namespace IMS.Web.Areas.Admin.Controllers
     {
         public IAdminService adminService { get; set; }
         public ISettingService settingService { get; set; }
-        public async Task<ActionResult> Login()
+        public ActionResult Login()
         {
-            string title = await settingService.GetParmByNameAsync("系统标题");
-            return View((object)title);
+            return View();
         }
         [HttpPost]
         public async Task<ActionResult> Login(string mobile,string password)
