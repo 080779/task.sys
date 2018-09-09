@@ -11,6 +11,7 @@ namespace IMS.DTO
         public string Mobile { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public string TrueName { get; set; }
         public string NickName { get; set; }
         public string HeadPic { get; set; }
         public decimal Amount { get; set; }

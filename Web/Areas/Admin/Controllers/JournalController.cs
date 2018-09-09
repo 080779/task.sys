@@ -31,13 +31,7 @@ namespace IMS.Web.Areas.Admin.Controllers
             //await orderService.AutoConfirmAsync();
             long journalTypeId = await idNameService.GetIdByNameAsync("佣金收入");
             JournalSearchResult result = await journalService.GetModelListAsync(null,journalTypeId, keyword, startTime, endTime, pageIndex, pageSize);
-            CalcAmountResult res = await userService.CalcCount();
             ListViewModel model = new ListViewModel();
-            model.Journals = result.Journals;
-            model.PageCount = result.PageCount;
-            model.TotalAmount = res.TotalAmount;
-            model.TotalTakeCash = res.TotalTakeCash;
-            model.TotalBuyAmount = res.TotalBuyAmount;
             return Json(new AjaxResult { Status = 1, Data = model });
         }        
     }

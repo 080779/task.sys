@@ -2,7 +2,6 @@
 using IMS.DTO;
 using IMS.IService;
 using IMS.Web.App_Start.Filter;
-using IMS.Web.Areas.Admin.Models.User;
 using log4net;
 using System;
 using System.Collections.Generic;

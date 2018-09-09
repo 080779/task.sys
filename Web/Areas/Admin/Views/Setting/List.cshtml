@@ -40,33 +40,23 @@
     <div id="app">
         <div class="xinxi">
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">系统标题： </label>
-                <div class="col-sm-9"><input type="text" v-model="sysTitle.parm" class="col-xs-2 text_info" /></div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">退货扣除比例： </label>
-                <div class="col-sm-9"><input type="text" v-model="deduct.parm" maxlength="3" class="col-xs-2 text_info" onKeyUp="value=value.replace(/[^\d]/g,'')" />%</div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">自动确认收货时间： </label>
-                <div class="col-sm-9"><input type="text" v-model="auto.parm" maxlength="3" class="col-xs-2 text_info" onKeyUp="value=value.replace(/[^\d]/g,'')" />天</div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">不能退货时间： </label>
-                <div class="col-sm-9"><input type="text" v-model="unReturn.parm" maxlength="3" class="col-xs-2 text_info" onKeyUp="value=value.replace(/[^\d]/g,'')" />天</div>
-            </div>
-            <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">客服电话： </label>
-                <div class="col-sm-9"><input type="text" v-model="phone1.parm" class="col-xs-2 text_info" /></div>
+                <div class="col-sm-9"><input type="text" v-model="phone.parm" class="col-xs-2 text_info" /></div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">&nbsp;</label>
-                <div class="col-sm-9"><input type="text" v-model="phone2.parm" class="col-xs-2 text_info" /></div>
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">客服二维码： </label>
+                <div class="col-sm-9"><input type="file" id="file1" /></div>
+                <div><img id="img1" style="margin-top: 10px; max-width: 100px; max-height: 400px;" /></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">App启动图： </label>
+                <div class="col-sm-9"><input type="file" id="file2" /></div>
+                <div><img id="img2" style="margin-top: 10px; max-width: 100px; max-height: 400px;" /></div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">系统LOGO： </label>
-                <div class="col-sm-9"><input type="file" id="file1" /></div>
-                <div><img id="img1" style="margin-top: 10px; max-width: 100px; max-height: 400px;" /></div>
+                <div class="col-sm-9"><input type="file" id="file3" /></div>
+                <div><img id="img3" style="margin-top: 10px; max-width: 100px; max-height: 400px;" /></div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">关于我们：</label>
@@ -85,59 +75,38 @@
     var vue = new Vue({
         el: "#app",
         data: {
-            sysTitle: {
-                id:"",parm:""
-            },
-            phone1: {
-                id: "", parm: ""
-            },
-            phone2: {
-                id: "", parm: ""
-            },
-            logo: {
-                id: "", parm: ""
-            },
-            about: {
-                id: "", parm: ""
-            },
-            deduct: {
-                id: "", parm: ""
-            },
-            auto: {
-                id: "", parm: ""
-            },
-            unReturn: {
-                id: "", parm: ""
-            }
+            phone: [],
+            code: [],
+            appImg: [],
+            logo: [],
+            about: []
         },
         methods: {
             getpage: function () {
                 this.$http.post('/admin/setting/list', {}, { emulateJSON: true }).then(function (result) {
-                    this.sysTitle = result.data.data.sysTitle;
-                    this.phone1 = result.data.data.phone1;
-                    this.phone2 = result.data.data.phone2;
+                    this.phone = result.data.data.phone;
+                    this.code = result.data.data.code;
+                    this.appImg = result.data.data.appImg;
                     this.logo = result.data.data.logo;
                     this.about = result.data.data.about;
-                    this.deduct = result.data.data.deduct;
-                    this.auto = result.data.data.auto;
-                    this.unReturn = result.data.data.unReturn;
-                    $("#img").attr("src", this.logo.parm);
+                    $("#img1").attr("src", this.code.parm);
+                    $("#img2").attr("src", this.appImg.parm);
+                    $("#img3").attr("src", this.logo.parm);
                     editor.txt.html(this.about.parm);
                 })
             },
             edit: function () {
-                this.logo.parm = $("#img1").attr("src");
+                this.code.parm = $("#img1").attr("src");
+                this.appImg.parm = $("#img2").attr("src");
+                this.logo.parm = $("#img3").attr("src");
                 this.about.parm = editor.txt.html();
                 var arrays = new Array();
-                arrays.push(this.sysTitle);
-                arrays.push(this.phone1);
-                arrays.push(this.phone2);
+                arrays.push(this.phone);
+                arrays.push(this.code);
+                arrays.push(this.appImg);
                 arrays.push(this.logo);
                 arrays.push(this.about);
-                arrays.push(this.deduct);
-                arrays.push(this.auto);
-                arrays.push(this.unReturn);
-                this.$http.post('/admin/setting/edit', { parms: arrays }, { emulateJSON: true }).then(function (result) {
+                this.$http.post('/admin/setting/edit', { settings: arrays }, { emulateJSON: true }).then(function (result) {
                     if (result.data.status == 1) {
                         layer.alert(result.data.msg, { icon: 6, title: '提示框' });
                         this.getpage();
@@ -156,15 +125,14 @@
         },
         mounted: function () {
             this.$http.post('/admin/setting/list', {}, { emulateJSON: true }).then(function (result) {
-                this.sysTitle = result.data.data.sysTitle;
-                this.phone1 = result.data.data.phone1;
-                this.phone2 = result.data.data.phone2;
+                this.phone = result.data.data.phone;
+                this.code = result.data.data.code;
+                this.appImg = result.data.data.appImg;
                 this.logo = result.data.data.logo;
                 this.about = result.data.data.about;
-                this.deduct = result.data.data.deduct;
-                this.auto = result.data.data.auto;
-                this.unReturn = result.data.data.unReturn;
-                $("#img").attr("src", this.logo.parm);
+                $("#img1").attr("src", this.code.parm);
+                $("#img2").attr("src", this.appImg.parm);
+                $("#img3").attr("src", this.logo.parm);
                 editor.txt.html(this.about.parm);
             })
         }
@@ -176,6 +144,8 @@
     editor.create();
 
     uploadpic("#file1", "#img1");
+    uploadpic("#file2", "#img2");
+    uploadpic("#file3", "#img3");
     function uploadpic(fileid, img) {
         var oUpload = new UploadPic();
         oUpload.init({

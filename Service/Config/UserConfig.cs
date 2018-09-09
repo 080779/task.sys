@@ -11,6 +11,7 @@ namespace IMS.Service.Config
             Property(p => p.Mobile).HasMaxLength(50).IsRequired();
             Property(p => p.Name).HasMaxLength(50).IsRequired();
             Property(p => p.Code).HasMaxLength(50);
+            Property(p => p.TrueName).HasMaxLength(50);
             Property(p => p.NickName).HasMaxLength(50);
             Property(p => p.Description).HasMaxLength(100);
             Property(p => p.HeadPic).HasMaxLength(256);

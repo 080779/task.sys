@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace IMS.DTO
 {
-    public class SettingDTO : BaseDTO
+    public class SettingDTO
     {
-        public string TypeName { get; set; }
-        public string TypeDescription { get; set; }
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Parm { get; set; }
-        public string Description { get; set; }
+        public long TypeId { get; set; }
     }
 }

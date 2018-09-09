@@ -10,6 +10,5 @@ namespace IMS.Web.Areas.Admin.Models.Home
     {
         public PermissionTypeDTO[] PermissionTypes { get; set; }
         public string Mobile { get; set; }
-        public string SysTitle { get; set; }
     }
 }
