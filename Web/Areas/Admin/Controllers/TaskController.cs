@@ -23,7 +23,7 @@ namespace IMS.Web.Areas.Admin.Controllers
         //[AdminLog("公告栏管理", "查看公告管理列表")]
         public async Task<ActionResult> List(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
-            var result = await taskService.GetModelListAsync(keyword, startTime, endTime, pageIndex, pageSize);
+            var result = await taskService.GetModelListAsync(null, keyword, startTime, endTime, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = result });
         }
         [ValidateInput(false)]

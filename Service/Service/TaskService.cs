@@ -14,7 +14,7 @@ namespace IMS.Service.Service
 {
     public class TaskService : ITaskService
     {
-        public TaskDTO ToDTO(TaskEntity entity)
+        public TaskDTO ToDTO(TaskEntity entity,long collectId)
         {
             TaskDTO dto = new TaskDTO();
             dto.Bonus = entity.Bonus;
@@ -30,6 +30,7 @@ namespace IMS.Service.Service
             dto.StartTime = entity.StartTime;
             dto.Title = entity.Title;
             dto.Url = entity.Url;
+            dto.IsCollect = collectId <= 0 ? false : true;
             return dto;
         }
         
@@ -121,7 +122,7 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<TaskSearchResult> GetModelListAsync(int? within, int pageIndex, int pageSize)
+        public async Task<TaskSearchResult> GetModelListAsync(long? userId, int? within, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -132,14 +133,21 @@ namespace IMS.Service.Service
                     DateTime date = DateTime.Now.AddDays(-within.Value);
                     entities = entities.Where(t => t.CreateTime >= date);
                 }
-                result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
+                result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);               
                 var taskResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-                result.Tasks = taskResult.Select(a => ToDTO(a)).ToArray();
+                if(userId==null)
+                {
+                    result.Tasks = taskResult.Select(a => ToDTO(a,0)).ToArray();
+                }
+                else
+                {
+                    result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
+                }               
                 return result;
             }
         }
 
-        public async Task<TaskSearchResult> GetModelListAsync(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        public async Task<TaskSearchResult> GetModelListAsync(long? userId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -159,7 +167,14 @@ namespace IMS.Service.Service
                 }
                 result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-                result.Tasks = taskResult.Select(a => ToDTO(a)).ToArray();
+                if (userId == null)
+                {
+                    result.Tasks = taskResult.Select(a => ToDTO(a, 0)).ToArray();
+                }
+                else
+                {
+                    result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
+                }
                 return result;
             }
         } 

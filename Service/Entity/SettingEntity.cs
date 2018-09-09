@@ -13,6 +13,6 @@ namespace IMS.Service.Entity
         public string Description { get; set; }
         public long? LevelId { get; set; }
         public long TypeId { get; set; }
-        public virtual IdNameEntity Type { get; set; }
+        public virtual SettingTypeEntity Type { get; set; }
     }
 }
