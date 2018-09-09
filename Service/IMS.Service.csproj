@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseEntity.cs" />
+    <Compile Include="Config\CollectConfig.cs" />
     <Compile Include="Config\ForwardStateConfig.cs" />
     <Compile Include="Config\SettingTypeConfig.cs" />
     <Compile Include="Config\TaskConfig.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Config\PermissionTypeConfig.cs" />
     <Compile Include="Config\SettingConfig.cs" />
     <Compile Include="Config\TakeCashConfig.cs" />
+    <Compile Include="Entity\CollectEntity.cs" />
     <Compile Include="Entity\ForwardStateEntity.cs" />
     <Compile Include="Entity\ForwardEntity.cs" />
     <Compile Include="Entity\SettingTypeEntity.cs" />
