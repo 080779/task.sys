@@ -129,6 +129,14 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<string> GetMobileByIdAsync(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                return await dbc.GetParameterAsync<AdminEntity>(a=>a.Id==id,a=>a.Mobile);
+            }
+        }
+
         public async Task<AdminDTO> GetModelAsync(long id)
         {
             using (MyDbContext dbc = new MyDbContext())

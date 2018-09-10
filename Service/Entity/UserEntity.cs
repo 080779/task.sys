@@ -18,6 +18,8 @@ namespace IMS.Service.Entity
         public string NickName { get; set; }
         public string HeadPic { get; set; }
         public decimal Amount { get; set; } = 0;//账户金额
+        public decimal BonusAmount { get; set; } = 0;//佣金总额
+        public decimal TakeCashAmount { get; set; } = 0;//提现总额
         public long? LevelId { get; set; } = 0;
         //public virtual IdNameEntity Level { get; set; }
         public string Description { get; set; }

@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace IMS.Service.Config
 {
-    class CollectConfig : EntityTypeConfiguration<ForwardEntity>
+    class CollectConfig : EntityTypeConfiguration<CollectEntity>
     {
         public CollectConfig()
         {

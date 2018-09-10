@@ -9,7 +9,7 @@ namespace IMS.IService
 {
     public interface ITaskService : IServiceSupport
     {
-        Task<long> AddAsync(string title,decimal bonus,string condition,string explain,string content,DateTime startTime,DateTime endTime);
+        Task<long> AddAsync(string title,decimal bonus,string condition,string explain,string content,DateTime startTime,DateTime endTime, string publisher);
         Task<bool> EditAsync(long id, string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime);
         Task<bool> DelAsync(long id);
         Task<TaskSearchResult> GetModelListAsync(long? userId, int? within, int pageIndex, int pageSize);

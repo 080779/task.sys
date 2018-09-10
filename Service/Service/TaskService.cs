@@ -67,7 +67,7 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<long> AddAsync(string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime)
+        public async Task<long> AddAsync(string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime, string publisher)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -80,6 +80,7 @@ namespace IMS.Service.Service
                 task.Content = content;
                 task.StartTime = startTime;
                 task.EndTime = endTime;
+                task.Publisher = publisher;
                 dbc.Tasks.Add(task);
                 await dbc.SaveChangesAsync();
                 return task.Id;

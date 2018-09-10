@@ -17,6 +17,7 @@ namespace IMS.Service.Entity
         public virtual UserEntity User { get; set; }
         public long StateId { get; set; }
         public virtual ForwardStateEntity State { get; set; }
+        public long Count { get; set; } = 0;
         public string ImgUrl { get; set; }
     }
 }
