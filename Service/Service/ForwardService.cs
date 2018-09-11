@@ -146,26 +146,42 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<ForwardStatisticalResult> GetDayAsync(DateTime dateTime)
+        public async Task<ForwardStatisticalResult> GetDayAsync(DateTime? dateTime)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 ForwardStatisticalResult result = new ForwardStatisticalResult();
                 IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>().Where(f => SqlFunctions.DateDiff("day", dateTime, f.CreateTime) == 0);
-                result.TotalBonus = await forwards.SumAsync(f => f.Task.Bonus);
-                result.TotalCount = await forwards.LongCountAsync();
+                if(!await forwards.AnyAsync())
+                {
+                    result.TotalBonus = 0;
+                    result.TotalCount = 0;
+                }
+                else
+                {
+                    result.TotalBonus = await forwards.SumAsync(f => f.Task.Bonus);
+                    result.TotalCount = await forwards.LongCountAsync();
+                }
                 return result;
             }
         }
 
-        public async Task<ForwardStatisticalResult> GetMonthAsync(DateTime dateTime)
+        public async Task<ForwardStatisticalResult> GetMonthAsync(DateTime? dateTime)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 ForwardStatisticalResult result = new ForwardStatisticalResult();
                 IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>().Where(f => SqlFunctions.DateDiff("month", dateTime, f.CreateTime) == 0);
-                result.TotalBonus = await forwards.SumAsync(f => f.Task.Bonus);
-                result.TotalCount = await forwards.LongCountAsync();
+                if (!await forwards.AnyAsync())
+                {
+                    result.TotalBonus = 0;
+                    result.TotalCount = 0;
+                }
+                else
+                {
+                    result.TotalBonus = await forwards.SumAsync(f => f.Task.Bonus);
+                    result.TotalCount = await forwards.LongCountAsync();
+                }
                 return result;
             }
         }
@@ -181,7 +197,7 @@ namespace IMS.Service.Service
                     forwards = forwards.Where(f=>f.Task.Title.Contains(keyword));
                 }
                 result.PageCount = (int)Math.Ceiling((await forwards.LongCountAsync()) * 1.0f / pageSize);
-                var forwordResult = await forwards.Include(f=>f.User).Include(f=>f.Task).Include(f=>f.State.Name).OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                var forwordResult = await forwards.Include(f=>f.User).Include(f=>f.Task).Include(f=>f.State).OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
                 result.Forwards = forwordResult.Select(a => ToDTO(a)).ToArray();
                 return result;
             }

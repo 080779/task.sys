@@ -12,8 +12,8 @@ namespace IMS.IService
         Task<long> ForwardAsync(long taskId,long userId,string imgUrl);
         Task<long> ConfirmAsync(long id,bool auditState);
         Task<long> GetUserForwardStatisticalAsync(long userId,DateTime? dateTime);
-        Task<ForwardStatisticalResult> GetDayAsync(DateTime dateTime);
-        Task<ForwardStatisticalResult> GetMonthAsync(DateTime dateTime);
+        Task<ForwardStatisticalResult> GetDayAsync(DateTime? dateTime);
+        Task<ForwardStatisticalResult> GetMonthAsync(DateTime? dateTime);
         Task<ForwardSearchResult> GetModelListAsync(string keyword,int pageIndex,int pageSize);
     }
     /// <summary>

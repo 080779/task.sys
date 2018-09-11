@@ -2204,12 +2204,12 @@ body:nth-of-type(1) .table-responsive .table {
     font-size: 14px;
 }
 
-    .integral_box ul {
+  .integral_box ul {
         padding-top: 20px;
         font-size: 0;
     }
 
-        .integral_box ul li {
+      .integral_box ul li {
             font-size: 14px;
             display: inline-block;
             width: 200px;
@@ -2220,7 +2220,7 @@ body:nth-of-type(1) .table-responsive .table {
             line-height: 1.5;
         }
 
-            .integral_box ul li:nth-child(3n+1) {
+          .integral_box ul li:nth-child(3n+1) {
                 margin-right: 2%;
             }
 

@@ -335,10 +335,44 @@
     <Content Include="js\wangEditor.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\Admin\Views\Forward\List.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Task\.idea\modules.xml" />
+    <Content Include="Task\.idea\workspace.xml" />
+    <Content Include="Task\css\common.css" />
+    <Content Include="Task\css\htmlcss\stylecss.css" />
+    <Content Include="Task\css\main.css" />
+    <Content Include="Task\css\style.css" />
+    <Content Include="Task\css\swiper.min.css" />
+    <Content Include="Task\images\bgimg.png" />
+    <Content Include="Task\images\button.png" />
+    <Content Include="Task\images\comp.png" />
+    <Content Include="Task\images\conred.png" />
+    <Content Include="Task\images\imfblue.png" />
+    <Content Include="Task\images\imfgreen.png" />
+    <Content Include="Task\images\imfprp.png" />
+    <Content Include="Task\images\itemslist.png" />
+    <Content Include="Task\images\jiaimg.png" />
+    <Content Include="Task\images\left.png" />
+    <Content Include="Task\images\mimas.png" />
+    <Content Include="Task\images\money.png" />
+    <Content Include="Task\images\nicheng.png" />
+    <Content Include="Task\images\right_img.png" />
+    <Content Include="Task\images\searchicon.png" />
+    <Content Include="Task\images\taskgifs.png" />
+    <Content Include="Task\images\taskimg.png" />
+    <Content Include="Task\images\tasknum.png" />
+    <Content Include="Task\images\taskthem.png" />
+    <Content Include="Task\images\userimg.png" />
+    <Content Include="Task\images\white.png" />
+    <Content Include="Task\js\flexible.js" />
+    <Content Include="Task\js\index.js" />
+    <Content Include="Task\js\jquery-1.11.1.min.js" />
+    <Content Include="Task\js\jquery.min.js" />
+    <Content Include="Task\js\swiper.jquery.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -359,6 +393,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminLogController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ForwardController.cs" />
     <Compile Include="Areas\Admin\Controllers\TaskController.cs" />
     <Compile Include="Areas\Admin\Controllers\JournalController.cs" />
     <Compile Include="Areas\Admin\Controllers\TakeCashController.cs" />
@@ -367,11 +402,14 @@
     <Compile Include="Areas\Admin\Models\Admin\GetJournalViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Admin\GetListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Admin\ListViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\Forward\ForwardListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Home\HomeIndexViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Journal\ListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\Settting\SettingListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashListViewModel.cs" />
     <Compile Include="Controllers\AppImgController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -425,6 +463,15 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Task\.idea\task.iml" />
+    <Content Include="Task\js\flexible.4" />
+    <Content Include="Views\Login\Register.cshtml" />
+    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\User\Center.cshtml" />
+    <Content Include="Views\User\MyTask.cshtml" />
+    <Content Include="Views\Task\Detail.cshtml" />
+    <Content Include="Views\User\BindInfo.cshtml" />
+    <Content Include="Views\User\TakeCash.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -436,6 +483,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Task\.idea\inspectionProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\IMS.Common.csproj">

@@ -198,6 +198,14 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<string> GetMobileByIdAsync(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                return await dbc.GetParameterAsync<UserEntity>(u=>u.Id==id,u=>u.Mobile);
+            }
+        }
+
         public async Task<UserSearchResult> GetModelListAsync(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
