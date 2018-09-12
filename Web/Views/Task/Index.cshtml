@@ -32,32 +32,32 @@
             <a v-on:click="task" class="index_close" id="index_close">任务大厅</a>
         </div>
         <div id="index_contentBox">
-            <div v-for="task in newtasks">
-                <div class="index_box active">
+            <div class="index_box active">
+                <div v-for="task in newtasks">
                     <!--新上线任务-->
                     <div class="index_box_active">
-                        <div class="index_box-left">
-                            <div><img src="/Task/images/taskimg.png" /></div>
-                            <a v-bind:href="'/task/detail?id='+ task.id">
+                        <a v-bind:href="'/task/detail?id='+ task.id">
+                            <div class="index_box-left">
+                                <div><img src="/Task/images/taskimg.png" /></div>
                                 <div v-html="task.title"></div>
-                            </a>
-                        </div>
+                            </div>
+                        </a>                        
                         <div class="box-star"><img v-on:click="newtaskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                     </div>
                 </div>
             </div>
 
-            <div v-for="task in tasks">
-                <div class="index_box">
+            <div class="index_box">
+                <div v-for="task in tasks">
                     <!--任务大厅-->
                     <div class="index_box_active">
-                        <div class="index_box-left">
-                            <div><img src="/Task/images/taskimg.png" /></div>
-                            <a v-bind:href="'/task/detail?id='+ task.id">
+                        <a v-bind:href="'/task/detail?id='+ task.id">
+                            <div class="index_box-left">
+                                <div><img src="/Task/images/taskimg.png" /></div>
                                 <div v-html="task.title"></div>
-                            </a>
-                        </div>
-                        <div class="box-star"><img src="/Task/images/star.png" alt="" /></div>
+                            </div>
+                        </a>                        
+                        <div class="box-star"><img v-on:click="newtaskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                     </div>
                 </div>
             </div>
@@ -81,18 +81,14 @@
                         this.newtasks = result.data.data.tasks;
                     });
                 },
-                newtaskcollect: function (event,id,isCollect) {
+                newtaskcollect: function (event,id) {
                     if ($(event.target).attr("src") == '/Task/images/orstar.png') {
                         $(event.target).attr("src", "/Task/images/star.png");
-                        this.$http.post('/collect/set', { taskId: id, isCollect:false }, { emulateJSON: true }).then(function (result) {
-                            //this.newtasks = result.data.data.tasks;
-                        });
+                        this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {});
                     }
                     else {
                         $(event.target).attr("src", "/Task/images/orstar.png");
-                        this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
-                            //this.newtasks = result.data.data.tasks;
-                        });
+                        this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {});
                     }
                 },
                 task: function () {

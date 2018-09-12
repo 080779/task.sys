@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model IMS.DTO.TaskDTO
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,7 +24,7 @@
                     <div><img src="/Task/images/tasknum.png" /></div>
                     <div class="taskitems_text_num">任务编号</div>
                 </div>
-                <div class="taskitems_text_n">XYZQ123456</div>
+                <div class="taskitems_text_n">@Model.Code</div>
             </div>
             <!--任务主题-->
             <div class="taskitems_content_text">
@@ -31,7 +32,7 @@
                     <div><img src="/Task/images/taskthem.png" /></div>
                     <div class="taskitems_text_num">任务主题</div>
                 </div>
-                <div class="taskitems_text_n">这是一条很长很长很长很长的主题说明</div>
+                <div class="taskitems_text_n">@Model.Title</div>
             </div>
             <!--任务奖励-->
             <div class="taskitems_content_text">
@@ -39,7 +40,7 @@
                     <div><img src="/Task/images/taskgifs.png" /></div>
                     <div class="taskitems_text_num">任务奖励</div>
                 </div>
-                <div class="taskitems_text_n"><span>99元</span></div>
+                <div class="taskitems_text_n"><span>@(Model.Bonus)元</span></div>
             </div>
             <!--完成条件-->
             <div class="taskitems_content_text">
@@ -47,7 +48,7 @@
                     <div><img src="/Task/images/comp.png" /></div>
                     <div class="taskitems_text_num">完成条件</div>
                 </div>
-                <div class="taskitems_text_n">这是一条很长很长很长很长的主题说明</div>
+                <div class="taskitems_text_n">@Model.Condition</div>
             </div>
         </div>
         <!--其他说明-->
@@ -56,7 +57,7 @@
                 <div><img src="/Task/images/imfprp.png" /></div>
                 <div class="taskitems_text_num">其他说明</div>
             </div>
-            <div class="taskitems_expalin_text">这是一条很长很长很长很长的主题说明这是一条很长很长很长很长的主题说明这是一条很长</div>
+            <div class="taskitems_expalin_text">@Model.Explain</div>
         </div>
         <!--内容-->
         <div class="taskitems_expalin">
@@ -64,7 +65,7 @@
                 <div><img src="/Task/images/white.png" /></div>
                 <div class="taskitems_text_num">内容</div>
             </div>
-            <div class="taskitems_expalin_text">这是一条很长很长很长很长的主题说明这是一条很长很长很长很长的主题说明这是一条很长这是一条很长很长很长很长的主题说明这是一条很长很长很长很长的主题说明这是一条很长</div>
+            <div class="taskitems_expalin_text">@Model.Content</div>
         </div>
         <!--复制按钮-->
         <div class="taskitems_copy">复制内容</div>

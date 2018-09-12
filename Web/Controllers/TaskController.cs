@@ -1,4 +1,5 @@
 ﻿using IMS.Common;
+using IMS.DTO;
 using IMS.IService;
 using System;
 using System.Collections.Generic;
@@ -34,9 +35,11 @@ namespace IMS.Web.Controllers
             }
         }
 
-        public ActionResult Detail()
+        public async Task<ActionResult> Detail(long id)
         {
-            return View();
+            long userId = Convert.ToInt64(Session["Platform_UserId"]);
+            TaskDTO dto = await taskService.GetModelAsync(id, userId);
+            return View(dto);
         }
     }
 }

@@ -74,7 +74,7 @@
                     }
                     this.$http.post('/user/bindinfo', { id: 1, mobile: this.mobile, wechat: this.wechat, alipay: this.alipay, code: this.code }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
-                            layer.alert(result.data.msg, { icon: 0, title: '提示框' }, function () {
+                            layer.alert(result.data.msg, { icon: 1, title: '提示框' }, function () {
                                 window.location.href = "/task/index";
                             });                            
                         }

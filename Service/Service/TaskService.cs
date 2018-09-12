@@ -123,6 +123,46 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<TaskDTO> GetModelAsync(long id,long userId)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                TaskEntity task = await dbc.GetAll<TaskEntity>().SingleOrDefaultAsync(t=>t.Id==id);
+                if(task==null)
+                {
+                    return null;
+                }
+                return ToDTO(task, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == id));
+            }
+        }
+
+        public async Task<TaskSearchResult> GetModelListCollectAsync(long? userId, int pageIndex, int pageSize)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                TaskSearchResult result = new TaskSearchResult();
+                IQueryable<TaskEntity> tasks = dbc.GetAll<CollectEntity>().Where(c => c.UserId == userId).Select(c=>c.Task);
+                result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
+                var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
+                return result;
+            }
+        }
+
+
+        public async Task<TaskSearchResult> GetModelListForwardAsync(long? userId, int pageIndex, int pageSize)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                TaskSearchResult result = new TaskSearchResult();
+                IQueryable<TaskEntity> tasks = dbc.GetAll<ForwardEntity>().Where(c => c.UserId == userId).Select(c => c.Task);
+                result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
+                var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
+                return result;
+            }
+        }
+
         public async Task<TaskSearchResult> GetModelListAsync(long? userId, int? within, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -178,6 +218,6 @@ namespace IMS.Service.Service
                 }
                 return result;
             }
-        } 
+        }
     }
 }

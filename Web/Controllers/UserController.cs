@@ -12,8 +12,10 @@ namespace IMS.Web.Controllers
 {
     public class UserController : Controller
     {
+        private int pageSize = 10;
         public ISettingService settingService { get; set; }
         public IUserService userService { get; set; }
+        public ITaskService taskService { get; set; }
         public ActionResult Center()
         {
             return View();
@@ -30,6 +32,21 @@ namespace IMS.Web.Controllers
         {
             return View();
         }
+
+        public async Task<ActionResult> GetCollects(int pageIndex=1)
+        {
+            long id = Convert.ToInt64(Session["Platform_UserId"]);
+            var res = await taskService.GetModelListCollectAsync(id, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = 1, Data=res });
+        }
+
+        public async Task<ActionResult> GetForwards(int pageIndex = 1)
+        {
+            long id = Convert.ToInt64(Session["Platform_UserId"]);
+            var res = await taskService.GetModelListForwardAsync(id, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
+
         //联系客服
         public ActionResult Contact()
         {
