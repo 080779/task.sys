@@ -381,9 +381,37 @@ div.itemslist-panel
     padding-bottom: .4rem;
     display: flex;
     flex-direction: row;
-    margin: 0 .2667rem 0 .2667rem;
+    argin: 0 .2667rem 0 .2667rem;
     border-bottom: 1px solid #e0e0e0;
+    justify-content: space-between;
+    width: 100%;
 }
+.index_box_left{
+    padding-left: .2rem;
+    display: flex;
+    flex-direction: row;
+}
+.index_box-left{
+    display: flex;
+    flex-direction: row;
+    padding-left: .2rem;
+}
+.box_left_num{
+    width: 50%;
+    align-items: center;
+    text-align: center;
+}
+.box_left_text{
+    width: 50%;
+    align-items: center;
+    text-align: center;
+}
+/*.box-star{*/
+
+/*}*/
+/*.box-orstar{*/
+    /*display: none;*/
+/*}*/
 .index_box_active img{
     margin-right: .2rem;
 }

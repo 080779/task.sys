@@ -5,6 +5,7 @@ $(document).ready(function(){
         $('.itemslist-panel').css('height',document.body.clientHeight+'rem');
         $('.itemslist-bg').css('display','block');
     });
+
 });
 //选项卡
 $(function () {
@@ -33,16 +34,11 @@ $(function () {
         $("#index_on").css({"color":"black"});
         $("#index_close").css({"color":"#366cb3"});
     });
-    //显示个人中心
-    // $("#index_user").click(function(){
-    //     $("#index_user_content").show();
-    //     $("#index_mytask_content").hide();
-    //     $("#index_change").hide();
-    // });
-    //显示我的任务
-    // $("#index_mytask").click(function(){
-    //     $("#index_mytask_content").show();
-    //     $("#index_user_content").hide();
-    //     $("#index_change").hide();
-    // });
+    $('.box-star').click(function(){
+        if ($(this).find('img').attr('src') =='/Task/images/star.png'){
+            $(this).find('img').attr('src','/Task/images/orstar.png');
+        }else{
+            $(this).find('img').attr('src','/Task/images/star.png');
+        }
+    });
 });

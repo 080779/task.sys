@@ -18,18 +18,26 @@ namespace IMS.Web.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<ActionResult> Get()
+        {
+            long id = Convert.ToInt64(Session["Platform_UserId"]);
+            var res = await userService.GetModelAsync(id);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
 
         public ActionResult MyTask()
         {
             return View();
         }
-        [HttpGet]
-        public ActionResult BindInfo()
+        //联系客服
+        public ActionResult Contact()
         {
             return View();
         }
+
         [HttpGet]
-        public ActionResult TakeCash()
+        public ActionResult BindInfo()
         {
             return View();
         }
@@ -48,7 +56,7 @@ namespace IMS.Web.Controllers
             string state;
             string msgState;
             string code = CommonHelper.GetNumberCaptcha(4);
-            string content = string.Format(System.Configuration.ConfigurationManager.AppSettings["SMS_Template1"],"{","}", code);
+            string content = string.Format(System.Configuration.ConfigurationManager.AppSettings["SMS_Template1"],code);
             string stateCode = CommonHelper.SendMessage2(mobile, content, out state, out msgState);
             CacheHelper.SetCache("App_User_SendMsg" + mobile, code, DateTime.UtcNow.AddMinutes(5), TimeSpan.Zero);
             if (stateCode != "0")
@@ -59,7 +67,7 @@ namespace IMS.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> BindInfo(long id, string mobile, string trueName, string wechat, string alipay,string code)
+        public async Task<ActionResult> BindInfo(string mobile, string trueName, string wechat, string alipay,string code)
         {
             if (string.IsNullOrEmpty(mobile))
             {
@@ -94,6 +102,7 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "手机验证码错误" });
             }
+            long id = Convert.ToInt64(Session["Platform_UserId"]);
             bool flag = await userService.BindInfoAsync(id, mobile, trueName, wechat, alipay);
             if (!flag)
             {

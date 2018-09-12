@@ -11,73 +11,92 @@
     <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
 </head>
 <body class="grey">
-    <div class="top">
-        <div class="wrap-white">
-            <i class="itemslist"><a href="#"></a></i>
-            <div class="ptitle-white">个人中心</div>
-            <!--<i class="searchi"><a href="#"></a></i>-->
-        </div>
-    </div>
-    <div class="itemslist-bg">
-        <div class="itemslist-panel">
-            <p id="index_page"><a href="/task/index">首页</a></p>
-            <p id="index_mytask"><a href="/user/mytask"> 我的任务</a></p>
-            <p id="index_user"><a href="/user/center">个人中心</a> </p>
-        </div>
-    </div>
-    <!--头像-->
-    <div class="user_bady_img">
-        <div class="user_img_list">
-            <div class="user_content_img">
-                <img src="/Task/images/userimg.png" />
-            </div>
-            <div class="user_content_text">段鱼</div>
-            <div class="user_content_id">账户ID：SDYTH</div>
-        </div>
-    </div>
-    <!--账户-->
-    <div class="user_content_num">
-        <div class="user_content_mon">
-            <div class="content_mon_img">
-                <img src="/Task/images/money.png" />
-            </div>
-            <div class="content_mon_text">账户余额（元）</div>
-        </div>
-        <div class="user_content_money">
-            <div class="content_money_num">123456.00</div>
-            <div class="content_money_right">
-                <div class="money_right_rcond">提现记录</div>
-                <a href="/user/takecash" class="money_right_apply">提现</a>
+    <div id="app">
+        <div class="top">
+            <div class="wrap-white">
+                <i class="itemslist"><a href="#"></a></i>
+                <div class="ptitle-white">个人中心</div>
+                <!--<i class="searchi"><a href="#"></a></i>-->
             </div>
         </div>
-    </div>
-    <!--记录-->
-    <div class="user_list_content">
-        <!--收入记录-->
-        <div class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img src="/Task/images/imfgreen.png" /></div>
-                <div class="rcond_text">收入记录</div>
+        <div class="itemslist-bg">
+            <div class="itemslist-panel">
+                <p id="index_page"><a href="/task/index">首页</a></p>
+                <p id="index_mytask"><a href="/user/mytask"> 我的任务</a></p>
+                <p id="index_user"><a href="/user/center">个人中心</a> </p>
             </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
         </div>
-        <!--任务记录-->
-        <div class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img src="/Task/images/imfblue.png"></div>
-                <div class="rcond_text">任务记录</div>
+        <!--头像-->
+        <div class="user_bady_img">
+            <div class="user_img_list">
+                <div class="user_content_img">
+                    <img src="/Task/images/userimg.png" />
+                </div>
+                <div class="user_content_text" v-html="user.name"></div>
+                <div class="user_content_id" v-html="user.mobile"></div>
             </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
         </div>
-        <!--联系客服-->
-        <div class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img src="/Task/images/conred.png"></div>
-                <div class="rcond_text">联系客服</div>
+        <!--账户-->
+        <div class="user_content_num">
+            <div class="user_content_mon">
+                <div class="content_mon_img">
+                    <img src="/Task/images/money.png" />
+                </div>
+                <div class="content_mon_text">账户余额（元）</div>
             </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
+            <div class="user_content_money">
+                <div class="content_money_num" v-html="user.amount"></div>
+                <div class="content_money_right">
+                    <a href="/takecash/list" class="money_right_rcond">提现记录</a>
+                    <a href="/takecash/take" class="money_right_apply">提现</a>
+                </div>
+            </div>
+        </div>
+        <!--记录-->
+        <div class="user_list_content">
+            <!--收入记录-->
+            <a href="/usertask/incomes" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img src="/Task/images/imfgreen.png" /></div>
+                    <div class="rcond_text">收入记录</div>
+                </div>
+                <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
+            </a>
+            <!--任务记录-->
+            <a href="/usertask/list" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img src="/Task/images/imfblue.png"></div>
+                    <div class="rcond_text">任务记录</div>
+                </div>
+                <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
+            </a>
+            <!--联系客服-->
+            <a href="/user/contact" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img src="/Task/images/conred.png"></div>
+                    <div class="rcond_text">联系客服</div>
+                </div>
+                <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
+            </a>
         </div>
     </div>
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/assets/layer/layer.js"></script>
+    <script src="~/Task/js/jquery.min.js"></script>
+    <script src="~/js/vue.min2.5.16.js"></script>
+    <script src="~/js/vue-resource.min1.5.0.js"></script>
+    <script>
+        var vue = new Vue({
+            el: "#app",
+            data: {
+                user: []
+            },
+            mounted: function () {
+                this.$http.post('/user/get', {}, { emulateJSON: true }).then(function (result) {
+                    this.user = result.data.data;
+                })
+            }
+        });
+    </script>
 </body>
 </html>

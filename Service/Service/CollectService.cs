@@ -38,7 +38,7 @@ namespace IMS.Service.Service
                         return -2;
                     }
                     CollectEntity collect = await dbc.GetAll<CollectEntity>().SingleOrDefaultAsync(c=>c.UserId==userId && c.TaskId==taskId);
-                    collect.IsDeleted = true;
+                    dbc.Collects.Remove(collect);
                     await dbc.SaveChangesAsync();
                     return 1;
                 }

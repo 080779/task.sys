@@ -28,67 +28,83 @@
     <!--任务-->
     <div id="index_change">
         <div id="nav">
-            <a class="index_on" id="index_on">新上线任务</a>
-            <a class="index_close" id="index_close">任务大厅</a>
+            <a v-on:click="newtask" class="index_on" id="index_on">新上线任务</a>
+            <a v-on:click="task" class="index_close" id="index_close">任务大厅</a>
         </div>
         <div id="index_contentBox">
-            <div class="index_box active">
-                <!--新上线任务-->
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="/task/detail">
-                        <div>任务名称</div>
-                    </a>
-                </div>
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>任务名称</div>
-                    </a>
-                </div>
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>任务名称</div>
-                    </a>
-                </div>
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>任务名称</div>
-                    </a>
+            <div v-for="task in newtasks">
+                <div class="index_box active">
+                    <!--新上线任务-->
+                    <div class="index_box_active">
+                        <div class="index_box-left">
+                            <div><img src="/Task/images/taskimg.png" /></div>
+                            <a v-bind:href="'/task/detail?id='+ task.id">
+                                <div v-html="task.title"></div>
+                            </a>
+                        </div>
+                        <div class="box-star"><img v-on:click="newtaskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="index_box">
-                <!--任务大厅-->
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>另一个任务</div>
-                    </a>
-                </div>
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>另一个任务</div>
-                    </a>
-                </div>
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>另一个任务</div>
-                    </a>
-                </div>
-                <div class="index_box_active">
-                    <div><img src="/Task/images/taskimg.png" /></div>
-                    <a href="taskitems.html">
-                        <div>另一个任务</div>
-                    </a>
+            <div v-for="task in tasks">
+                <div class="index_box">
+                    <!--任务大厅-->
+                    <div class="index_box_active">
+                        <div class="index_box-left">
+                            <div><img src="/Task/images/taskimg.png" /></div>
+                            <a v-bind:href="'/task/detail?id='+ task.id">
+                                <div v-html="task.title"></div>
+                            </a>
+                        </div>
+                        <div class="box-star"><img src="/Task/images/star.png" alt="" /></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/assets/layer/layer.js"></script>
+    <script src="~/Task/js/jquery.min.js"></script>
+    <script src="~/js/vue.min2.5.16.js"></script>
+    <script src="~/js/vue-resource.min1.5.0.js"></script>
+    <script>
+        var vue = new Vue({
+            el: "#index_change",
+            data: {
+                newtasks: [],
+                tasks: []
+            },
+            methods: {
+                newtask: function () {
+                    this.$http.post('/task/get', { within: 7 }, { emulateJSON: true }).then(function (result) {
+                        this.newtasks = result.data.data.tasks;
+                    });
+                },
+                newtaskcollect: function (event,id,isCollect) {
+                    if ($(event.target).attr("src") == '/Task/images/orstar.png') {
+                        $(event.target).attr("src", "/Task/images/star.png");
+                        this.$http.post('/collect/set', { taskId: id, isCollect:false }, { emulateJSON: true }).then(function (result) {
+                            //this.newtasks = result.data.data.tasks;
+                        });
+                    }
+                    else {
+                        $(event.target).attr("src", "/Task/images/orstar.png");
+                        this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
+                            //this.newtasks = result.data.data.tasks;
+                        });
+                    }
+                },
+                task: function () {
+                    this.$http.post('/task/get', {}, { emulateJSON: true }).then(function (result) {
+                        this.tasks = result.data.data.tasks;
+                    });
+                }
+            },
+            mounted: function () {
+                this.newtask();
+            }
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>注册页面</title>
+    <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
+    <link rel="stylesheet" href="/Task/css/style.css">
+</head>
+<body>
+    <div class="top">
+        <div class="wrap-white">
+            <i class="backto"><a href="javascript:history.back(-1);"></a></i>
+            <div class="ptitle-white">联系客服</div>
+            <!--<i class="searchi"><a href="#"></a></i>-->
+        </div>
+    </div>
+
+    <div class="registerpage_img"><img id="imgUrl" style="width:200px;height:200px" /></div>
+    @*<div class="registerpage_text">扫描客服二维码联系客服注册账户</div>*@
+
+    <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/assets/layer/layer.js"></script>
+    <script src="~/Task/js/jquery-1.11.1.min.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url: "/login/getcode",
+                type: "post",
+                success: function (res) {
+                    if (res.status == 1) {
+                        $("#imgUrl").attr("src", res.data);
+                    }
+                    else if (res.status == 0) {
+                        layer.msg(res.msg, { icon: 1 });
+                    }
+                },
+                error: function () { layer.msg('网络错误', { icon: 1 }); }
+            });
+        });
+    </script>
+</body>
+</html>

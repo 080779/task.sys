@@ -12,61 +12,31 @@ namespace IMS.Web.Controllers
 {
     public class TaskController : Controller
     {
-        public ISettingService settingService { get; set; }
-        public IUserService userService { get; set; }
-
+        private int pageSize = 10;
+        public ITaskService taskService { get; set; }
         public ActionResult Index()
         {
             return View();
+        }
+
+        public async Task<ActionResult> Get(int? within, int pageIndex=1)
+        {
+            long userId = Convert.ToInt64(Session["Platform_UserId"]);
+            if (within!=null)
+            {
+                var res = await taskService.GetModelListAsync(userId, 7, pageIndex, pageSize);
+                return Json(new AjaxResult { Status = 1, Data = res });
+            }
+            else
+            {
+                var res = await taskService.GetModelListAsync(userId, null, pageIndex, pageSize);
+                return Json(new AjaxResult { Status = 1, Data = res });
+            }
         }
 
         public ActionResult Detail()
         {
             return View();
         }
-
-        //public ActionResult Login()
-        //{
-        //    return View();
-        //}
-        //public ActionResult Register()
-        //{
-        //    return View();
-        //}
-        //public async Task<ActionResult> GetCode()
-        //{
-        //    string codeUrl = await settingService.GetParmByNameAsync("客服二维码");
-        //    return Json(new AjaxResult { Status = 1, Data = codeUrl });
-        //}
-
-        //public async Task<ActionResult> BindInfo(long id, string mobile, string trueName, string wechatPayCode, string aliPayCode)
-        //{
-        //    if (string.IsNullOrEmpty(mobile))
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "用户手机号不能为空" });
-        //    }
-        //    if (!Regex.IsMatch(mobile, @"^1\d{10}$"))
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "用户手机号格式不正确" });
-        //    }
-        //    if(string.IsNullOrEmpty(trueName))
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "用户真实姓名不能为空" });
-        //    }
-        //    if (string.IsNullOrEmpty(wechatPayCode))
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "用户微信号不能为空" });
-        //    }
-        //    if (string.IsNullOrEmpty(aliPayCode))
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "用户支付宝账号不能为空" });
-        //    }
-        //    bool flag = await userService.BindInfoAsync(id,mobile,trueName,wechatPayCode,aliPayCode);
-        //    if(!flag)
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg="绑定失败" });
-        //    }
-        //    return Json(new AjaxResult { Status = 1, Msg = "绑定成功" });
-        //}
     }
 }

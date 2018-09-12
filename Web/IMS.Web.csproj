@@ -360,8 +360,10 @@
     <Content Include="Task\images\mimas.png" />
     <Content Include="Task\images\money.png" />
     <Content Include="Task\images\nicheng.png" />
+    <Content Include="Task\images\orstar.png" />
     <Content Include="Task\images\right_img.png" />
     <Content Include="Task\images\searchicon.png" />
+    <Content Include="Task\images\star.png" />
     <Content Include="Task\images\taskgifs.png" />
     <Content Include="Task\images\taskimg.png" />
     <Content Include="Task\images\tasknum.png" />
@@ -408,7 +410,10 @@
     <Compile Include="Areas\Admin\Models\Settting\SettingListViewModel.cs" />
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashListViewModel.cs" />
     <Compile Include="Controllers\AppImgController.cs" />
+    <Compile Include="Controllers\CollectController.cs" />
+    <Compile Include="Controllers\UserTaskController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TakeCashController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Global.asax.cs">
@@ -463,15 +468,19 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Task\.idea\task.iml" />
-    <Content Include="Task\js\flexible.4" />
     <Content Include="Views\Login\Register.cshtml" />
     <Content Include="Views\Task\Index.cshtml" />
     <Content Include="Views\User\Center.cshtml" />
     <Content Include="Views\User\MyTask.cshtml" />
     <Content Include="Views\Task\Detail.cshtml" />
     <Content Include="Views\User\BindInfo.cshtml" />
-    <Content Include="Views\User\TakeCash.cshtml" />
+    <Content Include="Views\TakeCash\Take.cshtml" />
+    <Content Include="Views\User\Contact.cshtml" />
+    <Content Include="Views\UserTask\Incomes.cshtml" />
+    <Content Include="Views\UserTask\List.cshtml" />
+    <Content Include="Views\TakeCash\List.cshtml" />
+    <Content Include="Task\.idea\task.iml" />
+    <Content Include="Task\js\flexible.4" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
