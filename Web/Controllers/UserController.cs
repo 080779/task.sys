@@ -23,7 +23,7 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Get()
         {
-            long id = Convert.ToInt64(Session["Platform_UserId"]);
+            long id = CookieHelper.GetLoginId();
             var res = await userService.GetModelAsync(id);
             return Json(new AjaxResult { Status = 1, Data = res });
         }
@@ -35,15 +35,15 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> GetCollects(int pageIndex=1)
         {
-            long id = Convert.ToInt64(Session["Platform_UserId"]);
+            long id = CookieHelper.GetLoginId();
             var res = await taskService.GetModelListCollectAsync(id, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data=res });
         }
 
         public async Task<ActionResult> GetForwards(int pageIndex = 1)
         {
-            long id = Convert.ToInt64(Session["Platform_UserId"]);
-            var res = await taskService.GetModelListForwardAsync(id, pageIndex, pageSize);
+            long id = CookieHelper.GetLoginId();
+            var res = await taskService.GetModelListForwardAsync(id, null, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = res });
         }
 
@@ -119,7 +119,7 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "手机验证码错误" });
             }
-            long id = Convert.ToInt64(Session["Platform_UserId"]);
+            long id = CookieHelper.GetLoginId();
             bool flag = await userService.BindInfoAsync(id, mobile, trueName, wechat, alipay);
             if (!flag)
             {

@@ -16,8 +16,8 @@ namespace IMS.DTO
         public decimal? Amount { get; set; }
         public string Description { get; set; }
         public string StateName { get; set; }
-        public long PayTypeId { get; set; }
-        public string PayTypeName { get; set; }
+        public long TypeId { get; set; }
+        public string TypeName { get; set; }
         //public PayCodeDTO PayCode { get; set; }
         //public BankAccountDTO BankAccount { get; set; }
         public string AdminMobile { get; set; }

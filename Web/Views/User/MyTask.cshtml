@@ -77,8 +77,8 @@
             },
             methods: {
                 tasking: function () {
+                    this.taskings = [];
                     this.$http.post('/user/getforwards', {}, { emulateJSON: true }).then(function (result) {
-                        this.taskings = [];
                         this.taskings = result.data.data.tasks;
                     });
                 },
@@ -86,19 +86,17 @@
                     if ($(event.target).attr("src") == '/Task/images/orstar.png') {
                         $(event.target).attr("src", "/Task/images/star.png");
                         this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {
-                            window.location.reload();
                         });
                     }
                     else {
                         $(event.target).attr("src", "/Task/images/orstar.png");
                         this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
-                            window.location.reload();
                         });
                     }
                 },
                 collecttask: function () {
+                    this.collecttasks = [];
                     this.$http.post('/user/getcollects', {}, { emulateJSON: true }).then(function (result) {
-                        this.collecttasks = [];
                         this.collecttasks = result.data.data.tasks;
                     });
                 }

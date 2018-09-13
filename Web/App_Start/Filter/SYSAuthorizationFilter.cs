@@ -107,8 +107,8 @@ namespace IMS.Web.App_Start.Filter
             }
             else
             {
-                long? UserId = (long?)filterContext.HttpContext.Session["Platform_UserId"];
-                if (UserId == null)
+                //long? UserId = (long?)filterContext.HttpContext.Session["Platform_UserId"];
+                if (filterContext.HttpContext.Request.Cookies["Platform_UserId"] == null)
                 {
                     if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true) || filterContext.ActionDescriptor.ControllerDescriptor.IsDefined(typeof(AllowAnonymousAttribute), true))
                     {

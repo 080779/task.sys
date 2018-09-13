@@ -15,7 +15,7 @@ namespace IMS.Web.Controllers
         public ICollectService collectService { get; set; }
         public async Task<ActionResult> Set(long taskId, bool isCollect)
         {
-            long userId = Convert.ToInt64(Session["Platform_UserId"]);
+            long userId = CookieHelper.GetLoginId();
             long res = await collectService.CollectAsync(userId, taskId, isCollect);
             return Json(new AjaxResult { Status = 1, Data = res });
         }

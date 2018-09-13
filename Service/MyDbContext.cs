@@ -54,6 +54,16 @@ namespace IMS.Service
             return await this.Set<T>().AsNoTracking().Where(e => e.IsDeleted == false).Where(expression).Select(parameterName).SingleOrDefaultAsync();
         }
 
+        public long GetlongParameter<T>(Expression<Func<T, bool>> expression, Expression<Func<T, long>> parameterName) where T : BaseEntity
+        {
+            return this.Set<T>().AsNoTracking().Where(e => e.IsDeleted == false).Where(expression).Select(parameterName).SingleOrDefault();
+        }
+
+        public async Task<long> GetlongParameterAsync<T>(Expression<Func<T, bool>> expression, Expression<Func<T, long>> parameterName) where T : BaseEntity
+        {
+            return await this.Set<T>().AsNoTracking().Where(e => e.IsDeleted == false).Where(expression).Select(parameterName).SingleOrDefaultAsync();
+        }
+
         public decimal GetDecimalParameter<T>(Expression<Func<T, bool>> expression, Expression<Func<T, decimal>> parameterName) where T : BaseEntity
         {
             return this.Set<T>().AsNoTracking().Where(e => e.IsDeleted == false).Where(expression).Select(parameterName).SingleOrDefault();

@@ -32,7 +32,11 @@ namespace IMS.Web.Controllers
                 return Json(new AjaxResult { Status = 0, Msg = "用户名或密码错误" });
             }
             Session["Platform_UserId"] = id;
-            if(string.IsNullOrEmpty(await userService.GetMobileByIdAsync(id)))
+            CookieHelper.Login(id.ToString(), "Platform_UserId", false);
+            HttpCookie UserCookie = new HttpCookie("Platform_UserId");
+            UserCookie["Id"] = id.ToString();
+            Response.AppendCookie(UserCookie);
+            if (string.IsNullOrEmpty(await userService.GetMobileByIdAsync(id)))
             {
                 return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/user/bindinfo" });
             }

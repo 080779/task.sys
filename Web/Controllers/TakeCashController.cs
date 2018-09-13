@@ -12,19 +12,19 @@ namespace IMS.Web.Controllers
 {
     public class TakeCashController : Controller
     {
+        private int pageSize = 10;
+        public ITakeCashService takeCashService { get; set; }
+        [HttpGet]
         public ActionResult List()
         {
             return View();
         }
-
-        public ActionResult MyTask()
+        [HttpPost]
+        public async Task<ActionResult> List(int pageIndex = 1)
         {
-            return View();
-        }
-        [HttpGet]
-        public ActionResult Take()
-        {
-            return View();
+            long userId = CookieHelper.GetLoginId();
+            TakeCashSearchResult result = await takeCashService.GetModelListAsync(userId,null,null,null,null,pageIndex,pageSize);
+            return Json(new AjaxResult { Status = 1, Data = result });
         }
     }
 }

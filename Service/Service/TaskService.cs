@@ -150,12 +150,17 @@ namespace IMS.Service.Service
         }
 
 
-        public async Task<TaskSearchResult> GetModelListForwardAsync(long? userId, int pageIndex, int pageSize)
+        public async Task<TaskSearchResult> GetModelListForwardAsync(long? userId, long? forwardStateId, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 TaskSearchResult result = new TaskSearchResult();
-                IQueryable<TaskEntity> tasks = dbc.GetAll<ForwardEntity>().Where(c => c.UserId == userId).Select(c => c.Task);
+                IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>().Where(c => c.UserId == userId);
+                if(forwardStateId!=null)
+                {
+                    forwards = forwards.Where(f=>f.StateId==forwardStateId);
+                }
+                IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
@@ -168,7 +173,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 TaskSearchResult result = new TaskSearchResult();
-                var entities = dbc.GetAll<TaskEntity>();                
+                var entities = dbc.GetAll<TaskEntity>().Where(t => t.IsEnabled == true);                
                 if(within!=null)
                 {
                     DateTime date = DateTime.Now.AddDays(-within.Value);
@@ -193,7 +198,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 TaskSearchResult result = new TaskSearchResult();
-                var entities = dbc.GetAll<TaskEntity>();
+                var entities = dbc.GetAll<TaskEntity>().Where(t=>t.IsEnabled==true);
                 if (!string.IsNullOrEmpty(keyword))
                 {
                     entities = entities.Where(g => g.Title.Contains(keyword));

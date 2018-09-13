@@ -29,21 +29,56 @@ namespace IMS.Service.Service
             return dto;
         }
 
-        public async Task<long> ForwardAsync(long taskId, long userId, string imgUrl)
+        public async Task<long> AcceptAsync(long taskId, long userId)
         {
             using (MyDbContext dbc = new MyDbContext())
-            {                                
+            {
                 TaskEntity task = await dbc.GetAll<TaskEntity>().SingleOrDefaultAsync(t => t.Id == taskId);
-                if (task==null)
+                if (task == null)
                 {
                     return -1;
                 }
-                if(task.IsEnabled==false)
+                if (task.IsEnabled == false)
                 {
                     return -2;
                 }
 
-                if((await dbc.GetIdAsync<UserEntity>(u=>u.Id==userId))<=0)
+                if ((await dbc.GetIdAsync<UserEntity>(u => u.Id == userId)) <= 0)
+                {
+                    return -3;
+                }
+
+                long stateId = await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "已接受");
+                if (stateId <= 0)
+                {
+                    return -4;
+                }
+
+                ForwardEntity forward = new ForwardEntity();
+                forward.TaskId = taskId;
+                forward.UserId = userId;
+                forward.StateId = stateId;
+                dbc.Forwards.Add(forward);
+                await dbc.SaveChangesAsync();
+                return forward.Id;
+            }
+        }
+
+        public async Task<long> ForwardAsync(long id, string imgUrl)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                ForwardEntity forward = await dbc.GetAll<ForwardEntity>().Include(f=>f.Task).SingleOrDefaultAsync(t => t.Id == id);
+                if (forward == null)
+                {
+                    return -1;
+                }
+                if(forward.Task.IsEnabled==false)
+                {
+                    return -2;
+                }
+
+                if((await dbc.GetIdAsync<UserEntity>(u=>u.Id==forward.UserId))<=0)
                 {
                     return -3;
                 }
@@ -53,28 +88,8 @@ namespace IMS.Service.Service
                 {
                     return -4;
                 }
-
-                ForwardEntity forward = await dbc.GetAll<ForwardEntity>().SingleOrDefaultAsync(f => f.TaskId == taskId && f.UserId == userId);
-                if (forward != null)
-                {
-                    if(forward.State.Name== "转发失败")
-                    {
-                        forward.StateId = stateId;
-                        forward.ImgUrl = imgUrl;
-                        await dbc.SaveChangesAsync();
-                        return forward.Id;
-                    }
-                    else
-                    {
-                        return forward.Id;
-                    }
-                }
-                forward = new ForwardEntity();
-                forward.TaskId = taskId;
-                forward.UserId = userId;
                 forward.ImgUrl = imgUrl;
                 forward.StateId = stateId;
-                dbc.Forwards.Add(forward);
                 await dbc.SaveChangesAsync();
                 return forward.Id;
             }
@@ -126,6 +141,34 @@ namespace IMS.Service.Service
                 dbc.Journals.Add(journal);
                 await dbc.SaveChangesAsync();
                 return forward.Id;
+            }
+        }
+
+        public async Task<bool> DelAsync(long id,long userId)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                ForwardEntity forward = await dbc.GetAll<ForwardEntity>().SingleOrDefaultAsync(f => f.TaskId == id && f.UserId==userId);
+                if (forward == null)
+                {
+                    return false;
+                }
+                dbc.Forwards.Remove(forward);
+                await dbc.SaveChangesAsync();
+                return true;
+            }
+        }
+
+        public async Task<string> GetStateNameAsync(long userId, long taskId)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                long id = await dbc.GetlongParameterAsync<ForwardEntity>(f => f.UserId == userId && f.TaskId == taskId, f => f.StateId);
+                if(id==0)
+                {
+                    return null;
+                }
+                return await dbc.GetParameterAsync<ForwardStateEntity>(i=>i.Id==id,i=>i.Name);
             }
         }
 

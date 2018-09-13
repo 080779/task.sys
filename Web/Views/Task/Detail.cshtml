@@ -1,4 +1,4 @@
-﻿@model IMS.DTO.TaskDTO
+﻿@model IMS.Web.Models.Task.TaskDetailViewModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,13 +18,14 @@
             </div>
         </div>
         <div class="taskitems_content">
+            <input type="hidden" id="id" value="@Model.Task.Id" />
             <!--任务编号-->
             <div class="taskitems_content_text">
                 <div class="taskitems_text">
                     <div><img src="/Task/images/tasknum.png" /></div>
                     <div class="taskitems_text_num">任务编号</div>
                 </div>
-                <div class="taskitems_text_n">@Model.Code</div>
+                <div class="taskitems_text_n">@Model.Task.Code</div>
             </div>
             <!--任务主题-->
             <div class="taskitems_content_text">
@@ -32,7 +33,7 @@
                     <div><img src="/Task/images/taskthem.png" /></div>
                     <div class="taskitems_text_num">任务主题</div>
                 </div>
-                <div class="taskitems_text_n">@Model.Title</div>
+                <div class="taskitems_text_n">@Model.Task.Title</div>
             </div>
             <!--任务奖励-->
             <div class="taskitems_content_text">
@@ -40,7 +41,7 @@
                     <div><img src="/Task/images/taskgifs.png" /></div>
                     <div class="taskitems_text_num">任务奖励</div>
                 </div>
-                <div class="taskitems_text_n"><span>@(Model.Bonus)元</span></div>
+                <div class="taskitems_text_n"><span>@(Model.Task.Bonus)元</span></div>
             </div>
             <!--完成条件-->
             <div class="taskitems_content_text">
@@ -48,7 +49,7 @@
                     <div><img src="/Task/images/comp.png" /></div>
                     <div class="taskitems_text_num">完成条件</div>
                 </div>
-                <div class="taskitems_text_n">@Model.Condition</div>
+                <div class="taskitems_text_n">@Model.Task.Condition</div>
             </div>
         </div>
         <!--其他说明-->
@@ -57,7 +58,7 @@
                 <div><img src="/Task/images/imfprp.png" /></div>
                 <div class="taskitems_text_num">其他说明</div>
             </div>
-            <div class="taskitems_expalin_text">@Model.Explain</div>
+            <div class="taskitems_expalin_text">@Model.Task.Explain</div>
         </div>
         <!--内容-->
         <div class="taskitems_expalin">
@@ -65,13 +66,82 @@
                 <div><img src="/Task/images/white.png" /></div>
                 <div class="taskitems_text_num">内容</div>
             </div>
-            <div class="taskitems_expalin_text">@Model.Content</div>
+            <div class="taskitems_expalin_text">@Model.Task.Content</div>
         </div>
         <!--复制按钮-->
         <div class="taskitems_copy">复制内容</div>
     </div>
     <!--按钮-->
-    <div class="concact-button">接受任务</div>
+    @if (string.IsNullOrEmpty(Model.ForwardStateName))
+    {
+        <a id="accept" class="concact-button">接受任务</a>
+    }
+    else if (Model.ForwardStateName == "已接受")
+    {
+        <a id="giveUp" class="concact-button">放弃任务</a><br />
+        <a href="/task/audit?id=@Model.Task.Id" class="concact-button">提交审核</a>
+    }
+    else if (Model.ForwardStateName == "审核中")
+    {
+        <a class="concact-button">审核中...</a>
+    }
+    else if (Model.ForwardStateName == "任务完成")
+    {
+        <a class="concact-button">任务完成</a>
+    }
+    else if (Model.ForwardStateName == "未通过审核")
+    {
+        <a class="concact-button">未通过审核</a>
+    }
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/Task/js/jquery.min.js"></script>
+    <script src="~/Task/js/jquery-1.11.1.min.js"></script>
+    <script src="~/assets/layer/layer.js"></script>
+    <script>
+        $(function () {
+            var id = $("#id").val();
+            $("#accept").click(function () {
+                $.ajax({
+                    url: "/task/accept",
+                    type: "post",
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert(res.msg, { icon: 1, title: '提示框' }, function () {
+                                window.location.reload();
+                            });
+                        }
+                        else if (res.status == 0) {
+                            layer.alert(res.msg, { icon: 1 });
+                        }
+                    },
+                    error: function () {
+                        layer.msg("网络错误", { icon: 1 });
+                    }
+                });
+            });
+
+            $("#giveUp").click(function () {
+                $.ajax({
+                    url: "/task/giveup",
+                    type: "post",
+                    data: { id: id },
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert(res.msg, { icon: 1, title: '提示框' }, function () {
+                                window.location.reload();
+                            });
+                        }
+                        else if (res.status == 0) {
+                            layer.alert(res.msg, { icon: 1 });
+                        }
+                    },
+                    error: function () {
+                        layer.msg("网络错误", { icon: 1 });
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

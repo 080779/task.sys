@@ -22,8 +22,8 @@ namespace IMS.Service.Service
             dto.Id = entity.Id;
             dto.StateId = entity.StateId;
             dto.StateName = entity.State.Name;
-            dto.PayTypeId = entity.TypeId;
-            dto.PayTypeName = entity.Type.Name;
+            dto.TypeId = entity.TypeId;
+            dto.TypeName = entity.Type.Name;
             //dto.PayCode = payCode;
             //dto.BankAccount = bankAccount;
             dto.NickName = entity.User.NickName;
@@ -131,37 +131,37 @@ namespace IMS.Service.Service
             }
         }
 
-        //public async Task<TakeCashSearchResult> GetModelListAsync(long? userId,long? stateId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
-        //{
-        //    using (MyDbContext dbc = new MyDbContext())
-        //    {
-        //        TakeCashSearchResult result = new TakeCashSearchResult();
-        //        var entities = dbc.GetAll<TakeCashEntity>();
-        //        if(userId!=null)
-        //        {
-        //            entities = entities.Where(a => a.UserId == userId);
-        //        }
-        //        if (stateId != null)
-        //        {
-        //            entities = entities.Where(a => a.StateId == stateId);
-        //        }
-        //        if (!string.IsNullOrEmpty(keyword))
-        //        {
-        //            entities = entities.Where(g => g.User.Mobile.Contains(keyword) || g.User.NickName.Contains(keyword));
-        //        }
-        //        if (startTime != null)
-        //        {
-        //            entities = entities.Where(a => a.CreateTime >= startTime);
-        //        }
-        //        if (endTime != null)
-        //        {
-        //            entities = entities.Where(a => SqlFunctions.DateDiff("day", endTime, a.CreateTime) <= 0);
-        //        }
-        //        result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
-        //        var takeCashResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-        //        result.TakeCashes = takeCashResult.Select(a => ToDTO(a,ToDTO(dbc.GetAll<PayCodeEntity>().SingleOrDefault(p => p.UserId == a.UserId)),ToDTO(dbc.GetAll<BankAccountEntity>().SingleOrDefault(b=>b.UserId==a.UserId)))).ToArray();
-        //        return result;
-        //    }
-        //}
+        public async Task<TakeCashSearchResult> GetModelListAsync(long? userId, long? stateId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                TakeCashSearchResult result = new TakeCashSearchResult();
+                var entities = dbc.GetAll<TakeCashEntity>();
+                if (userId != null)
+                {
+                    entities = entities.Where(a => a.UserId == userId);
+                }
+                if (stateId != null)
+                {
+                    entities = entities.Where(a => a.StateId == stateId);
+                }
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    entities = entities.Where(g => g.User.Mobile.Contains(keyword) || g.User.NickName.Contains(keyword));
+                }
+                if (startTime != null)
+                {
+                    entities = entities.Where(a => a.CreateTime >= startTime);
+                }
+                if (endTime != null)
+                {
+                    entities = entities.Where(a => SqlFunctions.DateDiff("day", endTime, a.CreateTime) <= 0);
+                }
+                result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
+                var takeCashResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                result.TakeCashes = takeCashResult.Select(a => ToDTO(a)).ToArray();
+                return result;
+            }
+        }
     }
 }
