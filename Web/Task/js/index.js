@@ -34,11 +34,44 @@ $(function () {
         $("#index_on").css({"color":"black"});
         $("#index_close").css({"color":"#366cb3"});
     });
+    //星星收藏
     $('.box-star').click(function(){
-        if ($(this).find('img').attr('src') =='/Task/images/star.png'){
-            $(this).find('img').attr('src','/Task/images/orstar.png');
+        if($(this).find('img').attr('src')=='images/star.png'){
+            $(this).find('img').attr('src','images/orstar.png');
         }else{
-            $(this).find('img').attr('src','/Task/images/star.png');
+            $(this).find('img').attr('src','images/star.png');
         }
     });
+    $("#btnHide").hide();
+    $('#btnShow').click(function(){
+        $("#btnShow").hide();
+        $("#btnHide").show();
+    });
+    $('#giveup').click(function(){
+        $("#btnShow").show();
+        $("#btnHide").hide();
+    });
 });
+$(function() {
+    $(".pic").click(function () {
+        $(this).parent().find(".upload").click(); //隐藏了input:file样式后，点击头像就可以本地上传
+        $(this).parent().find(".upload").on("change",function(){
+            var objUrl = getObjectURL(this.files[0]) ; //获取图片的路径，该路径不是图片在本地的路径
+            if (objUrl) {
+                $(this).parent().find(".pic").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
+            }
+        });
+    });
+});
+
+function getObjectURL(file) {
+    var url = null ;
+    if (window.createObjectURL!=undefined) { // basic
+        url = window.createObjectURL(file) ;
+    } else if (window.URL!=undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file) ;
+    } else if (window.webkitURL!=undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file) ;
+    }
+    return url ;
+}

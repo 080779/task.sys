@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
     <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
     <link rel="stylesheet" href="/Task/css/style.css">
+    <script type="text/javascript" charset="utf-8" src="/Task/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
 </head>
 <body class="grey">
     <div style="background: white;padding-bottom: 1.4rem">
@@ -78,8 +80,10 @@
     }
     else if (Model.ForwardStateName == "已接受")
     {
-        <a id="giveUp" class="concact-button">放弃任务</a><br />
-        <a href="/task/audit?id=@Model.Task.Id" class="concact-button">提交审核</a>
+        <div class="concact-button-btt">
+            <div class="button-left" id="giveup">放弃任务</div>
+            <div class="button-right"><a href="/task/upimg?id=@Model.Task.Id">提交审核</a></div>
+        </div>
     }
     else if (Model.ForwardStateName == "审核中")
     {
@@ -91,11 +95,13 @@
     }
     else if (Model.ForwardStateName == "未通过审核")
     {
-        <a class="concact-button">未通过审核</a>
+        <div class="concact-button-btt">
+            <div class="button-left">未通过审核</div>
+            <div id="accept" class="button-right">接受任务</div>
+        </div>
     }
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
     <script src="~/Task/js/jquery.min.js"></script>
-    <script src="~/Task/js/jquery-1.11.1.min.js"></script>
     <script src="~/assets/layer/layer.js"></script>
     <script>
         $(function () {
@@ -121,7 +127,7 @@
                 });
             });
 
-            $("#giveUp").click(function () {
+            $("#giveup").click(function () {
                 $.ajax({
                     url: "/task/giveup",
                     type: "post",

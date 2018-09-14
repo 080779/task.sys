@@ -13,9 +13,9 @@ namespace IMS.Web.Controllers
     public class CollectController : Controller
     {
         public ICollectService collectService { get; set; }
+        private long userId = CookieHelper.GetLoginId();
         public async Task<ActionResult> Set(long taskId, bool isCollect)
         {
-            long userId = CookieHelper.GetLoginId();
             long res = await collectService.CollectAsync(userId, taskId, isCollect);
             return Json(new AjaxResult { Status = 1, Data = res });
         }

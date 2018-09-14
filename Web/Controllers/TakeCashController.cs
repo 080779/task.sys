@@ -13,7 +13,9 @@ namespace IMS.Web.Controllers
     public class TakeCashController : Controller
     {
         private int pageSize = 10;
+        private long userId = CookieHelper.GetLoginId();
         public ITakeCashService takeCashService { get; set; }
+        public IUserService userService { get; set; }
         [HttpGet]
         public ActionResult List()
         {
@@ -22,9 +24,24 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> List(int pageIndex = 1)
         {
-            long userId = CookieHelper.GetLoginId();
             TakeCashSearchResult result = await takeCashService.GetModelListAsync(userId,null,null,null,null,pageIndex,pageSize);
             return Json(new AjaxResult { Status = 1, Data = result });
+        }
+        [HttpGet]
+        public async Task<ActionResult> Take()
+        {            
+            decimal amount = await userService.GetAmountByIdAsync(userId);
+            return View(amount);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Take(long payTypeId,decimal amount)
+        {
+            long res = await takeCashService.AddAsync(userId,payTypeId,amount, "");
+            if(res<=0)
+            {
+                return Json(new AjaxResult { Status = 0, Msg = "提现申请失败" });
+            }
+            return Json(new AjaxResult { Status = 1,Msg="提现申请成功" });
         }
     }
 }

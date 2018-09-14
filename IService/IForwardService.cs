@@ -10,7 +10,7 @@ namespace IMS.IService
     public interface IForwardService : IServiceSupport
     {
         Task<long> AcceptAsync(long taskId, long userId);
-        Task<long> ForwardAsync(long id,string imgUrl);
+        Task<long> ForwardAsync(long taskId, long userId, string imgUrl);
         Task<long> ConfirmAsync(long id,bool auditState);
         Task<bool> DelAsync(long id, long userId);
         Task<string> GetStateNameAsync(long userId,long taskId);

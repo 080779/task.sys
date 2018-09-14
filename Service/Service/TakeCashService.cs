@@ -32,55 +32,20 @@ namespace IMS.Service.Service
             dto.AdminMobile = entity.AdminMobile;
             return dto;
         }
-        //public BankAccountDTO ToDTO(BankAccountEntity entity)
-        //{
-        //    BankAccountDTO dto = new BankAccountDTO();
-        //    if(entity==null)
-        //    {
-        //        return dto = null;
-        //    }
-        //    dto.Name = entity.Name;
-        //    dto.CreateTime = entity.CreateTime;
-        //    dto.Id = entity.Id;
-        //    dto.BankAccount = entity.BankAccount;
-        //    dto.BankName = entity.BankName;
-        //    dto.Description = entity.Description;
-        //    dto.UserId = entity.UserId;
-        //    return dto;
-        //}
-        //public PayCodeDTO ToDTO(PayCodeEntity entity)
-        //{
-        //    PayCodeDTO dto = new PayCodeDTO();
-        //    if (entity == null)
-        //    {
-        //        return dto = null;
-        //    }
-        //    dto.Description = entity.Description;
-        //    dto.Name = entity.Name;
-        //    dto.CreateTime = entity.CreateTime;
-        //    dto.Id = entity.Id;
-        //    dto.CodeUrl = entity.CodeUrl;
-        //    dto.UserId = entity.UserId;
-        //    return dto;
-        //}
 
         public async Task<long> AddAsync(long userId, long payTypeId, decimal amount, string descripton)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == userId);
-                if(user==null)
+                if((await dbc.GetIdAsync<UserEntity>(u=>u.Id==userId))<=0)
                 {
                     return -1;
                 }
-                if(user.Amount<amount)
+                if((await dbc.GetDecimalParameterAsync<UserEntity>(u => u.Id == userId,u=>u.Amount)) < amount)
                 {
                     return -2;
                 }
-                //if(user.Level.Name=="普通会员")
-                //{
-                //    return -4;
-                //}
+
                 TakeCashEntity entity = new TakeCashEntity();
                 entity.UserId = userId;
                 entity.TypeId = payTypeId;

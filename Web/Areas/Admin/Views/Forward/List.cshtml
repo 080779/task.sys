@@ -60,7 +60,7 @@
         </div>
         <div class="search_style" style="margin-top:90px">
             <ul class="search_content clearfix">
-                <li><label class="l_f">管理员账号</label><input v-model="searchs.keyword" type="text" class="text_add" placeholder="管理员账号" style=" width:150px" /></li>
+                <li><label class="l_f">用户信息</label><input v-model="searchs.keyword" type="text" class="text_add" placeholder="用户信息" style=" width:150px" /></li>
                 <li>
                     <label class="l_f">添加时间</label>
                     <input class="inline laydate-icon" id="start" style=" margin-left:10px;" v-on:focus='getstart' />至
@@ -80,6 +80,7 @@
                         <th width="80">状态</th>
                         <th width="80">转发截图</th>
                         <th width="100">时间</th>
+                        <th width="100">操作</th>
                     </tr>
                 </thead>
                 <tbody v-for="forward in forwards">
@@ -88,8 +89,11 @@
                         <td v-html="forward.userName"></td>
                         <td v-html="forward.taskTitle"></td>
                         <td v-html="forward.stateName"></td>
-                        <td><a v-bind:href="forward.imgUrl">转发截图</a></td>
+                        <td><a v-on:click="img(forward.imgUrl)">转发截图</a></td>
                         <td v-html="forward.createTime"></td>
+                        <td>
+                            <a title="审核" href="javascript:;" v-bind:disabled="forward.stateName=='任务完成' || forward.stateName=='未通过审核'" v-on:click="confirm1(forward.id)" class="btn btn-xs btn-warning">审核</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -108,6 +112,10 @@
                 <li><a>共<i><font v-html="pages.all"></font></i>页</a></li>
             </ul>
         </div>
+
+        <div class="add_menber" id="pic" style="display:none">
+            <div><img v-bind:src="getimg.imgUrl" /></div>
+        </div>
     </div>
 </body>
 </html>
@@ -120,6 +128,9 @@
             totalBonus: 0,
             pages: {
                 all: "", cur: 1, txtpage: ""
+            },
+            getimg: {
+                imgUrl: ""
             },
             searchs: {
                 dateTime: "", startTime: "", endTime: "", keyword: ""
@@ -229,6 +240,58 @@
                         layer.alert(result.data.msg, { icon: 6, title: '提示框' });
                     }
                 })
+            },
+            confirm: function (id) {
+                var that = this;
+                layer.confirm('确定通过审核吗？', {
+                    btn: ['重要', '奇葩'] //按钮
+                }, function () {
+                    that.$http.post('/admin/forward/confirm', { id: id, auditState: true }, { emulateJSON: true }).then(function (result) {
+                        if (result.data.status == 1) {
+                            layer.alert(result.data.msg, { icon: 0, title: '提示框' });
+                            that.getpage();
+                        }
+                        else if (result.data.status == 0) {
+                            layer.alert(result.data.msg, { icon: 0, title: '提示框' });
+                            //that.msg = result.data.msg;
+                        }
+                        else if (result.data.status == 302) {
+                            window.location.href = result.data.data;
+                        }
+                        else if (result.data.status == 401) {
+                            layer.alert(result.data.msg, { icon: 6, title: '提示框' });
+                        }
+                    });
+                }, function () {
+                    that.$http.post('/admin/forward/confirm', { id: id, auditState: false }, { emulateJSON: true }).then(function (result) {
+                        if (result.data.status == 1) {
+                            layer.alert(result.data.msg, { icon: 0, title: '提示框' });
+                            that.getpage();
+                        }
+                        else if (result.data.status == 0) {
+                            layer.alert(result.data.msg, { icon: 0, title: '提示框' });
+                            //that.msg = result.data.msg;
+                        }
+                        else if (result.data.status == 302) {
+                            window.location.href = result.data.data;
+                        }
+                        else if (result.data.status == 401) {
+                            layer.alert(result.data.msg, { icon: 6, title: '提示框' });
+                        }
+                    });
+                });
+            },
+            img: function (imgUrl) {
+                this.getimg.imgUrl = imgUrl
+                layer.open({
+                    type: 1,
+                    title: '修改密码',
+                    maxmin: true,
+                    shadeClose: false, //点击遮罩关闭层
+                    area: ['850px', '600px'],
+                    content: $('#pic'),
+                    btn: ['确认', '取消']
+                });
             }
         },
         computed: {

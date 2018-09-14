@@ -362,6 +362,7 @@
     <Content Include="Task\images\nicheng.png" />
     <Content Include="Task\images\orstar.png" />
     <Content Include="Task\images\right_img.png" />
+    <Content Include="Task\images\searchicon-gray.png" />
     <Content Include="Task\images\searchicon.png" />
     <Content Include="Task\images\star.png" />
     <Content Include="Task\images\taskgifs.png" />
@@ -482,6 +483,7 @@
     <Content Include="Views\TakeCash\List.cshtml" />
     <Content Include="Task\.idea\task.iml" />
     <Content Include="Task\js\flexible.4" />
+    <Content Include="Views\Task\UpImg.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

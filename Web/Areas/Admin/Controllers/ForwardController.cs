@@ -56,6 +56,22 @@ namespace IMS.Web.Areas.Admin.Controllers
             var res = await forwardService.GetMonthAsync(dateTime);
             return Json(new AjaxResult { Status = 1, Data = res });
         }
+
+        [HttpPost]
+        //[AdminLog("公告栏管理", "查看公告管理列表")]
+        public async Task<ActionResult> Confirm(long id, bool auditState)
+        {
+            long res = await forwardService.ConfirmAsync(id, auditState);
+            if (res <= 0)
+            {
+                if(res==-3)
+                {
+                    return Json(new AjaxResult { Status = 1, Msg = "取消审核成功" });
+                }
+                return Json(new AjaxResult { Status = 0, Msg = "审核失败" });
+            }
+            return Json(new AjaxResult { Status = 1,Msg= "审核成功" });
+        }
         //[ValidateInput(false)]
         ////[AdminLog("公告栏管理", "添加公告管理")]
         ////[Permission("公告栏管理_新增公告")]

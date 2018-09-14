@@ -185,6 +185,14 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<decimal> GetAmountByIdAsync(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                return await dbc.GetDecimalParameterAsync<UserEntity>(u=>u.Id==id,u=>u.Amount);
+            }
+        }
+
         public async Task<UserDTO> GetModelAsync(long id)
         {
             using (MyDbContext dbc = new MyDbContext())

@@ -13,6 +13,7 @@ namespace IMS.Web.Controllers
     public class UserController : Controller
     {
         private int pageSize = 10;
+        private long userId = CookieHelper.GetLoginId();
         public ISettingService settingService { get; set; }
         public IUserService userService { get; set; }
         public ITaskService taskService { get; set; }
@@ -23,8 +24,7 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Get()
         {
-            long id = CookieHelper.GetLoginId();
-            var res = await userService.GetModelAsync(id);
+            var res = await userService.GetModelAsync(userId);
             return Json(new AjaxResult { Status = 1, Data = res });
         }
 
@@ -35,15 +35,13 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> GetCollects(int pageIndex=1)
         {
-            long id = CookieHelper.GetLoginId();
-            var res = await taskService.GetModelListCollectAsync(id, pageIndex, pageSize);
+            var res = await taskService.GetModelListCollectAsync(userId, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data=res });
         }
 
         public async Task<ActionResult> GetForwards(int pageIndex = 1)
         {
-            long id = CookieHelper.GetLoginId();
-            var res = await taskService.GetModelListForwardAsync(id, null, pageIndex, pageSize);
+            var res = await taskService.GetModelListForwardAsync(userId, null, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = res });
         }
 
@@ -119,8 +117,7 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "手机验证码错误" });
             }
-            long id = CookieHelper.GetLoginId();
-            bool flag = await userService.BindInfoAsync(id, mobile, trueName, wechat, alipay);
+            bool flag = await userService.BindInfoAsync(userId, mobile, trueName, wechat, alipay);
             if (!flag)
             {
                 return Json(new AjaxResult { Status = 0, Msg = "绑定失败" });

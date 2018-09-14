@@ -15,6 +15,7 @@ namespace IMS.Web.Controllers
     public class TaskController : Controller
     {
         private int pageSize = 10;
+        private long userId = CookieHelper.GetLoginId();
         public ITaskService taskService { get; set; }
         public IForwardService forwardService { get; set; }
         public ActionResult Index()
@@ -24,8 +25,6 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> Get(int? within, int pageIndex=1)
         {
-            long userId = CookieHelper.GetLoginId();
-            
             if (within!=null)
             {
                 var res = await taskService.GetModelListAsync(userId, 7, pageIndex, pageSize);
@@ -41,7 +40,6 @@ namespace IMS.Web.Controllers
         public async Task<ActionResult> Detail(long id)
         {
             TaskDetailViewModel model = new TaskDetailViewModel();
-            long userId = CookieHelper.GetLoginId();
             model.Task = await taskService.GetModelAsync(id, userId);
             model.ForwardStateName = await forwardService.GetStateNameAsync(userId, id);
             return View(model);
@@ -49,7 +47,6 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> Accept(long id)
         {
-            long userId = CookieHelper.GetLoginId();
             long res = await forwardService.AcceptAsync(id, userId);
             if(res<=0)
             {
@@ -60,13 +57,33 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> GiveUp(long id)
         {
-            long userId = CookieHelper.GetLoginId();
             bool res = await forwardService.DelAsync(id,userId);
             if (!res)
             {
                 return Json(new AjaxResult { Status = 0, Msg = "任务放弃失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "任务放弃成功" });
+        }
+        [HttpGet]
+        public ActionResult UpImg(long id)
+        {
+            return View(id);
+        }
+        [HttpPost]
+        public async Task<ActionResult> UpImg(long id,string file)
+        {
+            string path;
+            bool flag = ImageHelper.SaveBase64(file, out path);
+            if (!flag)
+            {
+                return Json(new AjaxResult { Status = 0, Msg = "图片保存失败" });
+            }
+            long res = await forwardService.ForwardAsync(id,userId, path);
+            if (res <= 0)
+            {
+                return Json(new AjaxResult { Status = 0, Msg = "提交审核失败" });
+            }
+            return Json(new AjaxResult { Status = 1, Msg = "提交审核成功",Data="/task/detail?id="+id });
         }
     }
 }

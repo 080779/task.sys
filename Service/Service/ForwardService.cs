@@ -54,21 +54,32 @@ namespace IMS.Service.Service
                     return -4;
                 }
 
-                ForwardEntity forward = new ForwardEntity();
-                forward.TaskId = taskId;
-                forward.UserId = userId;
+                ForwardEntity forward = await dbc.GetAll<ForwardEntity>().Include(f=>f.State).SingleOrDefaultAsync(f=>f.UserId==userId && f.TaskId==taskId);
+                if(forward==null)
+                {
+                    forward = new ForwardEntity();
+                    forward.TaskId = taskId;
+                    forward.UserId = userId;
+                    forward.StateId = stateId;
+                    dbc.Forwards.Add(forward);
+                    await dbc.SaveChangesAsync();
+                    return forward.Id;
+                }
+                if(forward.State.Name != "未通过审核")
+                {
+                    return -5;
+                }
                 forward.StateId = stateId;
-                dbc.Forwards.Add(forward);
                 await dbc.SaveChangesAsync();
                 return forward.Id;
             }
         }
 
-        public async Task<long> ForwardAsync(long id, string imgUrl)
+        public async Task<long> ForwardAsync(long taskId, long userId, string imgUrl)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
-                ForwardEntity forward = await dbc.GetAll<ForwardEntity>().Include(f=>f.Task).SingleOrDefaultAsync(t => t.Id == id);
+                ForwardEntity forward = await dbc.GetAll<ForwardEntity>().Include(f=>f.Task).SingleOrDefaultAsync(t => t.UserId == userId && t.TaskId==taskId);
                 if (forward == null)
                 {
                     return -1;
@@ -104,7 +115,7 @@ namespace IMS.Service.Service
                 {
                     return -1;
                 }
-                long stateId = await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "转发失败");                
+                long stateId = await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "未通过审核");                
                 if (stateId <= 0)
                 {
                     return -2;
@@ -115,7 +126,7 @@ namespace IMS.Service.Service
                     await dbc.SaveChangesAsync();
                     return -3;
                 }
-                stateId= await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "转发成功");
+                stateId= await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "任务完成");
                 forward.StateId = stateId;
                 UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u=>u.Id==forward.UserId);
                 if(user==null)

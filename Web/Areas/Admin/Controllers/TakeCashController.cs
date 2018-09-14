@@ -26,8 +26,8 @@ namespace IMS.Web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<ActionResult> List(long? stateId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
-            //TakeCashSearchResult result = await takeCashService.GetModelListAsync(null,stateId, keyword, startTime, endTime, pageIndex, pageSize);
-            TakeCashSearchResult result =new TakeCashSearchResult();
+            TakeCashSearchResult result = await takeCashService.GetModelListAsync(null, stateId, keyword, startTime, endTime, pageIndex, pageSize);
+            //TakeCashSearchResult result =new TakeCashSearchResult();
             TakeCashListViewModel model = new TakeCashListViewModel();
             model.TakeCashes = result.TakeCashes;
             model.PageCount = result.PageCount;

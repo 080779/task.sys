@@ -168,6 +168,20 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<TaskSearchResult> GetModelListForwardingAsync(long? userId, int pageIndex, int pageSize)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                TaskSearchResult result = new TaskSearchResult();
+                IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>().Where(c => c.UserId == userId).Where(c=>c.State.Name== "已接受" || c.State.Name== "审核中");
+                IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task);
+                result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
+                var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
+                return result;
+            }
+        }
+
         public async Task<TaskSearchResult> GetModelListAsync(long? userId, int? within, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())

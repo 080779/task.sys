@@ -14,6 +14,7 @@ namespace IMS.IService
         Task<bool> DelAsync(long id);
         Task<TaskDTO> GetModelAsync(long id, long userId);
         Task<TaskSearchResult> GetModelListForwardAsync(long? userId, long? forwardStateId, int pageIndex, int pageSize);
+        Task<TaskSearchResult> GetModelListForwardingAsync(long? userId, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListCollectAsync(long? userId, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListAsync(long? userId, int? within, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListAsync(long? userId, string keyword,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
