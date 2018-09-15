@@ -9,8 +9,25 @@ namespace IMS.Web.Areas.Admin.Models.TakeCash
 {
     public class TakeCashListViewModel
     {
-        public TakeCashDTO[] TakeCashes { get; set; }
+        public TakeCashModel[] TakeCashes { get; set; }
         public IdNameDTO[] States { get; set; }
         public long PageCount { get; set; }
+    }
+    public class TakeCashModel
+    {
+        public long Id { get; set; }
+        public long UserId { get; set; }
+        public string Mobile { get; set; }
+        public string Code { get; set; }
+        public string NickName { get; set; }
+        public long StateId { get; set; }
+        public decimal? Amount { get; set; }
+        public string Description { get; set; }
+        public string StateName { get; set; }
+        public long TypeId { get; set; }
+        public string TypeName { get; set; }
+        public string PayTypeInfo { get; set; }
+        public string AdminMobile { get; set; }
+        public DateTime CreateTime { get; set; }
     }
 }

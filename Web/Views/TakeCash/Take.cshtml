@@ -67,8 +67,14 @@
                                 window.location.reload();
                             });
                         }
+                        else if (res.data=="/user/bindinfo")
+                        {
+                            layer.alert(res.msg, { icon: 1, title: '提示框' }, function () {
+                                window.location.href = res.data;
+                            });
+                        }
                         else if (res.status == 0) {
-                            layer.alert(res.msg, { icon: 1 });
+                            layer.msg(res.msg, { icon: 1 });
                         }
                     },
                     error: function () {

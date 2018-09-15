@@ -185,6 +185,21 @@ namespace IMS.Service.Service
             }
         }
 
+        public string GetPayInfo(long userId, string payTypeName)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                if(payTypeName=="微信")
+                {
+                    return dbc.GetParameter<UserEntity>(u => u.Id == userId, u => u.WechatPayCode);
+                }
+                else
+                {
+                    return dbc.GetParameter<UserEntity>(u => u.Id == userId, u => u.AliPayCode);
+                }
+            }
+        }
+
         public async Task<decimal> GetAmountByIdAsync(long id)
         {
             using (MyDbContext dbc = new MyDbContext())

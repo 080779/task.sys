@@ -20,7 +20,7 @@
     </div>
     <div class="itemslist-bg">
         <div class="itemslist-panel">
-            <p id="index_page"><a href="/task/index">首页</a></p>
+            <p id="index_page"><a href="/home/index">首页</a></p>
             <p id="index_mytask"><a href="/user/mytask"> 我的任务</a></p>
             <p id="index_user"><a href="/user/center">个人中心</a> </p>
         </div>
@@ -36,7 +36,7 @@
                 <div v-for="task in taskings">
                     <!--新上线任务-->
                     <div class="index_box_active">
-                        <a v-bind:href="'/task/detail?id='+ task.id">
+                        <a v-bind:href="'/home/detail?id='+ task.id">
                             <div class="index_box-left">
                                 <div><img src="/Task/images/taskimg.png" /></div>
                                 <div v-html="task.title"></div>
@@ -51,7 +51,7 @@
                 <div v-for="task in collecttasks">
                     <!--任务大厅-->
                     <div class="index_box_active">
-                        <a v-bind:href="'/task/detail?id='+ task.id">
+                        <a v-bind:href="'/home/detail?id='+ task.id">
                             <div class="index_box-left">
                                 <div><img src="/Task/images/taskimg.png" /></div>
                                 <div v-html="task.title"></div>

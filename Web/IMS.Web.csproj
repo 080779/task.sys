@@ -413,7 +413,7 @@
     <Compile Include="Controllers\AppImgController.cs" />
     <Compile Include="Controllers\CollectController.cs" />
     <Compile Include="Controllers\UserTaskController.cs" />
-    <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TakeCashController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -471,10 +471,10 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Login\Login.cshtml" />
     <Content Include="Views\Login\Register.cshtml" />
-    <Content Include="Views\Task\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\User\Center.cshtml" />
     <Content Include="Views\User\MyTask.cshtml" />
-    <Content Include="Views\Task\Detail.cshtml" />
+    <Content Include="Views\Home\Detail.cshtml" />
     <Content Include="Views\User\BindInfo.cshtml" />
     <Content Include="Views\TakeCash\Take.cshtml" />
     <Content Include="Views\User\Contact.cshtml" />
@@ -483,7 +483,7 @@
     <Content Include="Views\TakeCash\List.cshtml" />
     <Content Include="Task\.idea\task.iml" />
     <Content Include="Task\js\flexible.4" />
-    <Content Include="Views\Task\UpImg.cshtml" />
+    <Content Include="Views\Home\UpImg.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

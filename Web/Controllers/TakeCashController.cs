@@ -41,6 +41,14 @@ namespace IMS.Web.Controllers
             long res = await takeCashService.AddAsync(userId,payTypeId,amount, "");
             if(res<=0)
             {
+                if (res == -2)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "账户余额不足" });
+                }
+                if (res == -4)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "未绑定信息，请绑定信息后再申请", Data = "/user/bindinfo" });
+                }
                 return Json(new AjaxResult { Status = 0, Msg = "提现申请失败" });
             }
             return Json(new AjaxResult { Status = 1,Msg="提现申请成功" });

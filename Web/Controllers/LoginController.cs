@@ -42,7 +42,7 @@ namespace IMS.Web.Controllers
             }
             else
             {
-                return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/task/index" });
+                return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/home/index" });
             }
         }
         public ActionResult Register()

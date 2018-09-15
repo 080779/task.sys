@@ -20,7 +20,7 @@
     </div>
     <div class="itemslist-bg">
         <div class="itemslist-panel">
-            <p id="index_page"><a href="/task/index">首页</a></p>
+            <p id="index_page"><a href="/home/index">首页</a></p>
             <p id="index_mytask"><a href="/user/mytask"> 我的任务</a></p>
             <p id="index_user"><a href="/user/center">个人中心</a> </p>
         </div>
@@ -36,7 +36,7 @@
                 <div v-for="task in newtasks">
                     <!--新上线任务-->
                     <div class="index_box_active">
-                        <a v-bind:href="'/task/detail?id='+ task.id">
+                        <a v-bind:href="'/home/detail?id='+ task.id">
                             <div class="index_box-left">
                                 <div><img src="/Task/images/taskimg.png" /></div>
                                 <div v-html="task.title"></div>
@@ -51,7 +51,7 @@
                 <div v-for="task in tasks">
                     <!--任务大厅-->
                     <div class="index_box_active">
-                        <a v-bind:href="'/task/detail?id='+ task.id">
+                        <a v-bind:href="'/home/detail?id='+ task.id">
                             <div class="index_box-left">
                                 <div><img src="/Task/images/taskimg.png" /></div>
                                 <div v-html="task.title"></div>
@@ -77,7 +77,7 @@
             },
             methods: {
                 newtask: function () {
-                    this.$http.post('/task/get', { within: 7 }, { emulateJSON: true }).then(function (result) {
+                    this.$http.post('/home/get', { within: 7 }, { emulateJSON: true }).then(function (result) {
                         this.newtasks = result.data.data.tasks;
                     });
                 },
@@ -92,7 +92,7 @@
                     }
                 },
                 task: function () {
-                    this.$http.post('/task/get', {}, { emulateJSON: true }).then(function (result) {
+                    this.$http.post('/home/get', {}, { emulateJSON: true }).then(function (result) {
                         this.tasks = result.data.data.tasks;
                     });
                 }

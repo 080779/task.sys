@@ -244,7 +244,7 @@
             confirm: function (id) {
                 var that = this;
                 layer.confirm('确定通过审核吗？', {
-                    btn: ['重要', '奇葩'] //按钮
+                    btn: ['确认', '取消'] //按钮
                 }, function () {
                     that.$http.post('/admin/forward/confirm', { id: id, auditState: true }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {

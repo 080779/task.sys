@@ -57,7 +57,7 @@
                     data: { name: name, password: password },
                     success: function (res) {
                         if (res.status == 1) {
-                            window.location.href = "/task/index";
+                            window.location.href = res.data;
                         }
                         else if (res.status == 0) {
                             layer.msg(res.msg, { icon: 1 });

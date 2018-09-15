@@ -82,7 +82,7 @@
     {
         <div class="concact-button-btt">
             <div class="button-left" id="giveup">放弃任务</div>
-            <div class="button-right"><a href="/task/upimg?id=@Model.Task.Id">提交审核</a></div>
+            <div class="button-right"><a href="/home/upimg?id=@Model.Task.Id">提交审核</a></div>
         </div>
     }
     else if (Model.ForwardStateName == "审核中")
@@ -108,7 +108,7 @@
             var id = $("#id").val();
             $("#accept").click(function () {
                 $.ajax({
-                    url: "/task/accept",
+                    url: "/home/accept",
                     type: "post",
                     data: { id: id },
                     success: function (res) {
@@ -129,7 +129,7 @@
 
             $("#giveup").click(function () {
                 $.ajax({
-                    url: "/task/giveup",
+                    url: "/home/giveup",
                     type: "post",
                     data: { id: id },
                     success: function (res) {

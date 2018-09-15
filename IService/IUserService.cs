@@ -15,6 +15,7 @@ namespace IMS.IService
         Task<long> CheckUserNameAsync(string name);
         bool CheckUserId(long id);
         Task<bool> BindInfoAsync(long id, string mobile,string trueName,string wechatPayCode,string aliPayCode);
+        string GetPayInfo(long userId,string payTypeName);
         Task<decimal> GetAmountByIdAsync(long id);
         Task<string> GetMobileByIdAsync(long id);
         Task<UserDTO> GetModelAsync(long id);

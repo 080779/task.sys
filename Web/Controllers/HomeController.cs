@@ -12,7 +12,7 @@ using System.Web.Mvc;
 
 namespace IMS.Web.Controllers
 {
-    public class TaskController : Controller
+    public class HomeController : Controller
     {
         private int pageSize = 10;
         private long userId = CookieHelper.GetLoginId();
@@ -83,7 +83,7 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "提交审核失败" });
             }
-            return Json(new AjaxResult { Status = 1, Msg = "提交审核成功",Data="/task/detail?id="+id });
+            return Json(new AjaxResult { Status = 1, Msg = "提交审核成功",Data="/home/detail?id="+id });
         }
     }
 }

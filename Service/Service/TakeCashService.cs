@@ -30,6 +30,7 @@ namespace IMS.Service.Service
             dto.Mobile = entity.User.Mobile;
             dto.Code = entity.User.Code;
             dto.AdminMobile = entity.AdminMobile;
+            dto.UserId = entity.UserId;
             return dto;
         }
 
@@ -44,6 +45,10 @@ namespace IMS.Service.Service
                 if((await dbc.GetDecimalParameterAsync<UserEntity>(u => u.Id == userId,u=>u.Amount)) < amount)
                 {
                     return -2;
+                }
+                if(string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
+                {
+                    return -4;
                 }
 
                 TakeCashEntity entity = new TakeCashEntity();
@@ -63,7 +68,7 @@ namespace IMS.Service.Service
             }
         }
         
-        public async Task<long> Confirm(long id,long adminId)
+        public async Task<long> Confirm(long id,long adminId, bool isSuccess)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -81,18 +86,28 @@ namespace IMS.Service.Service
                 {
                     return -3;
                 }
-                user.Amount = user.Amount - takeCash.Amount;
-                takeCash.StateId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "已结款")).Id;
-                takeCash.AdminMobile = (await dbc.GetAll<AdminEntity>().SingleOrDefaultAsync(a => a.Id == adminId)).Mobile;
-                JournalEntity journal = new JournalEntity();
-                journal.OutAmount = takeCash.Amount;
-                journal.JournalTypeId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "余额提现")).Id;
-                journal.Remark = "余额提现";
-                journal.UserId = takeCash.UserId;
-                journal.BalanceAmount = user.Amount;
-                dbc.Journals.Add(journal);
-                await dbc.SaveChangesAsync();
-                return takeCash.Id;
+                if(isSuccess==false)
+                {
+                    takeCash.StateId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "已取消")).Id;
+                    takeCash.AdminMobile = (await dbc.GetAll<AdminEntity>().SingleOrDefaultAsync(a => a.Id == adminId)).Mobile;
+                    await dbc.SaveChangesAsync();
+                    return -4;
+                }
+                else
+                {
+                    user.Amount = user.Amount - takeCash.Amount;
+                    takeCash.StateId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "已结款")).Id;
+                    takeCash.AdminMobile = (await dbc.GetAll<AdminEntity>().SingleOrDefaultAsync(a => a.Id == adminId)).Mobile;
+                    JournalEntity journal = new JournalEntity();
+                    journal.OutAmount = takeCash.Amount;
+                    journal.JournalTypeId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "余额提现")).Id;
+                    journal.Remark = "余额提现";
+                    journal.UserId = takeCash.UserId;
+                    journal.BalanceAmount = user.Amount;
+                    dbc.Journals.Add(journal);
+                    await dbc.SaveChangesAsync();
+                    return takeCash.Id;
+                }                
             }
         }
 
