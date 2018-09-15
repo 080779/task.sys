@@ -15,6 +15,7 @@ namespace IMS.Web.Controllers
         private int pageSize = 10;
         private long userId = CookieHelper.GetLoginId();
         public ITakeCashService takeCashService { get; set; }
+        public IIdNameService idNameService { get; set; }
         public IUserService userService { get; set; }
         [HttpGet]
         public ActionResult List()
@@ -24,7 +25,8 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> List(int pageIndex = 1)
         {
-            TakeCashSearchResult result = await takeCashService.GetModelListAsync(userId,null,null,null,null,pageIndex,pageSize);
+            long stateId = await idNameService.GetIdByNameAsync("已结款");
+            TakeCashSearchResult result = await takeCashService.GetModelListAsync(userId, stateId, null,null,null,pageIndex,pageSize);
             return Json(new AjaxResult { Status = 1, Data = result });
         }
         [HttpGet]

@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="IAdminLogService.cs" />
     <Compile Include="ICollectService.cs" />
+    <Compile Include="IForwardStateService.cs" />
     <Compile Include="IJournalService.cs" />
     <Compile Include="IIdNameService.cs" />
     <Compile Include="ISettingService.cs" />

@@ -14,30 +14,45 @@
     <div class="top">
         <div class="wrap-white">
             <i class="backto"><a href="javascript:history.back(-1);"></a></i>
-            <div class="ptitle-white">收入记录</div>
+            <div class="ptitle-white">任务记录</div>
             <!--<i class="searchi"><a href="#"></a></i>-->
         </div>
     </div>
     <div id="index_change">
-        @*<div id="nav">
-            <a class="index_on" id="index_on">用户名</a>
-            <a class="index_close" id="index_close">金额</a>
-        </div>*@
+        <div id="nav1">
+            <a class="index_close">任务标题</a>
+            <a class="index_close">任务佣金(元)</a>
+        </div>
         <div id="index_contentBox">
-            <div class="index_box active">
+            <div class="index_box active" v-for="task in tasks">
                 <div class="index_box_active">
-                    <div class="box_left_num">随风奔跑</div>
-                    <div class="box_left_text">10</div>
-                </div>
-
-                <div class="index_box_active">
-                    <div class="box_left_num">随风奔跑</div>
-                    <div class="box_left_text">11</div>
+                    <div class="box_left_num" v-html="task.title"></div>
+                    <div class="box_left_text" v-html="task.bonus"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/assets/layer/layer.js"></script>
+    <script src="~/Task/js/jquery.min.js"></script>
+    <script src="~/js/vue.min2.5.16.js"></script>
+    <script src="~/js/vue-resource.min1.5.0.js"></script>
+    <script>
+        var vue = new Vue({
+            el: "#index_change",
+            data: {
+                tasks: []
+            },
+            methods: {
+
+            },
+            mounted: function () {
+                this.$http.post('/usertask/list', {}, { emulateJSON: true }).then(function (result) {
+                    this.tasks = result.data.data.tasks;
+                });
+            }
+        });
+    </script>
 </body>
 </html>

@@ -88,6 +88,7 @@
     <Compile Include="Service\AdminLogService.cs" />
     <Compile Include="Service\AdminService.cs" />
     <Compile Include="Service\CollectService.cs" />
+    <Compile Include="Service\ForwardStateService.cs" />
     <Compile Include="Service\JournalService.cs" />
     <Compile Include="Service\SettingService.cs" />
     <Compile Include="Service\IdNameService.cs" />
