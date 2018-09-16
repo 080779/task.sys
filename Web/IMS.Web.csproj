@@ -290,6 +290,7 @@
     <Content Include="images\del.png" />
     <Content Include="images\upload.png" />
     <Content Include="images\headpic.png" />
+    <Content Include="js\clipboard.js" />
     <Content Include="js\jquery.cookie.js" />
     <Content Include="js\jquery.uploadimg.js" />
     <Content Include="js\my_pagination.js" />
@@ -418,6 +419,7 @@
     <Compile Include="Areas\Admin\Models\TakeCash\TakeCashListViewModel.cs" />
     <Compile Include="Controllers\AppImgController.cs" />
     <Compile Include="Controllers\CollectController.cs" />
+    <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\UserTaskController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TakeCashController.cs" />
@@ -491,6 +493,8 @@
     <Content Include="Task\js\flexible.4" />
     <Content Include="Views\Home\UpImg.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Test\Index.cshtml" />
+    <Content Include="Views\Test\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

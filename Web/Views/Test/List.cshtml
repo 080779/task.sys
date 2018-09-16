@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>List</title>
+    <script src="~/js/clipboard.js"></script>
+    <script src="~/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+    <div>
+        <input type="text" id="copyVal" readonly value="被复制内容" />
+        <button class="copyBtn" data-clipboard-target="#copyVal">点击复制</button>
+    </div>
+    <script>
+        var btn = $(".copyBtn");
+        //实例化 ClipboardJS对象;
+        //从另外一个元素复制内容
+        var clipboard = new ClipboardJS(".copyBtn");//实例化
+        clipboard.on('success', function (e) {//复制成功执行的回调，可选
+        });
+        clipboard.on('error', function (e) {//复制失败执行的回调，可选
+        });
+    </script>
+</body>
+</html>

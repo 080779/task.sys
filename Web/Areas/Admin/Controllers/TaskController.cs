@@ -23,18 +23,18 @@ namespace IMS.Web.Areas.Admin.Controllers
         [HttpPost]
         //[AdminLog("公告栏管理", "查看公告管理列表")]
         public async Task<ActionResult> List(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
-        {            
+        {
             var result = await taskService.GetModelListAsync(null, keyword, startTime, endTime, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = result });
         }
         [ValidateInput(false)]
         //[AdminLog("公告栏管理", "添加公告管理")]
         //[Permission("公告栏管理_新增公告")]
-        public async Task<ActionResult> Add(string title, decimal bonus, string condition, string explain, string content, DateTime failureTime)
+        public async Task<ActionResult> Add(string title, decimal bonus, string condition, string explain, string content, DateTime endTime)
         {
             long adminId = Convert.ToInt64(Session["Platform_AdminUserId"]);
             string adminMobile = await adminService.GetMobileByIdAsync(adminId);
-            long id = await taskService.AddAsync(title, bonus, condition, explain, content, failureTime, adminMobile);
+            long id = await taskService.AddAsync(title, bonus, condition, explain, content, endTime, adminMobile);
             if (id <= 0)
             {
                 return Json(new AjaxResult { Status = 0, Msg = "添加任务失败" });
@@ -42,12 +42,18 @@ namespace IMS.Web.Areas.Admin.Controllers
             return Json(new AjaxResult { Status = 1, Msg = "添加任务成功" });
         }
 
+        public async Task<ActionResult> GetModel(long id)
+        {
+            var res = await taskService.GetModelAsync(id, 0);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
+
         [ValidateInput(false)]
         //[AdminLog("公告栏管理", "添加公告管理")]
         //[Permission("公告栏管理_修改公告")]
-        public async Task<ActionResult> Edit(long id, string title, decimal bonus, string condition, string explain, string content, DateTime failureTime)
+        public async Task<ActionResult> Edit(long id, string title, decimal bonus, string condition, string explain, string content, DateTime endTime)
         {
-            bool flag = await taskService.EditAsync(id, title, bonus, condition, explain, content, failureTime);
+            bool flag = await taskService.EditAsync(id, title, bonus, condition, explain, content, endTime);
 
             if (!flag)
             {

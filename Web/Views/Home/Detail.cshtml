@@ -60,7 +60,7 @@
                 <div><img src="/Task/images/imfprp.png" /></div>
                 <div class="taskitems_text_num">其他说明</div>
             </div>
-            <div class="taskitems_expalin_text">@Model.Task.Explain</div>
+            <div class="taskitems_expalin_text">@Model.Task.Explain<br>@Model.Task.Url</div>
         </div>
         <!--内容-->
         <div class="taskitems_expalin">
@@ -71,7 +71,7 @@
             <div class="taskitems_expalin_text">@Html.Raw(Model.Task.Content)</div>
         </div>
         <!--复制按钮-->
-        <div class="taskitems_copy">复制内容</div>
+        <div class="taskitems_copy" data-clipboard-target=".taskitems_expalin_text">复制内容</div>
     </div>
     <!--按钮-->
     @if (string.IsNullOrEmpty(Model.ForwardStateName))
@@ -101,6 +101,7 @@
         </div>
     }
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/js/clipboard.js"></script>
     <script src="~/Task/js/jquery.min.js"></script>
     <script src="~/assets/layer/layer.js"></script>
     <script>
@@ -146,6 +147,14 @@
                         layer.msg("网络错误", { icon: 1 });
                     }
                 });
+            });
+
+            //从另外一个元素复制内容
+            var clipboard = new ClipboardJS(".taskitems_copy");//实例化
+            clipboard.on('success', function (e) {//复制成功执行的回调，可选
+                layer.msg("复制成功", { icon: 1 });
+            });
+            clipboard.on('error', function (e) {//复制失败执行的回调，可选
             });
         });
     </script>

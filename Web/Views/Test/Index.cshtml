@@ -1,0 +1,66 @@
+﻿<html>
+<head>
+    <meta charset="UTF-8">
+    <title>clipboard示例</title>
+    <script src="~/js/clipboard.js"></script>
+</head>
+<body>
+
+    <h2>从属性里复制</h2>
+    <!--data-clipboard-text属性的值将会被复制-->
+    <div id="btn" class="js-copy" data-clipboard-text="111-从属性复制">
+        <span>复制到剪切板-111</span>
+    </div>
+    <hr>
+
+    <h2>从另外一个元素复制内容</h2>
+<textarea id="bar">222-从另外一个元素复制内容</textarea>
+    <button id="btn2" data-clipboard-target="#bar">复制到剪切板-222</button>
+    <hr>
+
+    <h2>
+        JS里指定复制的内容
+        <button id="btn3" data-clipboard-target="#bar">复制到剪切板-333</button>
+    </h2>
+
+    <script>
+
+    //从属性里复制
+    var btn = document.getElementById('btn');
+    var clipboard = new Clipboard(btn);//实例化
+    clipboard.on('success', function(e) {//复制成功执行的回调，可选
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {//复制失败执行的回调，可选
+        console.log(e);
+    });
+
+
+    //从另外一个元素复制内容
+    var btn2 = document.getElementById('btn2');
+    var clipboard2 = new Clipboard(btn2);//实例化
+    clipboard2.on('success', function(e) {//复制成功执行的回调，可选
+        console.log(e);
+    });
+    clipboard2.on('error', function(e) {//复制失败执行的回调，可选
+        console.log(e);
+    });
+
+
+    //JS里指定复制的内容
+    var btn3 = document.getElementById('btn3');
+    var clipboard3 = new Clipboard(btn3, {
+        text: function() {
+            return '333-JS里指定复制的内容';
+        }
+    });
+    clipboard3.on('success', function(e) {//复制成功执行的回调，可选
+        console.log(e);
+    });
+    clipboard3.on('error', function(e) {//复制失败执行的回调，可选
+        console.log(e);
+    });
+
+    </script>
+</body>
+</html>
