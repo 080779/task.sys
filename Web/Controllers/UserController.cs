@@ -35,7 +35,7 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> GetCollects(int pageIndex=1)
         {
-            var res = await taskService.GetModelListCollectAsync(userId, pageIndex, pageSize);
+            var res = await taskService.GetModelListCollectAsync(userId, pageIndex, 30);
             return Json(new AjaxResult { Status = 1, Data=res });
         }
 

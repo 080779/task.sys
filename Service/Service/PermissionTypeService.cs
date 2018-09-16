@@ -22,6 +22,22 @@ namespace IMS.Service.Service
             dto.Name = entity.Name;
             return dto;
         }
+
+        public async Task<bool> DelByNameAsync(string name)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                PermissionTypeEntity permissionType = await dbc.GetAll<PermissionTypeEntity>().SingleOrDefaultAsync(i => i.Name == name);
+                if (permissionType == null)
+                {
+                    return false;
+                }
+                permissionType.IsDeleted = true;
+                await dbc.SaveChangesAsync();
+                return true;
+            }
+        }
+
         public async Task<PermissionTypeDTO[]> GetModelList()
         {
             using (MyDbContext dbc = new MyDbContext())

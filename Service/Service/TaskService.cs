@@ -67,7 +67,7 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<long> AddAsync(string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime, string publisher)
+        public async Task<long> AddAsync(string title, decimal bonus, string condition, string explain, string content, DateTime endTime, string publisher)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -78,7 +78,7 @@ namespace IMS.Service.Service
                 task.Condition = condition;
                 task.Explain = explain;
                 task.Content = content;
-                task.StartTime = startTime;
+                //task.StartTime = startTime;
                 task.EndTime = endTime;
                 task.Publisher = publisher;
                 dbc.Tasks.Add(task);
@@ -87,7 +87,7 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<bool> EditAsync(long id, string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime)
+        public async Task<bool> EditAsync(long id, string title, decimal bonus, string condition, string explain, string content, DateTime endTime)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -101,7 +101,7 @@ namespace IMS.Service.Service
                 task.Condition = condition;
                 task.Explain = explain;
                 task.Content = content;
-                task.StartTime = startTime;
+                //task.StartTime = startTime;
                 task.EndTime = endTime;
                 await dbc.SaveChangesAsync();
                 return true;
@@ -141,7 +141,7 @@ namespace IMS.Service.Service
             using (MyDbContext dbc = new MyDbContext())
             {
                 TaskSearchResult result = new TaskSearchResult();
-                IQueryable<TaskEntity> tasks = dbc.GetAll<CollectEntity>().Where(c => c.UserId == userId).Select(c=>c.Task);
+                IQueryable<TaskEntity> tasks = dbc.GetAll<CollectEntity>().Where(c => c.UserId == userId).Select(c => c.Task).Where(t => t.IsDeleted == false);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
@@ -160,7 +160,7 @@ namespace IMS.Service.Service
                 {
                     forwards = forwards.Where(f=>f.StateId==forwardStateId);
                 }
-                IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task);
+                IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task).Where(t => t.IsDeleted == false);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
@@ -174,7 +174,7 @@ namespace IMS.Service.Service
             {
                 TaskSearchResult result = new TaskSearchResult();
                 IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>().Where(c => c.UserId == userId).Where(c=>c.State.Name== "已接受" || c.State.Name== "审核中");
-                IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task);
+                IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task).Where(t => t.IsDeleted == false);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
@@ -215,7 +215,7 @@ namespace IMS.Service.Service
                 var entities = dbc.GetAll<TaskEntity>().Where(t=>t.IsEnabled==true);
                 if (!string.IsNullOrEmpty(keyword))
                 {
-                    entities = entities.Where(g => g.Title.Contains(keyword));
+                    entities = entities.Where(g => g.Title.Contains(keyword) || g.Condition.Contains(keyword) || g.Explain.Contains(keyword) || g.Content.Contains(keyword));
                 }
                 if (startTime != null)
                 {

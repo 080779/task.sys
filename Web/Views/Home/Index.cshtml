@@ -15,7 +15,7 @@
         <div class="wrap-white">
             <i class="itemslist"><a href="#"></a></i>
             <div class="ptitle-white">首页</div>
-            <i class="searchi"><a href="#"></a></i>
+            <i class="searchi"><a href="/home/search"></a></i>
         </div>
     </div>
     <div class="itemslist-bg">
@@ -28,38 +28,36 @@
     <!--任务-->
     <div id="index_change">
         <div id="nav">
-            <a v-on:click="newtask" class="index_on" id="index_on">新上线任务</a>
-            <a v-on:click="task" class="index_close" id="index_close">任务大厅</a>
+            <a class="index_on" id="index_on">新上线任务</a>
+            <a class="index_close" id="index_close">任务大厅</a>
         </div>
         <div id="index_contentBox">
             <div class="index_box active">
-                <div v-for="task in newtasks">
-                    <!--新上线任务-->
-                    <div class="index_box_active">
-                        <a v-bind:href="'/home/detail?id='+ task.id">
-                            <div class="index_box-left">
-                                <div><img src="/Task/images/taskimg.png" /></div>
-                                <div v-html="task.title"></div>
-                            </div>
-                        </a>                        
-                        <div class="box-star"><img v-on:click="newtaskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
-                    </div>
+                <!--新上线任务-->
+                <div class="index_box_active" v-for="task in newtasks">
+                    <a v-bind:href="'/home/detail?id='+ task.id">
+                        <div class="index_box-left">
+                            <div><img src="/Task/images/taskimg.png" /></div>
+                            <div v-html="task.title"></div>
+                        </div>
+                    </a>
+                    <div class="box-star"><img v-bind:id="'taskimgstar'+ task.id" v-on:click="taskcollect(task.id,1)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                 </div>
+                <div style="text-align:center;font-size:15px" id="loadmore" v-on:click="loadmore">加载更多</div>
             </div>
 
             <div class="index_box">
-                <div v-for="task in tasks">
-                    <!--任务大厅-->
-                    <div class="index_box_active">
-                        <a v-bind:href="'/home/detail?id='+ task.id">
-                            <div class="index_box-left">
-                                <div><img src="/Task/images/taskimg.png" /></div>
-                                <div v-html="task.title"></div>
-                            </div>
-                        </a>                        
-                        <div class="box-star"><img v-on:click="newtaskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
-                    </div>
+                <!--任务大厅-->
+                <div class="index_box_active" v-for="task in alltasks">
+                    <a v-bind:href="'/home/detail?id='+ task.id">
+                        <div class="index_box-left">
+                            <div><img src="/Task/images/taskimg.png" /></div>
+                            <div v-html="task.title"></div>
+                        </div>
+                    </a>
+                    <div class="box-star"><img v-bind:id="'collectimgstar'+ task.id" v-on:click="taskcollect(task.id,0)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                 </div>
+                <div style="text-align:center;font-size:15px" id="loadmore1" v-on:click="loadmore1">加载更多</div>
             </div>
         </div>
     </div>
@@ -73,32 +71,106 @@
             el: "#index_change",
             data: {
                 newtasks: [],
-                tasks: []
+                alltasks: [],
+                tasks: {
+                    pageIndex: 1,
+                    pageCount: 1
+                },
+                collects: {
+                    pageIndex: 1,
+                    pageCount: 1
+                }
             },
             methods: {
-                newtask: function () {
-                    this.$http.post('/home/get', { within: 7 }, { emulateJSON: true }).then(function (result) {
-                        this.newtasks = result.data.data.tasks;
-                    });
-                },
-                newtaskcollect: function (event,id) {
-                    if ($(event.target).attr("src") == '/Task/images/orstar.png') {
-                        $(event.target).attr("src", "/Task/images/star.png");
-                        this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {});
+                taskcollect: function (id, flag) {
+                    var that = this;
+                    var taskimgstar = $("#taskimgstar" + id);
+                    var collectimgstar = $("#collectimgstar" + id);
+                    if (flag == 1) {
+                        if (taskimgstar.attr("src") == '/Task/images/orstar.png') {
+                            taskimgstar.attr("src", "/Task/images/star.png");
+                            collectimgstar.attr("src", "/Task/images/star.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
+                        else {
+                            taskimgstar.attr("src", "/Task/images/orstar.png");
+                            collectimgstar.attr("src", "/Task/images/orstar.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
                     }
                     else {
-                        $(event.target).attr("src", "/Task/images/orstar.png");
-                        this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {});
+                        if (collectimgstar.attr("src") == '/Task/images/orstar.png') {
+                            taskimgstar.attr("src", "/Task/images/star.png");
+                            collectimgstar.attr("src", "/Task/images/star.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
+                        else {
+                            taskimgstar.attr("src", "/Task/images/orstar.png");
+                            collectimgstar.attr("src", "/Task/images/orstar.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
                     }
                 },
-                task: function () {
-                    this.$http.post('/home/get', {}, { emulateJSON: true }).then(function (result) {
-                        this.tasks = result.data.data.tasks;
-                    });
+                loadmore: function () {
+                    if (this.tasks.pageIndex <= this.tasks.pageCount) {
+                        var that = this;
+                        this.$http.post('/home/get', { within: 0, pageIndex: this.tasks.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                            that.tasks.pageCount = result.data.data.pageCount;
+                            if (that.tasks.pageCount <= 0) {
+                                $("#loadmore").text("没有更多了");
+                            }
+                            else {
+                                $.each(result.data.data.tasks, function (i, task) {
+                                    that.newtasks.push(task);
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        $("#loadmore").text("没有更多了");
+                    }
+                },
+                loadmore1: function () {
+                    if (this.collects.pageIndex <= this.collects.pageCount) {
+                        var that = this;
+                        this.$http.post('/home/get', { pageIndex: this.collects.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                            that.collects.pageCount = result.data.data.pageCount;
+                            if (that.collects.pageCount <= 0) {
+                                $("#loadmore1").text("没有更多了");
+                            }
+                            else {
+                                $.each(result.data.data.tasks, function (i, task) {
+                                    that.alltasks.push(task);
+                                });
+                            }
+                        });
+                    }
+                    else {
+                        $("#loadmore1").text("没有更多了");
+                    }
                 }
             },
             mounted: function () {
-                this.newtask();
+                //this.loadmore();
+                //this.loadmore1();
+                this.$http.post('/home/get', { within: 0, pageIndex: this.tasks.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                    this.tasks.pageCount = result.data.data.pageCount;
+                    if (this.tasks.pageCount < this.tasks.pageIndex) {
+                        $("#loadmore").text("没有更多了");
+                    }
+                    this.newtasks = result.data.data.tasks;
+                });
+                this.$http.post('/home/get', { pageIndex: this.collects.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                    this.collects.pageCount = result.data.data.pageCount;
+                    if (this.collects.pageCount < this.collects.pageIndex) {
+                        $("#loadmore1").text("没有更多了");
+                    }
+                    this.alltasks = result.data.data.tasks;
+                });
             }
         });
     </script>

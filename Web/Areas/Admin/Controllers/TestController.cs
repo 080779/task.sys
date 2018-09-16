@@ -16,9 +16,23 @@ namespace IMS.Web.Areas.Admin.Controllers
     public class TestController : Controller
     {
         private static ILog log = LogManager.GetLogger(typeof(TestController));
+        public IAdminLogService adminLogService { get; set; }
+        public IPermissionTypeService permissionTypeService { get; set; }
         public ActionResult List()
-        {            
+        {
+            permissionTypeService.DelByNameAsync("佣金记录");
             return View();
+        }
+
+        public ActionResult Layui()
+        {
+            return View();
+        }
+
+        public async Task<ActionResult> GetPage(int pageIndex = 1)
+        {
+            var res = await adminLogService.GetModelListAsync(null, null, null, null, pageIndex, 5);
+            return Json(new AjaxResult { Status = 1, Data = res });
         }
 
         public ActionResult Index()

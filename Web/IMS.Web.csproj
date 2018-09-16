@@ -270,6 +270,10 @@
     <Content Include="assets\layer\skin\default\loading-2.gif" />
     <Content Include="assets\layer\skin\layer.css" />
     <Content Include="assets\layer\skin\layer.ext.css" />
+    <Content Include="assets\layui\css\layui.css" />
+    <Content Include="assets\layui\lay\modules\flow.js" />
+    <Content Include="assets\layui\layui.js" />
+    <Content Include="assets\layui\lay\modules\jquery.js" />
     <Content Include="assets\src\laydate.js" />
     <Content Include="assets\src\theme\default\font\iconfont.svg" />
     <Content Include="assets\src\theme\default\laydate.css" />
@@ -336,6 +340,8 @@
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\Forward\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Test\Layui.cshtml" />
+    <Content Include="assets\layui\font\iconfont.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -484,6 +490,7 @@
     <Content Include="Task\.idea\task.iml" />
     <Content Include="Task\js\flexible.4" />
     <Content Include="Views\Home\UpImg.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

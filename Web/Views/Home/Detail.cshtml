@@ -68,7 +68,7 @@
                 <div><img src="/Task/images/white.png" /></div>
                 <div class="taskitems_text_num">内容</div>
             </div>
-            <div class="taskitems_expalin_text">@Model.Task.Content</div>
+            <div class="taskitems_expalin_text">@Html.Raw(Model.Task.Content)</div>
         </div>
         <!--复制按钮-->
         <div class="taskitems_copy">复制内容</div>

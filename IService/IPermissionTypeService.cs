@@ -9,6 +9,7 @@ namespace IMS.IService
 {
     public interface IPermissionTypeService:IServiceSupport
     {
+        Task<bool> DelByNameAsync(string name);
         Task<PermissionTypeDTO[]> GetModelList();
     }
 }

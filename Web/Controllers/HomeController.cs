@@ -22,6 +22,18 @@ namespace IMS.Web.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Search(string keyword, int pageIndex = 1)
+        {
+            var res = await taskService.GetModelListAsync(userId, keyword, null, null, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
 
         public async Task<ActionResult> Get(int? within, int pageIndex=1)
         {

@@ -18,7 +18,7 @@ namespace IMS.Service.Entity
         public string Explain { get; set; }//任务简介说明
         public string Content { get; set; }//任务内容
         public string Url { get; set; }//页面地址
-        public DateTime StartTime { get; set; }//任务开始时间
+        public DateTime StartTime { get; set; } = DateTime.Now;//任务开始时间
         public DateTime EndTime { get; set; }//任务结束时间
         public string Publisher { get; set; }//发布人
         public bool IsEnabled { get; set; } = true;

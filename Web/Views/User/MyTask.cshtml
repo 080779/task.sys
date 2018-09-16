@@ -15,7 +15,7 @@
         <div class="wrap-white">
             <i class="itemslist"><a href="#"></a></i>
             <div class="ptitle-white">我的任务</div>
-            <i class="searchi"><a href="#"></a></i>
+            <i class="searchi"><a href="/home/search"></a></i>
         </div>
     </div>
     <div class="itemslist-bg">
@@ -28,38 +28,36 @@
     <!--任务-->
     <div id="index_change">
         <div id="nav">
-            <a v-on:click="tasking" class="index_on" id="index_on">进行中的任务</a>
-            <a v-on:click="collecttask" class="index_close" id="index_close">收藏的任务</a>
+            <a class="index_on" id="index_on">进行中的任务</a>
+            <a v-on:click="collect" class="index_close" id="index_close">收藏的任务</a>
         </div>
         <div id="index_contentBox">
             <div class="index_box active">
-                <div v-for="task in taskings">
-                    <!--新上线任务-->
-                    <div class="index_box_active">
-                        <a v-bind:href="'/home/detail?id='+ task.id">
-                            <div class="index_box-left">
-                                <div><img src="/Task/images/taskimg.png" /></div>
-                                <div v-html="task.title"></div>
-                            </div>
-                        </a>
-                        <div class="box-star"><img v-on:click="taskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
-                    </div>
+                <!--进行中的任务-->
+                <div class="index_box_active" v-for="task in taskings">
+                    <a v-bind:href="'/home/detail?id='+ task.id">
+                        <div class="index_box-left">
+                            <div><img src="/Task/images/taskimg.png" /></div>
+                            <div v-html="task.title"></div>
+                        </div>
+                    </a>
+                    <div class="box-star"><img v-bind:id="'taskimgstar'+ task.id" v-on:click="taskcollect(task.id,1)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                 </div>
+                <div style="text-align:center;font-size:15px" id="loadmore" v-on:click="loadmore">加载更多</div>
             </div>
 
             <div class="index_box">
-                <div v-for="task in collecttasks">
-                    <!--任务大厅-->
-                    <div class="index_box_active">
-                        <a v-bind:href="'/home/detail?id='+ task.id">
-                            <div class="index_box-left">
-                                <div><img src="/Task/images/taskimg.png" /></div>
-                                <div v-html="task.title"></div>
-                            </div>
-                        </a>
-                        <div class="box-star"><img v-on:click="taskcollect($event,task.id)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
-                    </div>
+                <!--收藏的任务-->
+                <div class="index_box_active" v-for="task in collecttasks">
+                    <a v-bind:href="'/home/detail?id='+ task.id">
+                        <div class="index_box-left">
+                            <div><img src="/Task/images/taskimg.png" /></div>
+                            <div v-html="task.title"></div>
+                        </div>
+                    </a>
+                    <div class="box-star"><img v-bind:id="'collectimgstar'+ task.id" v-on:click="taskcollect(task.id,0)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                 </div>
+                <div style="text-align:center;font-size:15px" id="loadmore1" v-on:click="loadmore1"></div>
             </div>
         </div>
     </div>
@@ -73,36 +71,92 @@
             el: "#index_change",
             data: {
                 taskings: [],
-                collecttasks: []
+                collecttasks: [],
+                task: {
+                    pageIndex: 1,
+                    pageCount: 1
+                },
+                collects: {
+                    pageIndex: 1,
+                    pageCount: 1
+                }
             },
             methods: {
-                tasking: function () {
-                    this.taskings = [];
-                    this.$http.post('/user/getforwards', {}, { emulateJSON: true }).then(function (result) {
-                        this.taskings = result.data.data.tasks;
-                    });
+                taskcollect: function (id, flag) {
+                    var that = this;
+                    var taskimgstar = $("#taskimgstar" + id);
+                    var collectimgstar = $("#collectimgstar" + id);
+                    if (flag == 1) {
+                        if (taskimgstar.attr("src") == '/Task/images/orstar.png') {
+                            taskimgstar.attr("src", "/Task/images/star.png");
+                            collectimgstar.attr("src", "/Task/images/star.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
+                        else {
+                            taskimgstar.attr("src", "/Task/images/orstar.png");
+                            collectimgstar.attr("src", "/Task/images/orstar.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
+                    }
+                    else {                        
+                        if (collectimgstar.attr("src") == '/Task/images/orstar.png') {
+                            taskimgstar.attr("src", "/Task/images/star.png");
+                            collectimgstar.attr("src", "/Task/images/star.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {                               
+                            });
+                        }
+                        else {
+                            taskimgstar.attr("src", "/Task/images/orstar.png");
+                            collectimgstar.attr("src", "/Task/images/orstar.png");
+                            this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
+                            });
+                        }
+                    }
                 },
-                taskcollect: function (event, id) {
-                    if ($(event.target).attr("src") == '/Task/images/orstar.png') {
-                        $(event.target).attr("src", "/Task/images/star.png");
-                        this.$http.post('/collect/set', { taskId: id, isCollect: false }, { emulateJSON: true }).then(function (result) {
+                loadmore: function () {
+                    if (this.task.pageIndex <= this.task.pageCount) {
+                        var that = this;
+                        this.$http.post('/user/getforwards', { pageIndex: this.task.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                            that.task.pageCount = result.data.data.pageCount;
+                            if (that.task.pageCount <= 0) {
+                                $("#loadmore").text("没有更多了");
+                            }
+                            else {
+                                $.each(result.data.data.tasks, function (i, task) {
+                                    that.taskings.push(task);
+                                });
+                            }                            
                         });
                     }
                     else {
-                        $(event.target).attr("src", "/Task/images/orstar.png");
-                        this.$http.post('/collect/set', { taskId: id, isCollect: true }, { emulateJSON: true }).then(function (result) {
-                        });
-                    }
+                        $("#loadmore").text("没有更多了");
+                    }                    
                 },
-                collecttask: function () {
+                collect: function () {
                     this.collecttasks = [];
-                    this.$http.post('/user/getcollects', {}, { emulateJSON: true }).then(function (result) {
-                        this.collecttasks = result.data.data.tasks;
+                    this.$http.post('/user/getcollects', { }, { emulateJSON: true }).then(function (result) {
+                        this.collects.pageCount = result.data.data.pageCount;
+                        if (this.collects.pageCount < this.collects.pageIndex) {
+                            $("#loadmore1").text("没有更多了");
+                        }
+                        else {
+                            $("#loadmore1").text("");
+                            this.collecttasks = result.data.data.tasks;
+                        }
                     });
                 }
             },
             mounted: function () {
-                this.tasking();
+                this.$http.post('/user/getforwards', { pageIndex: this.task.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                    this.task.pageCount = result.data.data.pageCount;
+                    if (this.task.pageCount < this.task.pageIndex) {
+                        $("#loadmore").text("没有更多了");
+                    }
+                    this.taskings = result.data.data.tasks;
+                });
+                this.collect();
             }
         });
     </script>

@@ -22,6 +22,22 @@ namespace IMS.Service.Service
             dto.TypeName = entity.TypeName;
             return dto;
         }
+
+        public async Task<bool> DelByNameAsync(string name)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                IdNameEntity idName = await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i=>i.Name==name);
+                if(idName==null)
+                {
+                    return false;
+                }
+                idName.IsDeleted = true;
+                await dbc.SaveChangesAsync();
+                return true;
+            }            
+        }
+
         public async Task<long> GetIdByNameAsync(string name)
         {
             using (MyDbContext dbc = new MyDbContext())

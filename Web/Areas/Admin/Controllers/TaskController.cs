@@ -30,11 +30,11 @@ namespace IMS.Web.Areas.Admin.Controllers
         [ValidateInput(false)]
         //[AdminLog("公告栏管理", "添加公告管理")]
         //[Permission("公告栏管理_新增公告")]
-        public async Task<ActionResult> Add(string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime)
+        public async Task<ActionResult> Add(string title, decimal bonus, string condition, string explain, string content, DateTime failureTime)
         {
             long adminId = Convert.ToInt64(Session["Platform_AdminUserId"]);
             string adminMobile = await adminService.GetMobileByIdAsync(adminId);
-            long id = await taskService.AddAsync(title, bonus, condition, explain, content, startTime, endTime,adminMobile);
+            long id = await taskService.AddAsync(title, bonus, condition, explain, content, failureTime, adminMobile);
             if (id <= 0)
             {
                 return Json(new AjaxResult { Status = 0, Msg = "添加任务失败" });
@@ -45,9 +45,9 @@ namespace IMS.Web.Areas.Admin.Controllers
         [ValidateInput(false)]
         //[AdminLog("公告栏管理", "添加公告管理")]
         //[Permission("公告栏管理_修改公告")]
-        public async Task<ActionResult> Edit(long id, string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime)
+        public async Task<ActionResult> Edit(long id, string title, decimal bonus, string condition, string explain, string content, DateTime failureTime)
         {
-            bool flag = await taskService.EditAsync(id, title, bonus, condition, explain, content, startTime, endTime);
+            bool flag = await taskService.EditAsync(id, title, bonus, condition, explain, content, failureTime);
 
             if (!flag)
             {
