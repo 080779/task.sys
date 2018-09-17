@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model IMS.DTO.UserDTO
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -47,7 +48,7 @@
         var vue = new Vue({
             el: "#app",
             data: {
-                mobile: "", wechat: "", alipay: "", code: ""
+                mobile: "@Model.Mobile", wechat: "@Model.WechatPayCode", alipay: "@Model.AliPayCode", code: ""
             },
             methods: {
                 btnValid: function () {
@@ -72,11 +73,11 @@
                         layer.msg('短信验证码不能为空', { icon: 1 });
                         return;
                     }
-                    this.$http.post('/user/bindinfo', { id: 1, mobile: this.mobile, wechat: this.wechat, alipay: this.alipay, code: this.code }, { emulateJSON: true }).then(function (result) {
+                    this.$http.post('/user/resetbindinfo', { id: 1, mobile: this.mobile, wechat: this.wechat, alipay: this.alipay, code: this.code }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 1, title: '提示框' }, function () {
-                                window.location.href = "/home/index";
-                            });                            
+                                window.location.href = "/user/center";
+                            });
                         }
                         else if (result.data.status == 0) {
                             layer.msg(result.data.msg, { icon: 1 });

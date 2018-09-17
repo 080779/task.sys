@@ -34,16 +34,10 @@ namespace IMS.Web.Controllers
             Session["Platform_UserId"] = id;
             CookieHelper.Login(id.ToString(), "Platform_UserId", false);
             HttpCookie UserCookie = new HttpCookie("Platform_UserId");
+            UserCookie["Mobile"] = await userService.GetMobileByIdAsync(id);
             UserCookie["Id"] = id.ToString();
             Response.AppendCookie(UserCookie);
-            if (string.IsNullOrEmpty(await userService.GetMobileByIdAsync(id)))
-            {
-                return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/user/bindinfo" });
-            }
-            else
-            {
-                return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/home/index" });
-            }
+            return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/home/index" });
         }
         public ActionResult Register()
         {

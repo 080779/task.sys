@@ -290,6 +290,7 @@
     <Content Include="images\del.png" />
     <Content Include="images\upload.png" />
     <Content Include="images\headpic.png" />
+    <Content Include="js\clipboard.min.js" />
     <Content Include="js\clipboard.js" />
     <Content Include="js\jquery.cookie.js" />
     <Content Include="js\jquery.uploadimg.js" />
@@ -354,13 +355,17 @@
     <Content Include="Task\css\main.css" />
     <Content Include="Task\css\style.css" />
     <Content Include="Task\css\swiper.min.css" />
+    <Content Include="Task\images\aboutus.png" />
     <Content Include="Task\images\bgimg.png" />
     <Content Include="Task\images\button.png" />
+    <Content Include="Task\images\changeuser.png" />
     <Content Include="Task\images\comp.png" />
     <Content Include="Task\images\conred.png" />
+    <Content Include="Task\images\exit.png" />
     <Content Include="Task\images\imfblue.png" />
     <Content Include="Task\images\imfgreen.png" />
     <Content Include="Task\images\imfprp.png" />
+    <Content Include="Task\images\imgtitle.png" />
     <Content Include="Task\images\itemslist.png" />
     <Content Include="Task\images\jiaimg.png" />
     <Content Include="Task\images\left.png" />
@@ -376,6 +381,7 @@
     <Content Include="Task\images\taskimg.png" />
     <Content Include="Task\images\tasknum.png" />
     <Content Include="Task\images\taskthem.png" />
+    <Content Include="Task\images\user.png" />
     <Content Include="Task\images\userimg.png" />
     <Content Include="Task\images\white.png" />
     <Content Include="Task\js\flexible.js" />
@@ -420,6 +426,7 @@
     <Compile Include="Controllers\AppImgController.cs" />
     <Compile Include="Controllers\CollectController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UserTaskController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TakeCashController.cs" />
@@ -489,12 +496,16 @@
     <Content Include="Views\UserTask\Incomes.cshtml" />
     <Content Include="Views\UserTask\List.cshtml" />
     <Content Include="Views\TakeCash\List.cshtml" />
-    <Content Include="Task\.idea\task.iml" />
-    <Content Include="Task\js\flexible.4" />
     <Content Include="Views\Home\UpImg.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\List.cshtml" />
+    <Content Include="Views\Task\Info.cshtml" />
+    <Content Include="Views\User\ResetBindInfo.cshtml" />
+    <Content Include="Views\User\Edit.cshtml" />
+    <Content Include="Task\.idea\task.iml" />
+    <Content Include="Task\js\flexible.4" />
+    <Content Include="Views\Home\About.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>修改个人信息</title>
+    <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
+    <link rel="stylesheet" href="/Task/css/style.css">
+    <script type="text/javascript" charset="utf-8" src="/Task/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
+</head>
+<body class="grey">
+    <div class="top">
+        <div class="wrap-white">
+            <i class="backto"><a href="javascript:history.back(-1);"></a></i>
+            <div class="ptitle-white">修改个人信息</div>
+            <!--<i class="searchi"><a href="search.html"></a></i>-->
+        </div>
+    </div>
+
+    <!--上传图片-->
+    <div style="background: white; padding-bottom: 1rem;width: 100%">
+        <div>
+            <img class="pic" id="pic-user" src="/Task/images/user.png" />
+            <input class="upload" id="file" type="file" style="display: none" />
+        </div>
+
+        <p>请点击选择上传头像</p>
+
+        <p><input id="nickName" class="new-name" placeholder="请输入新的名称"></p>
+
+        <div id="submit" class="submit-button">确认修改</div>
+    </div>
+    <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
+    <script src="~/Task/js/jquery.min.js"></script>
+    <script src="~/assets/layer/layer.js"></script>
+    <script src="~/js/jquery.uploadimg.js"></script>
+    <script>
+        $(function () {
+            $("#submit").click(function () {
+                var file = $("#pic-user").attr("src");
+                var nickName = $("#nickName").val();
+
+                $.ajax({
+                    url: "/user/edit",
+                    type: "post",
+                    data: { file: file, nickName: nickName },
+                    success: function (res) {
+                        if (res.status == 1) {
+                            layer.alert(res.msg, { icon: 1, title: '提示框' }, function () {
+                                window.location.href = res.data;
+                            });
+                        }
+                        else if (res.status == 0) {
+                            layer.alert(res.msg, { icon: 1 });
+                        }
+                    },
+                    error: function () {
+                        layer.msg("网络错误", { icon: 1 });
+                    }
+                });
+            });
+        });
+        uploadpic("#file", "#pic-user");
+        function uploadpic(fileid, img) {
+            var oUpload = new UploadPic();
+            oUpload.init({
+                input: $(fileid)[0],
+                callback: function (base64) {
+                    $(img).attr('src', base64);
+                }
+            });
+        }
+    </script>
+</body>
+</html>

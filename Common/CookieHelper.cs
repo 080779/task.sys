@@ -53,5 +53,17 @@ namespace IMS.Common
                 return 0;
             }            
         }
+
+        public static string GetLoginMobile()
+        {
+            if (HttpContext.Current.Request.Cookies["Platform_UserId"] != null)
+            {
+                return HttpContext.Current.Request.Cookies["Platform_UserId"]["Mobile"];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

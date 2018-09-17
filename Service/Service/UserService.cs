@@ -146,6 +146,14 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<long> CheckUserMobileAsync(long id, string mobile)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                return await dbc.GetIdAsync<UserEntity>(u => u.Id==id && u.Mobile==mobile);
+            }
+        }
+
         public async Task<long> CheckUserNameAsync(string name)
         {
             using (MyDbContext dbc = new MyDbContext())
@@ -167,21 +175,43 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<bool> BindInfoAsync(long id, string mobile, string trueName, string wechatPayCode, string aliPayCode)
+        public async Task<long> BindInfoAsync(long id, string mobile, string trueName, string wechatPayCode, string aliPayCode)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id);
                 if (user == null)
                 {
-                    return false;
+                    return -1;
+                }
+                if((await dbc.GetIdAsync<UserEntity>(u=>u.Mobile==mobile))>0)
+                {
+                    return -2;
                 }
                 user.Mobile = mobile;
                 user.TrueName = trueName;
                 user.WechatPayCode = wechatPayCode;
                 user.AliPayCode = aliPayCode;
                 await dbc.SaveChangesAsync();
-                return true;
+                return user.Id;
+            }
+        }
+
+        public async Task<long> ResetBindInfoAsync(long id, string mobile, string trueName, string wechatPayCode, string aliPayCode)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == id && u.Mobile==mobile);
+                if (user == null)
+                {
+                    return -1;
+                }
+                user.Mobile = mobile;
+                user.TrueName = trueName;
+                user.WechatPayCode = wechatPayCode;
+                user.AliPayCode = aliPayCode;
+                await dbc.SaveChangesAsync();
+                return user.Id;
             }
         }
 

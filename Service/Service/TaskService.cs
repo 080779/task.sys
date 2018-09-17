@@ -16,6 +16,7 @@ namespace IMS.Service.Service
     {
         public TaskDTO ToDTO(TaskEntity entity,long collectId)
         {
+            string domain = System.Configuration.ConfigurationManager.AppSettings["DoMain"];
             TaskDTO dto = new TaskDTO();
             dto.Bonus = entity.Bonus;
             dto.Code = entity.Code;
@@ -29,7 +30,7 @@ namespace IMS.Service.Service
             dto.Publisher = entity.Publisher;
             dto.StartTime = entity.StartTime;
             dto.Title = entity.Title;
-            dto.Url = entity.Url;
+            dto.Url = domain + entity.Url;
             dto.IsCollect = collectId <= 0 ? false : true;
             return dto;
         }
@@ -83,6 +84,8 @@ namespace IMS.Service.Service
                 task.Publisher = publisher;
                 dbc.Tasks.Add(task);
                 await dbc.SaveChangesAsync();
+                task.Url = "/task/info?id=" + task.Id;
+                await dbc.SaveChangesAsync();
                 return task.Id;
             }
         }
@@ -103,6 +106,10 @@ namespace IMS.Service.Service
                 task.Content = content;
                 //task.StartTime = startTime;
                 task.EndTime = endTime;
+                if(string.IsNullOrEmpty(task.Url))
+                {
+                    task.Url= "/task/info?id=" + task.Id;
+                }
                 await dbc.SaveChangesAsync();
                 return true;
             }

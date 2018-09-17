@@ -47,7 +47,7 @@ $(function () {
         $("#btnShow").hide();
         $("#btnHide").show();
     });
-    $('#giveup').click(function(){
+    $('#giveUp').click(function(){
         $("#btnShow").show();
         $("#btnHide").hide();
     });
@@ -60,6 +60,7 @@ $(function() {
             if (objUrl) {
                 $(this).parent().find(".pic").attr("src", objUrl) ; //将图片路径存入src中，显示出图片
             }
+            $("#img-p").hide();
         });
     });
 });
@@ -75,3 +76,4 @@ function getObjectURL(file) {
     }
     return url ;
 }
+

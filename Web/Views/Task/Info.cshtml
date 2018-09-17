@@ -1,0 +1,35 @@
+﻿@model IMS.DTO.TaskDTO
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>内容详情</title>
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" href="css/style.css">
+    <script type="text/javascript" charset="utf-8" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
+</head>
+<body class="grey">
+    <div class="top">
+        <div class="wrap-white">
+            <i class="backto"><a href="javascript:history.back();"></a></i>
+            <div class="ptitle-white">内容详情</div>
+            <!--<i class="searchi"><a href="search.html"></a></i>-->
+        </div>
+    </div>
+    <div class="titleitems_top">
+        <!--内容详情-->
+        <input type="hidden" id="id" value="@Model.Id" />
+        <div class="taskitems_expalin ">
+            <div class="taskitems_text titleitems_content">
+                <div><img src="images/white.png" /></div>
+                <div class="taskitems_text_num ">内容</div>
+            </div>
+            <div class="titleitems_expalin_text">@Html.Raw(Model.Content)</div>
+        </div>
+    </div>
+    <script type="text/javascript" charset="utf-8" src="js/flexible.js"></script>
+</body>
+</html>

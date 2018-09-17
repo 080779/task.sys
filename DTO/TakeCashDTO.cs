@@ -11,7 +11,7 @@ namespace IMS.DTO
         public long UserId { get; set; }
         public string Mobile { get; set; }
         public string Code { get; set; }
-        public string NickName { get; set; }
+        public string Name { get; set; }
         public long StateId { get; set; }
         public decimal? Amount { get; set; }
         public string Description { get; set; }

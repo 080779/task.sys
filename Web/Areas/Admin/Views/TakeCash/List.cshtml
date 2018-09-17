@@ -52,8 +52,8 @@
                     <input class="inline laydate-icon" id="end" style="margin-left:10px;" v-on:focus='getend' />
                 </li>
                 <li>
-                    <label class="l_f">结款信息</label>
-                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="结款信息" style="width:150px" />
+                    <label class="l_f">手机号</label>
+                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="手机号" style="width:150px" />
                 </li>
                 <li style="width:90px;"><button type="button" v-on:click="search" class="btn_search"><i class="icon-search"></i>查询</button></li>
             </ul>
@@ -64,8 +64,8 @@
                     <tr>
                         <th width="60">编号</th>
                         <th width="120">申请时间</th>
-                        <th width="120">会员账号</th>
-                        <th width="120">会员昵称</th>
+                        <th width="100">手机号</th>
+                        <th width="100">会员账号</th>
                         <th width="60">提现金额</th>
                         <th width="100">结款方式</th>
                         <th width="100">账号</th>
@@ -79,14 +79,15 @@
                         <td v-html="takeCashe.id"></td>
                         <td v-html="takeCashe.createTime"></td>
                         <td v-html="takeCashe.mobile"></td>
-                        <td v-html="takeCashe.nickName"></td>
+                        <td v-html="takeCashe.name"></td>
                         <td v-html="takeCashe.amount"></td>
                         <td v-html="takeCashe.typeName"></td>
                         <td v-html="takeCashe.payTypeInfo"></td>
                         <td v-html="takeCashe.stateName"></td>
                         <td v-html="takeCashe.adminMobile"></td>
                         <td>
-                            <a title="标记结款" href="javascript:;" v-bind:disabled="takeCashe.stateName=='已结款'" v-on:click="confirm(takeCashe.id)" class="btn btn-xs btn-warning">标记结款</a>
+                            <a title="标记结款" href="javascript:;" v-bind:disabled="takeCashe.stateName!='未结款'" v-on:click="confirm(takeCashe.id)" class="btn btn-xs btn-warning">标记结款</a>
+                            <a title="取消结款" href="javascript:;" v-bind:disabled="takeCashe.stateName!='未结款'" v-on:click="cancel(takeCashe.id)" class="btn btn-xs btn-warning">取消结款</a>
                         </td>
                     </tr>
                 </tbody>
@@ -223,9 +224,7 @@
             },
             confirm: function (id) {
                 var that = this;
-                layer.confirm('确定通过审核结款吗？', {
-                    btn: ['确认', '取消'] //按钮
-                }, function () {
+                layer.confirm('确定通过审核结款吗？', function () {
                     that.$http.post('/admin/takecash/confirm', { id: id, isSuccess: true }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 0, title: '提示框' });
@@ -242,7 +241,11 @@
                             layer.alert(result.data.msg, { icon: 6, title: '提示框' });
                         }
                     });
-                }, function () {
+                });
+            },
+            cancel: function (id) {
+                var that = this;
+                layer.confirm('确定取消审核结款吗？', function () {
                     that.$http.post('/admin/takecash/confirm', { id: id, isSuccess: false }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 0, title: '提示框' });

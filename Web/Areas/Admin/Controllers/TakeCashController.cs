@@ -23,7 +23,7 @@ namespace IMS.Web.Areas.Admin.Controllers
             return View();
         }
         //[Permission("积分管理_积分管理")]
-        [AdminLog("佣金结款", "查看佣金结款管理列表")]
+        [AdminLog("提现管理", "查看提现管理列表")]
         [HttpPost]
         public async Task<ActionResult> List(long? stateId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
@@ -37,7 +37,7 @@ namespace IMS.Web.Areas.Admin.Controllers
                 Description=t.Description,
                 Id=t.Id,
                 Mobile=t.Mobile,
-                NickName=t.NickName,
+                Name=t.Name,
                 PayTypeInfo=userService.GetPayInfo(t.UserId,t.TypeName),
                 StateId=t.StateId,
                 StateName=t.StateName,
@@ -50,8 +50,8 @@ namespace IMS.Web.Areas.Admin.Controllers
             return Json(new AjaxResult { Status = 1, Data = model });
         }
         [HttpPost]
-        [AdminLog("佣金结款", "确认结款")]
-        [Permission("佣金结款_标记结款")]
+        [AdminLog("提现管理", "标记结款")]
+        [Permission("提现管理_标记结款")]
         public async Task<ActionResult> Confirm(long id, bool isSuccess)
         {
             long res = await takeCashService.Confirm(id, Convert.ToInt64(Session["Platform_AdminUserId"]), isSuccess);

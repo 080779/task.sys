@@ -50,7 +50,7 @@
                 </li>
                 <li>
                     <label class="l_f">会员信息</label>
-                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="会员信息" style="width:150px" />
+                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="手机号" style="width:150px" />
                 </li>
                 <li style="width:90px;"><button type="button" v-on:click="search" class="btn_search"><i class="icon-search"></i>查询</button></li>
             </ul>
@@ -103,7 +103,7 @@
         <!--添加用户图层-->
         <div class="add_menber" id="add" style="display:none">
             <ul class="page-content">
-                <li><label class="label_name">用户名：</label><span class="add_name"><input value="" placeholder="会员账号" v-model="adds.name" type="text" class="text_add" /></span><div class="prompt r_f"></div><a title="检测用户名" href="javascript:;" v-on:click="check" class="btn btn-xs btn-warning">检测用户名</a></li>                
+                <li><label class="label_name">用户名：</label><span class="add_name"><input value="" placeholder="会员账号" v-model="adds.name" type="text" class="text_add" /><a style="margin-left:15px;" title="检测用户名" href="javascript:;" v-on:click="check" class="btn btn-xs btn-warning">检测用户名</a></span><div class="prompt r_f"></div></li>                
                 <li><label class="label_name">登录密码：</label><span class="add_name"><input placeholder="登录密码" type="password" v-model="adds.password" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">确认密码：</label><span class="add_name"><input placeholder="确认密码" type="password" v-model="adds.password1" class="text_add" /></span><div class="prompt r_f"></div></li>
             </ul>
@@ -290,7 +290,7 @@
             },
             frozen: function (id, isenabled) {
                 var that = this;
-                var msg = '会员冻结后将无法登陆商城，确认冻结吗？';
+                var msg = '会员冻结后将无法登录客户端，确认冻结吗？';
                 var msg1 = '是否冻结会员';
                 if (!isenabled) {
                     msg = '确认解冻会员账号吗？';

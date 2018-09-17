@@ -14,7 +14,7 @@
     <div style="background: white;padding-bottom: 1.4rem">
         <div class="top">
             <div class="wrap-white">
-                <i class="backto"><a href="javascript:history.back();"></a></i>
+                <i class="backto"><a href="javascript:history.back(-1);"></a></i>
                 <div class="ptitle-white">任务详情</div>
                 <!--<i class="searchi"><a href="#"></a></i>-->
             </div>
@@ -60,8 +60,9 @@
                 <div><img src="/Task/images/imfprp.png" /></div>
                 <div class="taskitems_text_num">其他说明</div>
             </div>
-            <div class="taskitems_expalin_text">@Model.Task.Explain<br>@Model.Task.Url</div>
+            <textarea style="border:0px" readonly id="explain" class="taskitems_expalin_text">@Model.Task.Explain  @Model.Task.Url</textarea>
         </div>
+        <div id="copy" class="taskitems_copy" data-clipboard-target="#explain">复制内容</div>
         <!--内容-->
         <div class="taskitems_expalin">
             <div class="taskitems_text">
@@ -70,8 +71,6 @@
             </div>
             <div class="taskitems_expalin_text">@Html.Raw(Model.Task.Content)</div>
         </div>
-        <!--复制按钮-->
-        <div class="taskitems_copy" data-clipboard-target=".taskitems_expalin_text">复制内容</div>
     </div>
     <!--按钮-->
     @if (string.IsNullOrEmpty(Model.ForwardStateName))
@@ -101,7 +100,7 @@
         </div>
     }
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
-    <script src="~/js/clipboard.js"></script>
+    <script src="~/js/clipboard.min.js"></script>
     <script src="~/Task/js/jquery.min.js"></script>
     <script src="~/assets/layer/layer.js"></script>
     <script>
@@ -148,10 +147,11 @@
                     }
                 });
             });
-
+            //var btn = document.getElementById("#copy");
             //从另外一个元素复制内容
-            var clipboard = new ClipboardJS(".taskitems_copy");//实例化
+            var clipboard = new ClipboardJS("#copy");//实例化
             clipboard.on('success', function (e) {//复制成功执行的回调，可选
+                console.log(e);
                 layer.msg("复制成功", { icon: 1 });
             });
             clipboard.on('error', function (e) {//复制失败执行的回调，可选

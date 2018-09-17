@@ -22,7 +22,7 @@ namespace IMS.Web.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        //[AdminLog("公告栏管理", "查看公告管理列表")]
+        [AdminLog("转发管理", "查看转发管理列表")]
         public async Task<ActionResult> List(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
             ForwardListViewModel model = new ForwardListViewModel();
@@ -58,7 +58,8 @@ namespace IMS.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        //[AdminLog("公告栏管理", "查看公告管理列表")]
+        [AdminLog("转发管理", "转发审核")]
+        [Permission("转发管理_转发审核")]
         public async Task<ActionResult> Confirm(long id, bool auditState)
         {
             long res = await forwardService.ConfirmAsync(id, auditState);
@@ -66,7 +67,7 @@ namespace IMS.Web.Areas.Admin.Controllers
             {
                 if(res==-3)
                 {
-                    return Json(new AjaxResult { Status = 1, Msg = "取消审核成功" });
+                    return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
                 }
                 return Json(new AjaxResult { Status = 0, Msg = "审核失败" });
             }

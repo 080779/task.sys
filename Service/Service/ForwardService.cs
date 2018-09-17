@@ -43,7 +43,7 @@ namespace IMS.Service.Service
                     return -2;
                 }
 
-                if ((await dbc.GetIdAsync<UserEntity>(u => u.Id == userId)) <= 0)
+                if (string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
                 {
                     return -3;
                 }
@@ -70,7 +70,7 @@ namespace IMS.Service.Service
                     return -5;
                 }
                 forward.StateId = stateId;
-                await dbc.SaveChangesAsync();
+                await dbc.SaveChangesAsync();               
                 return forward.Id;
             }
         }
@@ -89,7 +89,7 @@ namespace IMS.Service.Service
                     return -2;
                 }
 
-                if((await dbc.GetIdAsync<UserEntity>(u=>u.Id==forward.UserId))<=0)
+                if(string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
                 {
                     return -3;
                 }

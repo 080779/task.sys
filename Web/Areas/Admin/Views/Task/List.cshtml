@@ -46,8 +46,8 @@
         <div class="search_style">
             <ul class="search_content clearfix">
                 <li>
-                    <label class="l_f">任务信息</label>
-                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="任务信息" style="width:150px" />
+                    <label class="l_f">任务标题</label>
+                    <input name="" v-model="searchs.keyword" type="text" class="text_add" placeholder="任务标题" style="width:150px" />
                 </li>
                 <li style="width:90px;"><button type="button" v-on:click="search" class="btn_search"><i class="icon-search"></i>查询</button></li>
             </ul>
@@ -107,10 +107,10 @@
         <!--添加用户图层-->
         <div class="add_menber" id="add" style="display:none">
             <ul class="page-content">
-                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" placeholder="任务标题" v-model="adds.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" placeholder="任务佣金" v-model="adds.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" placeholder="完成条件" v-model="adds.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" placeholder="任务简介说明" v-model="adds.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务标题" v-model="adds.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" maxlength="8" placeholder="任务佣金" v-model="adds.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" maxlength="200" placeholder="完成条件" v-model="adds.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务简介说明" v-model="adds.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">失效时间：</label><span class="add_name"><input class="layui-input" id="failureTime" style=" margin-left:10px;" v-on:focus='getfailuretime' /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务内容：</label><div class="prompt r_f"></div></li>
                 <li>
@@ -122,10 +122,10 @@
         <!--修改用户图层-->
         <div class="add_menber" id="edit" style="display:none">
             <ul class="page-content">
-                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" placeholder="任务标题" v-model="edits.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" placeholder="任务佣金" v-model="edits.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" placeholder="完成条件" v-model="edits.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" placeholder="任务简介说明" v-model="edits.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务标题" v-model="edits.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" maxlength="8" placeholder="任务佣金" v-model="edits.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" maxlength="200" placeholder="完成条件" v-model="edits.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务简介说明" v-model="edits.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">失效时间：</label><span class="add_name"><input class="layui-input" id="failureTime1" style=" margin-left:10px;" v-on:focus='getfailuretime1' /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务内容：</label><div class="prompt r_f"></div></li>
                 <li>
@@ -377,14 +377,14 @@
                 elem: '#failureTime',
                 type: 'datetime',
                 done: function (date) {
-                    that.adds.failureTime = date;
+                    that.adds.endTime = date;
                 }
             });
             laydate.render({
                 elem: '#failureTime1',
                 type: 'datetime',
                 done: function (date) {
-                    that.edits.failureTime = date;
+                    that.edits.endTime = date;
                 }
             });
             this.$http.post('/admin/task/list', { keyword: this.searchs.keyword, startTime: this.searchs.startTime, endTime: this.searchs.endTime, pageIndex: this.pages.cur }, { emulateJSON: true }).then(function (result) {
@@ -397,9 +397,19 @@
     //编辑器
     var E = window.wangEditor;
     var editor1 = new E('#content1');
+    editor1.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
+    editor1.customConfig.uploadImgMaxLength = 1
+    editor1.customConfig.uploadImgShowBase64 = true
+    editor1.customConfig.uploadFileName = 'imgfile'
+    editor1.customConfig.uploadImgServer = '/admin/task/upcontentimg'
     editor1.create();
 
     var editor2 = new E('#content2');
+    editor2.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
+    editor2.customConfig.uploadImgMaxLength = 1
+    editor2.customConfig.uploadImgShowBase64 = true
+    editor2.customConfig.uploadFileName = 'imgfile'
+    editor2.customConfig.uploadImgServer = '/admin/task/upcontentimg'
     editor2.create();
 
     //laydate.render({

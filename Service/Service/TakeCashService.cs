@@ -26,7 +26,7 @@ namespace IMS.Service.Service
             dto.TypeName = entity.Type.Name;
             //dto.PayCode = payCode;
             //dto.BankAccount = bankAccount;
-            dto.NickName = entity.User.NickName;
+            dto.Name = entity.User.Name;
             dto.Mobile = entity.User.Mobile;
             dto.Code = entity.User.Code;
             dto.AdminMobile = entity.AdminMobile;
@@ -77,6 +77,13 @@ namespace IMS.Service.Service
                 {
                     return -1;
                 }
+                if (isSuccess == false)
+                {
+                    takeCash.StateId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "已取消")).Id;
+                    takeCash.AdminMobile = (await dbc.GetAll<AdminEntity>().SingleOrDefaultAsync(a => a.Id == adminId)).Mobile;
+                    await dbc.SaveChangesAsync();
+                    return -4;
+                }
                 UserEntity user = await dbc.GetAll<UserEntity>().SingleOrDefaultAsync(u => u.Id == takeCash.UserId);
                 if(user==null)
                 {
@@ -85,14 +92,7 @@ namespace IMS.Service.Service
                 if(takeCash.Amount>user.Amount)
                 {
                     return -3;
-                }
-                if(isSuccess==false)
-                {
-                    takeCash.StateId = (await dbc.GetAll<IdNameEntity>().SingleOrDefaultAsync(i => i.Name == "已取消")).Id;
-                    takeCash.AdminMobile = (await dbc.GetAll<AdminEntity>().SingleOrDefaultAsync(a => a.Id == adminId)).Mobile;
-                    await dbc.SaveChangesAsync();
-                    return -4;
-                }
+                }                
                 else
                 {
                     user.Amount = user.Amount - takeCash.Amount;

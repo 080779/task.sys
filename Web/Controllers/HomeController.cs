@@ -28,6 +28,12 @@ namespace IMS.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult About()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<ActionResult> Search(string keyword, int pageIndex = 1)
         {
@@ -62,6 +68,14 @@ namespace IMS.Web.Controllers
             long res = await forwardService.AcceptAsync(id, userId);
             if(res<=0)
             {
+                if(res==-2)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "任务已失效" });
+                }
+                if(res==-3)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "未绑定信息，请绑定后再接任务" });
+                }
                 return Json(new AjaxResult { Status = 0, Msg = "任务接受失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "任务接受完成" });
@@ -93,6 +107,14 @@ namespace IMS.Web.Controllers
             long res = await forwardService.ForwardAsync(id,userId, path);
             if (res <= 0)
             {
+                if (res == -2)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "任务已失效" });
+                }
+                if (res == -3)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "未绑定信息，请绑定后再提交审核" });
+                }
                 return Json(new AjaxResult { Status = 0, Msg = "提交审核失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "提交审核成功",Data="/home/detail?id="+id });
