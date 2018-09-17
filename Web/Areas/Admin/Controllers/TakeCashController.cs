@@ -61,10 +61,6 @@ namespace IMS.Web.Areas.Admin.Controllers
                 {
                     return Json(new AjaxResult { Status = 1, Msg = "取消结款成功" });
                 }
-                if(res==-3)
-                {
-                    return Json(new AjaxResult { Status = 0, Msg = "账户余额不足,结款失败" });
-                }
                 return Json(new AjaxResult { Status = 0, Msg = "结款失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "结款成功" });
