@@ -26,6 +26,9 @@ namespace IMS.Service.Service
             dto.TaskTitle = entity.Task.Title;
             dto.UserId = entity.UserId;
             dto.UserName = entity.User.Name;
+            dto.Amount = entity.User.Amount;
+            dto.TakeCashAmount = entity.User.TakeCashAmount;
+            dto.BonusAmount = entity.User.BonusAmount;
             return dto;
         }
 
@@ -240,7 +243,7 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<ForwardSearchResult> GetModelListAsync(string keyword, int pageIndex, int pageSize)
+        public async Task<ForwardSearchResult> GetModelListAsync(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -249,6 +252,14 @@ namespace IMS.Service.Service
                 if(!string.IsNullOrEmpty(keyword))
                 {
                     forwards = forwards.Where(f=>f.Task.Title.Contains(keyword));
+                }
+                if (startTime != null)
+                {
+                    forwards = forwards.Where(f => f.CreateTime >= startTime);
+                }
+                if (endTime != null)
+                {
+                    forwards = forwards.Where(f => SqlFunctions.DateDiff("day", endTime, f.CreateTime) <= 0);
                 }
                 result.PageCount = (int)Math.Ceiling((await forwards.LongCountAsync()) * 1.0f / pageSize);
                 var forwordResult = await forwards.Include(f=>f.User).Include(f=>f.Task).Include(f=>f.State).OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();

@@ -26,7 +26,7 @@ namespace IMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> List(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
             ForwardListViewModel model = new ForwardListViewModel();
-            var result = await forwardService.GetModelListAsync(keyword, pageIndex, pageSize);
+            var result = await forwardService.GetModelListAsync(keyword, startTime, endTime, pageIndex, pageSize);
             var res = await forwardService.GetMonthAsync(DateTime.Now);
             model.Forwards = result.Forwards;
             model.PageCount = result.PageCount;

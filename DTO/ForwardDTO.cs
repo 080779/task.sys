@@ -14,6 +14,7 @@ namespace IMS.DTO
         public string UserName { get; set; }
         public decimal Amount { get; set; }
         public decimal TakeCashAmount { get; set; }
+        public decimal BonusAmount { get; set; }
         public long StateId { get; set; }
         public string StateName { get; set; }
         public string ImgUrl { get; set; }

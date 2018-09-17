@@ -17,7 +17,7 @@ namespace IMS.IService
         Task<long> GetUserForwardStatisticalAsync(long userId,DateTime? dateTime);
         Task<ForwardStatisticalResult> GetDayAsync(DateTime? dateTime);
         Task<ForwardStatisticalResult> GetMonthAsync(DateTime? dateTime);
-        Task<ForwardSearchResult> GetModelListAsync(string keyword,int pageIndex,int pageSize);
+        Task<ForwardSearchResult> GetModelListAsync(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize);
     }
     /// <summary>
     /// 转发统计结果类
