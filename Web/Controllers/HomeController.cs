@@ -1,6 +1,7 @@
 ﻿using IMS.Common;
 using IMS.DTO;
 using IMS.IService;
+using IMS.Web.Models.Home;
 using IMS.Web.Models.Task;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace IMS.Web.Controllers
         private long userId = CookieHelper.GetLoginId();
         public ITaskService taskService { get; set; }
         public IForwardService forwardService { get; set; }
+        public ISettingService settingService { get; set; }
         public ActionResult Index()
         {
             return View();
@@ -29,9 +31,14 @@ namespace IMS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult About()
+        public async Task<ActionResult> About()
         {
-            return View();
+            HomeAboutViewModel model = new HomeAboutViewModel();
+            model.Address = await settingService.GetModelByNameAsync("公司地址");
+            model.Phone = await settingService.GetModelByNameAsync("客服电话");
+            model.Logo = await settingService.GetModelByNameAsync("系统LOGO");
+            model.About = await settingService.GetModelByNameAsync("关于我们");
+            return View(model);
         }
 
         [HttpPost]

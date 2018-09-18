@@ -31,7 +31,7 @@ namespace IMS.Web.Controllers
                 }
                 return Json(new AjaxResult { Status = 0, Msg = "用户名或密码错误" });
             }
-            Session["Platform_UserId"] = id;
+            //Session["Platform_UserId"] = id;
             CookieHelper.Login(id.ToString(), "Platform_UserId", false);
             HttpCookie UserCookie = new HttpCookie("Platform_UserId");
             UserCookie["Mobile"] = await userService.GetMobileByIdAsync(id);

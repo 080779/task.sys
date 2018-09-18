@@ -26,9 +26,12 @@ namespace IMS.Web.Areas.Admin.Controllers
         public async Task<ActionResult> List(bool flag=true)
         {
             SettingListViewModel model = new SettingListViewModel();
+            model.Address = await settingService.GetModelByNameAsync("公司地址");
             model.Phone = await settingService.GetModelByNameAsync("客服电话");
             model.Code = await settingService.GetModelByNameAsync("客服二维码");
-            model.AppImg = await settingService.GetModelByNameAsync("App启动图");
+            model.AppImg01 = await settingService.GetModelByNameAsync("App引导图1");
+            model.AppImg02 = await settingService.GetModelByNameAsync("App引导图2");
+            model.AppImg03 = await settingService.GetModelByNameAsync("App引导图3");
             model.Logo = await settingService.GetModelByNameAsync("系统LOGO");
             model.About = await settingService.GetModelByNameAsync("关于我们");
             return Json(new AjaxResult { Status = 1, Data = model });

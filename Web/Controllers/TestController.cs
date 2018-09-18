@@ -17,5 +17,10 @@ namespace IMS.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Copy()
+        {
+            return View();
+        }
     }
 }

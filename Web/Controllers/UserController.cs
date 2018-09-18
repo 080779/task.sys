@@ -68,6 +68,7 @@ namespace IMS.Web.Controllers
             return View(res);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public ActionResult Send(string mobile)
         {
@@ -136,6 +137,12 @@ namespace IMS.Web.Controllers
                     return Json(new AjaxResult { Status = 0, Msg = "该手机号码已被绑定" });
                 }
                 return Json(new AjaxResult { Status = 0, Msg = "绑定失败" });
+            }
+            if (Request.Cookies["Platform_UserId"] != null)
+            {
+                HttpCookie UserCookie = Request.Cookies["Platform_UserId"];
+                UserCookie["Mobile"] = mobile;
+                Response.Cookies.Set(UserCookie);
             }
             return Json(new AjaxResult { Status = 1, Msg = "绑定成功" });
         }

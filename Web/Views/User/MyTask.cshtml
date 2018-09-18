@@ -38,7 +38,7 @@
                     <a v-bind:href="'/home/detail?id='+ task.id">
                         <div class="index_box-left">
                             <div><img src="/Task/images/taskimg.png" /></div>
-                            <div v-html="task.title"></div>
+                            <div class="ovhide2" v-html="task.title"></div>
                         </div>
                     </a>
                     <div class="box-star"><img v-bind:id="'taskimgstar'+ task.id" v-on:click="taskcollect(task.id,1)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
@@ -52,7 +52,7 @@
                     <a v-bind:href="'/home/detail?id='+ task.id">
                         <div class="index_box-left">
                             <div><img src="/Task/images/taskimg.png" /></div>
-                            <div v-html="task.title"></div>
+                            <div class="ovhide2" v-html="task.title"></div>
                         </div>
                     </a>
                     <div class="box-star"><img v-bind:id="'collectimgstar'+ task.id" v-on:click="taskcollect(task.id,0)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>

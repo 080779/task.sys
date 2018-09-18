@@ -1,0 +1,159 @@
+﻿
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>webjavascript</title>
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+			$(function() {
+				/*
+				 * 智能机浏览器版本信息:
+				 */
+				var browser = {
+					versions: function() {
+						/*
+						 * navigator对象的属性
+						 * 浏览器代号: navigator.appCodeName
+						 * 浏览器名称: navigator.appName
+						 * 浏览器版本: navigator.appVersion
+						 * 启用Cookies: navigator.cookieEnabled
+						 * 硬件平台: navigator.platform
+						 * 用户代理: navigator.userAgent
+						 * 用户代理语言: navigator.systemLanguage
+						 */
+						var u = navigator.userAgent,
+							app = navigator.appVersion;
+						return {
+							//移动终端浏览器版本信息
+							trident: u.indexOf('Trident') > -1, //IE内核
+							presto: u.indexOf('Presto') > -1, //opera内核
+							webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+							gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+							mobile: !!u.match(/AppleWebKit.*Mobile.*/) || !!u.match(/AppleWebKit/), //是否为移动终端
+							ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+							android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+							iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
+							iPad: u.indexOf('iPad') > -1, //是否iPad
+							webApp: u.indexOf('Safari') == -1 //是否web应该程序，没有头部与底部
+						};
+					}(),
+					language: (navigator.browserLanguage || navigator.language).toLowerCase()
+				};
+
+				// document.writeln("语言版本: " + browser.language);
+				// document.writeln(" 是否为移动终端: " + browser.versions.mobile);
+				// document.writeln(" ios终端: " + browser.versions.ios);
+				// document.writeln(" android终端: " + browser.versions.android);
+				// document.writeln(" 是否为iPhone: " + browser.versions.iPhone);
+				// document.writeln(" 是否iPad: " + browser.versions.iPad);
+				// document.writeln(navigator.userAgent);
+
+				//type 登录  login  支付宝支付  alipay    微信支付   wechatpay
+				//info  登录  ""    支付宝支付  支付信息    微信支付     支付信息
+
+				//android  方法名  yjshiyeAndroid.callMethod("参数")
+				//ios      方法名  yjshiyeIosCallMethod("参数")
+				$("#callApp").click(function() {
+					var json = {
+						"type": "login",
+						"info": "信息字符"
+					};
+					alert("dfas  "+browser.versions.iPhone +" dsfa "+JSON.stringify(json)  +"   " );
+					if(browser.versions.iPhone) {
+						alert("ios终端");
+
+						//ios  方法名
+						window.webkit.messageHandlers.cfmfIosCallMethod.postMessage(json);
+
+					} else if(browser.versions.android) {
+						alert("android终端");
+
+
+						//window.app的本地类对象.方法（"参数"）；
+						window.yjshiyeAndroid.callMethod(JSON.stringify(json));
+
+
+					}
+				})
+
+				$("#callApppay").click(function() {
+					var json = {
+						"type": "alipay",
+						"info": "alipay_sdk=alipay-sdk-java-dynamicVersionNo&app_id=2017092608933828&biz_content=%7B%22body%22%3A%22mytestdata%22%2C%22out_trade_no%22%3A%222017101114150195357%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22subject%22%3A%22AppPayJava%22%2C%22timeout_express%22%3A%22300m%22%2C%22total_amount%22%3A%220.01%22%7D&charset=utf-8&format=json&method=alipay.trade.app.pay&notify_url=http%3A%2F%2Ffengyeyun.com%2FalipayNotify&sign=DcRk47GgrUT%2BONTecllcA1DTxfYuxNOOzzMHlGm%2BesK2hb%2FXiZL4vW1AvNdNIXr3DyEJ%2B2AVqhRXMtIAS3G8WmArRPzydEYNECzVQKrjv3S2AifopQufEFOej2C9%2BBoORzJAB8tIPyuQ4ZFocuzGMb9ONDmyiAXmfYKXXs1pa%2BhIy9WxI60H%2BeAST3j8wL79AlQBYD6joVYpHgA2JjuWNEhNbNvfEnI%2FjQ5vdLo8uthQxQN2%2BWb5vIKRbte45bRaNyCfVSiJnsZG285MgtxV9zkRyzb%2BABecDhAATOWGQPRYMkthJHLPq%2BEswRrEKPCSpMv3EkgSqn8IkTJL7OYKJw%3D%3D&sign_type=RSA2&timestamp=2017-10-11+14%3A15%3A01&version=1.0"
+					};
+//					alert(JSON.stringify(json));
+					if(browser.versions.iPhone) {
+						alert("ios终端");
+						passValue(json);
+					} else if(browser.versions.android) {
+						alert("android终端");
+						window.android.callMethod(JSON.stringify(json));
+					}
+				});
+
+				$("#makeCall").click(function(){
+					var json = {
+						"type": "makeCall",
+						"info": "aaaa"
+					};
+					alert(JSON.stringify(json));
+					if(browser.versions.iPhone) {
+						alert("ios终端");
+						passValue(json);
+					} else if(browser.versions.android) {
+						alert("android终端");
+						window.yjshiyeAndroid.callMethod(JSON.stringify(json));
+					}
+				})
+
+				$("#callJavascript").click(function(){
+
+					var json = {
+						"type": "login",
+						"info": "信息字符"
+					};
+//					alert(JSON.stringify(json));
+					if(browser.versions.iPhone) {
+						alert("ios终端");
+
+						//ios  方法名
+						yjshiyeIosCallJavaScriptMethod(json);
+
+					} else if(browser.versions.android) {
+						alert("android终端");
+
+						//window.app的本地类对象.方法（"参数"）；
+						window.yjshiyeAndroid.callJavascriptMethod(JSON.stringify(json));
+					}
+				});
+
+			})
+
+			function JavascriptMethod(json){
+		        alert("js收到本地方法消息："+JSON.stringify(json));
+		    }
+    </script>
+
+</head>
+
+<body>
+    <br /><br />
+    <div class="text-center">
+        <button id="callApp" type="button" class="btn btn-primary">登录</button><br /><br />
+        <button id="callApppay" type="button" class="btn btn-primary">支付</button><br /><br />
+        <button id="makeCall" type="button" class="btn btn-primary">拨打电话</button><br /><br />
+        <button id="callJavascript" type="button" class="btn btn-primary">本地方法调用js</button><br /><br />
+    </div>
+    <div>
+        <form method="get" action="#">
+            <input type="file" name="phone" />
+        </form>
+    </div>
+</body>
+
+</html>

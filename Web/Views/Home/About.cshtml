@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model IMS.Web.Models.Home.HomeAboutViewModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -21,7 +22,7 @@
     <div class="titleitems_top">
         <div class="login_content_logo">
 
-            <img src="/Task/images/aboutus.png" height="149" width="151" />
+            <img src="@Model.Logo.Parm" height="149" width="151" />
         </div>
         <!--内容详情-->
         <div class="taskitems_expalin ">
@@ -29,12 +30,12 @@
                 <div><img src="/Task/images/white.png" /></div>
                 <div class="taskitems_text_num ">公司简介</div>
             </div>
-            <div class="titleitems_expalin_text">这是一条很长很长很长很长的主题说明这是一条很长很长很长很长的主题说明这是一条很长这是一条很长很长很长很长的主题说明这是一条很长很长很长很长的主题说明这是一条很长</div>
+            <div class="titleitems_expalin_text">@Model.About.Parm</div>
         </div>
         <!--公司-->
         <div class="com-address">
-            <div>公司地址：南宁市西乡塘区发展大道189号安吉华尔街工谷B座4楼中迅集团</div>
-            <div>客服电话：12345678912</div>
+            <div>公司地址：@Model.Address.Parm</div>
+            <div>客服电话：@Model.Phone.Parm</div>
         </div>
     </div>
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>

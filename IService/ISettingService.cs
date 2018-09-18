@@ -14,5 +14,6 @@ namespace IMS.IService
         Task<string> GetParmByNameAsync(string name);
         Task<SettingDTO> GetModelAsync(long id);
         Task<SettingDTO> GetModelByNameAsync(string name);
+        Task<SettingDTO[]> GetModelListByDescAsync(string desc);
     }
 }

@@ -389,6 +389,7 @@
     <Content Include="Task\js\jquery-1.11.1.min.js" />
     <Content Include="Task\js\jquery.min.js" />
     <Content Include="Task\js\swiper.jquery.min.js" />
+    <Content Include="Task\nav1.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -436,6 +437,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Jobs\AutoConfirmJob.cs" />
+    <Compile Include="Models\Home\HomeAboutViewModel.cs" />
     <Compile Include="Models\Task\TaskDetailViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="wxpay.ashx.cs">
@@ -506,6 +508,7 @@
     <Content Include="Task\.idea\task.iml" />
     <Content Include="Task\js\flexible.4" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Test\Copy.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

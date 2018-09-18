@@ -16,11 +16,17 @@ namespace IMS.Web.Controllers
     public class AppImgController : ApiController
     {
         public ISettingService settingService { get; set; }
+        private string domain = System.Configuration.ConfigurationManager.AppSettings["DoMain"];
         [AllowAnonymous]
+        [HttpPost]
         public async Task<ApiResult> get()
         {
-            string appImg = await settingService.GetParmByNameAsync("App启动图");
-            return new ApiResult { Status = 1, Data = appImg };
+            var res = await settingService.GetModelListByDescAsync("引导");
+            return new ApiResult { Status = 1, Data = res.Select(s => new Image { Img = domain + s.Parm }) };
+        }
+        public class Image
+        {
+            public string Img { get; set; }
         }
     }
 }

@@ -58,6 +58,15 @@ namespace IMS.Service.Service
             }
         }
         
+        public async Task<SettingDTO[]> GetModelListByDescAsync(string desc)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                List<SettingEntity> settings = await dbc.GetAll<SettingEntity>().Include(s => s.Type).AsNoTracking().Where(g => g.Description == desc).ToListAsync();
+                return settings.Select(s => ToDTO(s)).ToArray();
+            }
+        }
+
         public async Task<bool> UpdateAsync(long id, string parm)
         {
             using (MyDbContext dbc = new MyDbContext())

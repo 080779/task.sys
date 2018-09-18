@@ -107,7 +107,7 @@
         <!--添加用户图层-->
         <div class="add_menber" id="add" style="display:none">
             <ul class="page-content">
-                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务标题" v-model="adds.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" maxlength="100" placeholder="任务标题" v-model="adds.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" maxlength="8" placeholder="任务佣金" v-model="adds.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" maxlength="200" placeholder="完成条件" v-model="adds.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务简介说明" v-model="adds.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
@@ -122,7 +122,7 @@
         <!--修改用户图层-->
         <div class="add_menber" id="edit" style="display:none">
             <ul class="page-content">
-                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务标题" v-model="edits.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">任务标题：</label><span class="add_name"><input value="" maxlength="100" placeholder="任务标题" v-model="edits.title" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" maxlength="8" placeholder="任务佣金" v-model="edits.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" maxlength="200" placeholder="完成条件" v-model="edits.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务简介说明" v-model="edits.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
@@ -219,8 +219,13 @@
                             layer.alert('任务标题不能为空', { icon: 0, title: '提示框' });
                             return;
                         }
-                        if (that.adds.bonus == "") {
-                            layer.alert('任务佣金不能为空', { icon: 0, title: '提示框' });
+                        var reg = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+                        if (!reg.test(that.adds.bonus )) {
+                            layer.msg('请输入正确的任务佣金金额', { icon: 1 });
+                            return;
+                        }
+                        if (that.adds.bonus  <= 0) {
+                            layer.msg('任务佣金金额必须大于零', { icon: 1 });
                             return;
                         }
                         if (that.adds.condition == "") {
@@ -279,8 +284,13 @@
                             layer.alert('任务标题不能为空', { icon: 0, title: '提示框' });
                             return;
                         }
-                        if (that.edits.bonus == "") {
-                            layer.alert('任务佣金不能为空', { icon: 0, title: '提示框' });
+                        var reg = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
+                        if (!reg.test(that.edits.bonus)) {
+                            layer.msg('请输入正确的任务佣金金额', { icon: 1 });
+                            return;
+                        }
+                        if (that.edits.bonus <= 0) {
+                            layer.msg('任务佣金金额必须大于零', { icon: 1 });
                             return;
                         }
                         if (that.edits.condition == "") {
