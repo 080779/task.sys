@@ -22,14 +22,14 @@
     <div id="index_change">
         <div id="nav1">
                 <a class="index_close">结款方式</a>
-                <a class="index_close">金额</a>
+                <a class="index_close">金额(元)</a>
             </div>
         <div id="index_contentBox">
             <div id="index_contentBox">
                 <div class="index_box active" v-for="takecash in takeCashes">
                     <div class="index_box_active">
                         <div class="box_left_num" v-html="takecash.typeName"></div>
-                        <div class="box_left_text" v-html="takecash.amount"></div>
+                        <div class="box_left_text" v-html="'-'+takecash.amount"></div>
                     </div>
                 </div>
             </div>

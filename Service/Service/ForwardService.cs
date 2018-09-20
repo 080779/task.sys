@@ -243,7 +243,7 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<ForwardSearchResult> GetModelListAsync(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        public async Task<ForwardSearchResult> GetModelListAsync(string keyword, long? stateId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
@@ -251,7 +251,11 @@ namespace IMS.Service.Service
                 IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>();
                 if(!string.IsNullOrEmpty(keyword))
                 {
-                    forwards = forwards.Where(f=>f.Task.Title.Contains(keyword));
+                    forwards = forwards.Where(f=>f.User.Name.Contains(keyword));
+                }
+                if(stateId!=null)
+                {
+                    forwards = forwards.Where(f=>f.StateId==stateId);
                 }
                 if (startTime != null)
                 {

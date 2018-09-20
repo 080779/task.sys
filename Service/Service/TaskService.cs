@@ -85,6 +85,7 @@ namespace IMS.Service.Service
                 dbc.Tasks.Add(task);
                 await dbc.SaveChangesAsync();
                 task.Url = "/task/info?id=" + task.Id;
+                task.IsEnabled = endTime > DateTime.Now;
                 await dbc.SaveChangesAsync();
                 return task.Id;
             }
@@ -106,7 +107,8 @@ namespace IMS.Service.Service
                 task.Content = content;
                 //task.StartTime = startTime;
                 task.EndTime = endTime;
-                if(string.IsNullOrEmpty(task.Url))
+                task.IsEnabled = endTime > DateTime.Now;
+                if (string.IsNullOrEmpty(task.Url))
                 {
                     task.Url= "/task/info?id=" + task.Id;
                 }
@@ -139,6 +141,8 @@ namespace IMS.Service.Service
                 {
                     return null;
                 }
+                task.IsEnabled = task.EndTime > DateTime.Now;
+                await dbc.SaveChangesAsync();
                 return ToDTO(task, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == id));
             }
         }
@@ -151,6 +155,12 @@ namespace IMS.Service.Service
                 IQueryable<TaskEntity> tasks = dbc.GetAll<CollectEntity>().Where(c => c.UserId == userId).Select(c => c.Task).Where(t => t.IsDeleted == false);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                DateTime now = DateTime.Now;
+                foreach (var task in taskResult)
+                {
+                    task.IsEnabled = task.EndTime > now;
+                }
+                await dbc.SaveChangesAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
                 return result;
             }
@@ -170,6 +180,12 @@ namespace IMS.Service.Service
                 IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task).Where(t => t.IsDeleted == false);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                DateTime now = DateTime.Now;
+                foreach (var task in taskResult)
+                {
+                    task.IsEnabled = task.EndTime > now;
+                }
+                await dbc.SaveChangesAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
                 return result;
             }
@@ -184,6 +200,12 @@ namespace IMS.Service.Service
                 IQueryable<TaskEntity> tasks = forwards.Select(c => c.Task).Where(t => t.IsDeleted == false);
                 result.PageCount = (int)Math.Ceiling((await tasks.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await tasks.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                DateTime now = DateTime.Now;
+                foreach (var task in taskResult)
+                {
+                    task.IsEnabled = task.EndTime > now;
+                }
+                await dbc.SaveChangesAsync();
                 result.Tasks = taskResult.Select(a => ToDTO(a, dbc.GetId<CollectEntity>(c => c.UserId == userId && c.TaskId == a.Id))).ToArray();
                 return result;
             }
@@ -202,7 +224,13 @@ namespace IMS.Service.Service
                 }
                 result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);               
                 var taskResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-                if(userId==null)
+                DateTime now = DateTime.Now;
+                foreach (var task in taskResult)
+                {
+                    task.IsEnabled = task.EndTime > now;
+                }
+                await dbc.SaveChangesAsync();
+                if (userId==null)
                 {
                     result.Tasks = taskResult.Select(a => ToDTO(a,0)).ToArray();
                 }
@@ -214,12 +242,16 @@ namespace IMS.Service.Service
             }
         }
 
-        public async Task<TaskSearchResult> GetModelListAsync(long? userId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
+        public async Task<TaskSearchResult> GetModelListAsync(bool isAdmin, long? userId, string keyword, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize)
         {
             using (MyDbContext dbc = new MyDbContext())
             {
                 TaskSearchResult result = new TaskSearchResult();
-                var entities = dbc.GetAll<TaskEntity>().Where(t=>t.IsEnabled==true);
+                var entities = dbc.GetAll<TaskEntity>();
+                if(!isAdmin)
+                {
+                    entities = entities.Where(t=>t.IsEnabled==true);
+                }
                 if (!string.IsNullOrEmpty(keyword))
                 {
                     entities = entities.Where(g => g.Title.Contains(keyword) || g.Condition.Contains(keyword) || g.Explain.Contains(keyword) || g.Content.Contains(keyword));
@@ -234,6 +266,12 @@ namespace IMS.Service.Service
                 }
                 result.PageCount = (int)Math.Ceiling((await entities.LongCountAsync()) * 1.0f / pageSize);
                 var taskResult = await entities.OrderByDescending(a => a.CreateTime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                DateTime now = DateTime.Now;
+                foreach (var task in taskResult)
+                {
+                    task.IsEnabled = task.EndTime > now;
+                }
+                await dbc.SaveChangesAsync();
                 if (userId == null)
                 {
                     result.Tasks = taskResult.Select(a => ToDTO(a, 0)).ToArray();

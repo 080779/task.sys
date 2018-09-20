@@ -254,6 +254,7 @@
     <Content Include="assets\js\x-editable\ace-editable.min.js" />
     <Content Include="assets\js\x-editable\bootstrap-editable.min.js" />
     <Content Include="assets\laydate\laydate.js" />
+    <Content Include="assets\laydate\laydate_todaydisplay.css" />
     <Content Include="assets\laydate\need\laydate.css" />
     <Content Include="assets\laydate\skins\dahong\icon.png" />
     <Content Include="assets\laydate\skins\dahong\laydate.css" />

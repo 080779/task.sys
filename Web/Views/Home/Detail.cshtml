@@ -10,6 +10,11 @@
     <link rel="stylesheet" href="/Task/css/style.css">
     <script src="~/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
+    <style>
+        .copyplay{
+            display:none;
+        }
+    </style>
 </head>
 <body class="grey">
     <div class="top">
@@ -67,7 +72,8 @@
         <!--复制按钮-->
         <div class="taskitems_content_w">
             <div class="taskitems_line"><a href="@Model.Task.Url">点击查看内容详情</a></div>
-            <div id="copy" class="taskitems_copy" data-clipboard-target="#explain">复制内容</div>
+            <div id="copy" class="taskitems_copy copyplay" data-clipboard-target="#explain">复制内容</div>
+            <div id="copy1" class="taskitems_copy copyplay">复制内容</div>
         </div>
         <!--内容-->
         <div class="taskitems_expalin">
@@ -136,13 +142,19 @@
                         iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者QQHD浏览器
                         iPad: u.indexOf('iPad') > -1, //是否iPad
                         webApp: u.indexOf('Safari') == -1, //是否web应该程序，没有头部与底部
-                        xianyu_android: u.indexOf('xianyu_android') == -1,
-                        xianyu_ios: u.indexOf('xianyu_ios') == -1
+                        xianyu_android: u.indexOf('xianyu_android') > -1,
+                        xianyu_ios: u.indexOf('xianyu_ios') > -1
                     };
                 }(),
                 language: (navigator.browserLanguage || navigator.language).toLowerCase()
             };
 
+            if (browser.versions.xianyu_ios || browser.versions.xianyu_android) {
+                $("#copy1").removeClass("copyplay");
+            }
+            else {
+                $("#copy").removeClass("copyplay");
+            }
 
             var id = $("#id").val();
             $("#accept").click(function () {
@@ -187,9 +199,17 @@
                 });
             });
 
-            
+            //从另外一个元素复制内容
+            var clipboard = new ClipboardJS("#copy");//实例化
+            clipboard.on('success', function (e) {//复制成功执行的回调，可选
+                console.log(browser.versions);
+                layer.msg("复制成功", { icon: 1 });
+            });
+            clipboard.on('error', function (e) {//复制失败执行的回调，可选
+                layer.msg("复制失败，设备不支持，请手动复制", { icon: 1 });
+            });
 
-            $("#copy").click(function () {
+            $("#copy1").click(function () {
                 var info = $("#explain").val();
                 var json = {
                     "info": info
@@ -204,16 +224,6 @@
                     //alert("android终端");
                     //window.app的本地类对象.方法（"参数"）；
                     window.xianyuAndroid.callJavascriptMethod(JSON.stringify(json));
-                }
-                else {
-                    //从另外一个元素复制内容
-                    var clipboard = new ClipboardJS($(this));//实例化
-                    clipboard.on('success', function (e) {//复制成功执行的回调，可选
-                        layer.msg("复制成功", { icon: 1 });
-                    });
-                    clipboard.on('error', function (e) {//复制失败执行的回调，可选
-                        layer.msg("复制失败，设备不支持，请手动复制", { icon: 1 });
-                    });
                 }
             });
         });

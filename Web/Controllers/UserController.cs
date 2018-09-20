@@ -90,7 +90,7 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "发送短信返回消息：" + msgState });
             }
-            return Json(new AjaxResult { Status = 1, Msg = "发送短信成功"+ msgState });
+            return Json(new AjaxResult { Status = 1, Msg = "发送短信成功" + msgState });
         }
 
         [HttpPost]
@@ -203,6 +203,10 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(string file, string nickName)
         {
+            if (string.IsNullOrEmpty(file))
+            {
+                return Json(new AjaxResult { Status = 0, Msg = "请选择头像图片" });
+            }
             string path;
             bool flag = ImageHelper.SaveBase64(file, out path);
             if (!flag)

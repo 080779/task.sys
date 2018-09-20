@@ -23,10 +23,10 @@ namespace IMS.Web.Areas.Admin.Controllers
         }
         [HttpPost]
         [AdminLog("转发管理", "查看转发管理列表")]
-        public async Task<ActionResult> List(string keyword, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
+        public async Task<ActionResult> List(string keyword, long? stateId, DateTime? startTime, DateTime? endTime, int pageIndex = 1)
         {
             ForwardListViewModel model = new ForwardListViewModel();
-            var result = await forwardService.GetModelListAsync(keyword, startTime, endTime, pageIndex, pageSize);
+            var result = await forwardService.GetModelListAsync(keyword, stateId, startTime, endTime, pageIndex, pageSize);
             var res = await forwardService.GetMonthAsync(DateTime.Now);
             model.Forwards = result.Forwards;
             model.PageCount = result.PageCount;
@@ -38,9 +38,9 @@ namespace IMS.Web.Areas.Admin.Controllers
         //[AdminLog("公告栏管理", "查看公告管理列表")]
         public async Task<ActionResult> GetDay(DateTime? dateTime)
         {
-            if(dateTime==null)
+            if (dateTime == null)
             {
-                return Json(new AjaxResult { Status = 0, Msg="请选择时间" });
+                return Json(new AjaxResult { Status = 0, Msg = "请选择时间" });
             }
             var res = await forwardService.GetDayAsync(dateTime);
             return Json(new AjaxResult { Status = 1, Data = res });
@@ -65,52 +65,74 @@ namespace IMS.Web.Areas.Admin.Controllers
             long res = await forwardService.ConfirmAsync(id, auditState);
             if (res <= 0)
             {
-                if(res==-3)
+                if (res == -3)
                 {
                     return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
                 }
                 return Json(new AjaxResult { Status = 0, Msg = "审核失败" });
             }
-            return Json(new AjaxResult { Status = 1,Msg= "审核成功" });
+            return Json(new AjaxResult { Status = 1, Msg = "审核成功" });
         }
-        //[ValidateInput(false)]
-        ////[AdminLog("公告栏管理", "添加公告管理")]
-        ////[Permission("公告栏管理_新增公告")]
-        //public async Task<ActionResult> Add(string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime)
-        //{
-        //    long adminId = Convert.ToInt64(Session["Platform_AdminUserId"]);
-        //    string adminMobile = await adminService.GetMobileByIdAsync(adminId);
-        //    long id = await taskService.AddAsync(title, bonus, condition, explain, content, startTime, endTime,adminMobile);
-        //    if (id <= 0)
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "添加任务失败" });
-        //    }
-        //    return Json(new AjaxResult { Status = 1, Msg = "添加任务成功" });
-        //}
 
-        //[ValidateInput(false)]
-        ////[AdminLog("公告栏管理", "添加公告管理")]
-        ////[Permission("公告栏管理_修改公告")]
-        //public async Task<ActionResult> Edit(long id, string title, decimal bonus, string condition, string explain, string content, DateTime startTime, DateTime endTime)
-        //{
-        //    bool flag = await taskService.EditAsync(id, title, bonus, condition, explain, content, startTime, endTime);
+        [HttpPost]
+        [AdminLog("转发管理", "转发审核")]
+        [Permission("转发管理_转发审核")]
+        public async Task<ActionResult> AllConfirm(long[] ids, bool auditState)
+        {
+            if (ids.Count() <= 0)
+            {
+                return Json(new AjaxResult { Status = 1, Msg = "未选择任何转发" });
+            }
+            foreach (long id in ids)
+            {
+                long res = await forwardService.ConfirmAsync(id, auditState);
+                if (res <= 0)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "批量审核出错" });
+                }
+            }
+            return Json(new AjaxResult { Status = 1, Msg = "批量审核成功" });
+        }
 
-        //    if (!flag)
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "修改任务失败" });
-        //    }
-        //    return Json(new AjaxResult { Status = 1, Msg = "修改任务成功" });
-        //}
-        ////[AdminLog("公告栏管理", "删除公告管理")]
-        ////[Permission("公告栏管理_删除公告")]
-        //public async Task<ActionResult> Del(long id)
-        //{
-        //    bool flag = await taskService.DelAsync(id);
-        //    if (!flag)
-        //    {
-        //        return Json(new AjaxResult { Status = 0, Msg = "删除任务失败" });
-        //    }
-        //    return Json(new AjaxResult { Status = 1, Msg = "删除任务成功" });
-        //}
+        [HttpPost]
+        [AdminLog("转发管理", "取消审核")]
+        [Permission("转发管理_取消审核")]
+        public async Task<ActionResult> Cancel(long id, bool auditState)
+        {
+            long res = await forwardService.ConfirmAsync(id, auditState);
+            if (res <= 0)
+            {
+                if (res == -3)
+                {
+                    return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
+                }
+                return Json(new AjaxResult { Status = 0, Msg = "取消任务失败" });
+            }
+            return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
+        }
+
+        [HttpPost]
+        [AdminLog("转发管理", "取消审核")]
+        [Permission("转发管理_取消审核")]
+        public async Task<ActionResult> AllCancel(long[] ids, bool auditState)
+        {
+            if (ids.Count() <= 0)
+            {
+                return Json(new AjaxResult { Status = 1, Msg = "未选择任何转发" });
+            }
+            foreach (long id in ids)
+            {
+                long res = await forwardService.ConfirmAsync(id, auditState);
+                if (res <= 0)
+                {
+                    if (res == -3)
+                    {
+                        continue;
+                    }
+                    return Json(new AjaxResult { Status = 0, Msg = "批量取消任务出错" });
+                }
+            }
+            return Json(new AjaxResult { Status = 1, Msg = "批量取消任务成功" });
+        }
     }
 }

@@ -41,6 +41,10 @@
             $("#submit").click(function () {
                 var file = $("#pic-user").attr("src");
                 var nickName = $("#nickName").val();
+                if (typeof (file) == "undefined") {
+                    layer.alert("请选择图片", { icon: 1 });
+                    return;
+                }
 
                 $.ajax({
                     url: "/user/edit",

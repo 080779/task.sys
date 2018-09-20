@@ -246,7 +246,7 @@
             cancel: function (id) {
                 var that = this;
                 layer.confirm('确定取消审核结款吗？', function () {
-                    that.$http.post('/admin/takecash/confirm', { id: id, isSuccess: false }, { emulateJSON: true }).then(function (result) {
+                    that.$http.post('/admin/takecash/cancel', { id: id, isSuccess: false }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 0, title: '提示框' });
                             that.getpage();

@@ -65,5 +65,22 @@ namespace IMS.Web.Areas.Admin.Controllers
             }
             return Json(new AjaxResult { Status = 1, Msg = "结款成功" });
         }
+
+        [HttpPost]
+        [AdminLog("提现管理", "取消结款")]
+        [Permission("提现管理_取消结款")]
+        public async Task<ActionResult> Cancel(long id, bool isSuccess)
+        {
+            long res = await takeCashService.Confirm(id, Convert.ToInt64(Session["Platform_AdminUserId"]), isSuccess);
+            if (res <= 0)
+            {
+                if (res == -4)
+                {
+                    return Json(new AjaxResult { Status = 1, Msg = "取消结款成功" });
+                }
+                return Json(new AjaxResult { Status = 0, Msg = "取消结款失败" });
+            }
+            return Json(new AjaxResult { Status = 1, Msg = "取消结款成功" });
+        }
     }
 }

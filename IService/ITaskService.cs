@@ -17,7 +17,7 @@ namespace IMS.IService
         Task<TaskSearchResult> GetModelListForwardingAsync(long? userId, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListCollectAsync(long? userId, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListAsync(long? userId, int? within, int pageIndex, int pageSize);
-        Task<TaskSearchResult> GetModelListAsync(long? userId, string keyword,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
+        Task<TaskSearchResult> GetModelListAsync(bool isAdmin, long? userId, string keyword,DateTime? startTime,DateTime? endTime,int pageIndex,int pageSize);
     }
     public class TaskSearchResult
     {

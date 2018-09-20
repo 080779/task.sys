@@ -39,6 +39,11 @@
                 $("#submit").click(function () {
                     var id = $("#id").val();
                     var file = $("#img").attr("src");
+                    console.log(file);
+                    if (typeof (file) == "undefined") {
+                        layer.alert("请选择图片", { icon: 1 });
+                        return;
+                    }
 
                     $.ajax({
                         url: "/home/upimg",

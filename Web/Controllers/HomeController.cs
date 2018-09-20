@@ -44,7 +44,7 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Search(string keyword, int pageIndex = 1)
         {
-            var res = await taskService.GetModelListAsync(userId, keyword, null, null, pageIndex, pageSize);
+            var res = await taskService.GetModelListAsync(false,userId, keyword, null, null, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = res });
         }
 
@@ -105,6 +105,10 @@ namespace IMS.Web.Controllers
         [HttpPost]
         public async Task<ActionResult> UpImg(long id,string file)
         {
+            if(string.IsNullOrEmpty(file))
+            {
+                return Json(new AjaxResult { Status = 0, Msg = "请选择图片" });
+            }
             string path;
             bool flag = ImageHelper.SaveBase64(file, out path);
             if (!flag)

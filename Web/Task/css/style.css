@@ -1,4 +1,5 @@
-﻿.user_bady_img {
+﻿
+.user_bady_img {
     width: 100%;
     height: 5rem;
     display: flex;
@@ -13,7 +14,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: white;
+    color: white;
 }
 
 .user_content_img {
@@ -165,6 +166,7 @@
     padding-top: .4rem;
     height: 1.4rem;
     font-size: .4667rem;
+    clear:both;
 }
 
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
