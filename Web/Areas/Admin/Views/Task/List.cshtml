@@ -109,10 +109,10 @@
                 <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" maxlength="8" placeholder="任务佣金" v-model="adds.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" maxlength="200" placeholder="完成条件" v-model="adds.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务简介说明" v-model="adds.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">失效时间：</label><span class="add_name"><input class="layui-input" id="failureTime" style=" margin-left:10px;" v-on:focus='getfailuretime' /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">失效时间：</label><span class="add_name"><input class="layui-input" id="failureTime" style="margin-left:10px;height:28px;" v-on:focus='getfailuretime' /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务内容：</label><div class="prompt r_f"></div></li>
                 <li>
-                    <div id="content1" style="width:1000px"></div>
+                    <div id="content1" style="margin-left:30px;width:1000px"></div>
                 </li>
             </ul>
         </div>
@@ -124,10 +124,10 @@
                 <li><label class="label_name">任务佣金：</label><span class="add_name"><input value="" maxlength="8" placeholder="任务佣金" v-model="edits.bonus" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">完成条件：</label><span class="add_name"><input value="" maxlength="200" placeholder="完成条件" v-model="edits.condition" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务简介说明：</label><span class="add_name"><input value="" maxlength="200" placeholder="任务简介说明" v-model="edits.explain" type="text" class="text_add" /></span><div class="prompt r_f"></div></li>
-                <li><label class="label_name">失效时间：</label><span class="add_name"><input class="layui-input" id="failureTime1" style=" margin-left:10px;" v-on:focus='getfailuretime1' /></span><div class="prompt r_f"></div></li>
+                <li><label class="label_name">失效时间：</label><span class="add_name"><input class="layui-input" id="failureTime1" style="margin-left:10px;height:28px;" v-on:focus='getfailuretime1' /></span><div class="prompt r_f"></div></li>
                 <li><label class="label_name">任务内容：</label><div class="prompt r_f"></div></li>
                 <li>
-                    <div id="content2" style="width:1000px"></div>
+                    <div id="content2" style="margin-left:30px;width:1000px"></div>
                 </li>
             </ul>
         </div>
@@ -141,7 +141,7 @@
         el: "#app",
         data: {
             tasks: [],
-            testtime:"",
+            testtime: "",
             pages: {
                 all: "", cur: 1, txtpage: ""
             },
@@ -152,7 +152,7 @@
                 title: "", bonus: "", condition: "", explain: "", content: "", endTime: ""
             },
             searchs: {
-                startTime: "", endTime: "",keyword:""
+                startTime: "", endTime: "", keyword: ""
             }
         },
         methods: {
@@ -199,14 +199,14 @@
                 }
                 this.getpage();
             },
-            add: function () {                
+            add: function () {
                 var that = this;
                 that.adds.title = "";
                 that.adds.failureTime = "";
                 that.adds.content = "";
                 layer.open({
                     type: 1,
-                    title: '添加公告',
+                    title: '添加任务',
                     maxmin: true,
                     shadeClose: false, //点击遮罩关闭层
                     area: ['1200px', '600px'],
@@ -218,11 +218,11 @@
                             return;
                         }
                         var reg = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-                        if (!reg.test(that.adds.bonus )) {
+                        if (!reg.test(that.adds.bonus)) {
                             layer.msg('请输入正确的任务佣金金额', { icon: 1 });
                             return;
                         }
-                        if (that.adds.bonus  <= 0) {
+                        if (that.adds.bonus <= 0) {
                             layer.msg('任务佣金金额必须大于零', { icon: 1 });
                             return;
                         }
@@ -240,7 +240,7 @@
                         }
                         that.adds.content = editor1.txt.html();
                         if (that.adds.content == "") {
-                            layer.alert('公告内容不能为空', { icon: 0, title: '提示框' });
+                            layer.alert('任务内容不能为空', { icon: 0, title: '提示框' });
                             return;
                         }
                         that.$http.post('/admin/task/add', { title: that.adds.title, bonus: that.adds.bonus, condition: that.adds.condition, explain: that.adds.explain, content: that.adds.content, endTime: that.adds.endTime }, { emulateJSON: true }).then(function (result) {
@@ -271,7 +271,7 @@
                 });
                 layer.open({
                     type: 1,
-                    title: '修改公告',
+                    title: '修改任务',
                     maxmin: true,
                     shadeClose: false, //点击遮罩关闭层
                     area: ['1200px', '600px'],
@@ -305,7 +305,7 @@
                         }
                         that.edits.content = editor2.txt.html();
                         if (that.edits.content == "") {
-                            layer.alert('公告内容不能为空', { icon: 0, title: '提示框' });
+                            layer.alert('任务内容不能为空', { icon: 0, title: '提示框' });
                             return;
                         }
                         that.$http.post('/admin/task/edit', { id: id, title: that.edits.title, bonus: that.edits.bonus, condition: that.edits.condition, explain: that.edits.explain, content: that.edits.content, endTime: that.edits.endTime }, { emulateJSON: true }).then(function (result) {
@@ -329,7 +329,7 @@
             },
             del: function (id) {
                 var that = this;
-                layer.confirm("公告删除后无法恢复，确认删除吗？", { icon: 0, title: '是否删除公告' }, function (index) {
+                layer.confirm("任务删除后无法恢复，确认删除吗？", { icon: 0, title: '是否删除任务' }, function (index) {
                     that.$http.post('/admin/task/del', { id: id }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 6, title: '提示框' });
@@ -401,7 +401,7 @@
             })
         }
     });
-    
+
     //编辑器
     var E = window.wangEditor;
     var editor1 = new E('#content1');
