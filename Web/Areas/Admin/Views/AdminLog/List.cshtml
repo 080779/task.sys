@@ -108,6 +108,7 @@
                 that.searchs.startTime = "";
                 laydate({
                     elem: '#start',
+                    istoday: false,
                     choose: function (date) {
                         that.searchs.startTime = date;
                     }
@@ -118,6 +119,7 @@
                 that.searchs.endTime = "";
                 laydate({
                     elem: '#end',
+                    istoday: false,
                     choose: function (date) {
                         that.searchs.endTime = date;
                     }
@@ -208,10 +210,12 @@
     });
     laydate({
         elem: '#start',
+        istoday: false,
         event: 'focus'
     });
     laydate({
         elem: '#end',
+        istoday: false,
         event: 'focus'
     });
 </script>
