@@ -1,5 +1,6 @@
 ﻿using IMS.Common;
 using IMS.IService;
+using IMS.Web.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -150,9 +151,9 @@ namespace IMS.Web.Controllers
 
 
         [HttpGet]
-        public ActionResult Edit()
+        public ActionResult Edit(UserEditModel model)
         {
-            return View();
+            return View(model);
         }
 
         [HttpPost]

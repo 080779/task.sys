@@ -440,6 +440,7 @@
     <Compile Include="Jobs\AutoConfirmJob.cs" />
     <Compile Include="Models\Home\HomeAboutViewModel.cs" />
     <Compile Include="Models\Task\TaskDetailViewModel.cs" />
+    <Compile Include="Models\User\UserEditModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="wxpay.ashx.cs">
       <DependentUpon>wxpay.ashx</DependentUpon>

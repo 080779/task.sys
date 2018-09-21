@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model IMS.Web.Models.User.UserEditModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -22,13 +23,13 @@
     <!--上传图片-->
     <div style="background: white; padding-bottom: 1rem;width: 100%">
         <div>
-            <img class="pic" id="pic-user" src="/Task/images/user.png" />
+            <img class="pic" id="pic-user" src="@Model.HeadPic" />
             <input class="upload" id="file" type="file" style="display: none" />
         </div>
 
         <p>请点击选择上传头像</p>
 
-        <p><input id="nickName" class="new-name" placeholder="请输入新的名称"></p>
+        <p><input id="nickName" value="@Model.NickName" class="new-name" placeholder="请输入新的名称"></p>
 
         <div id="submit" class="submit-button">确认修改</div>
     </div>

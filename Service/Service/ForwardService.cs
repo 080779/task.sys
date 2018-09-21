@@ -46,10 +46,10 @@ namespace IMS.Service.Service
                     return -2;
                 }
 
-                if (string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
-                {
-                    return -3;
-                }
+                //if (string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
+                //{
+                //    return -3;
+                //}
 
                 long stateId = await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "已接受");
                 if (stateId <= 0)
@@ -116,10 +116,10 @@ namespace IMS.Service.Service
                     return -2;
                 }
 
-                if(string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
-                {
-                    return -3;
-                }
+                //if(string.IsNullOrEmpty(await dbc.GetParameterAsync<UserEntity>(u => u.Id == userId, u => u.Mobile)))
+                //{
+                //    return -3;
+                //}
 
                 long stateId = await dbc.GetIdAsync<ForwardStateEntity>(f => f.Name == "审核中");
                 if (stateId <= 0)

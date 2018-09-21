@@ -32,7 +32,7 @@
         <!--头像-->
         <div class="user_bady_img">
             <div class="user_img_list">
-                <a href="/user/edit" class="user_content_img">
+                <a v-on:click="upimg" class="user_content_img">
                     <img v-bind:src="user.headPic" />
                 </a>
                 <div class="user_content_text" v-html="user.nickName"></div>
@@ -137,13 +137,16 @@
                                 window.location.href = result.data.data;
                             });
                         }
-                    })
+                    });
+                },
+                upimg: function () {
+                    window.location.href = "/user/edit?headpic=" + this.user.headPic + "&nickName=" + this.user.nickName;
                 }
             },
             mounted: function () {
                 this.$http.post('/user/get', {}, { emulateJSON: true }).then(function (result) {
                     this.user = result.data.data;
-                })
+                });
             }
         });
     </script>

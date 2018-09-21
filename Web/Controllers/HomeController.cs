@@ -79,10 +79,10 @@ namespace IMS.Web.Controllers
                 {
                     return Json(new AjaxResult { Status = 0, Msg = "任务已失效" });
                 }
-                if(res==-3)
-                {
-                    return Json(new AjaxResult { Status = 0, Msg = "未绑定信息，请绑定后再接任务" });
-                }
+                //if(res==-3)
+                //{
+                //    return Json(new AjaxResult { Status = 0, Msg = "未绑定信息，请绑定后再接任务" });
+                //}
                 return Json(new AjaxResult { Status = 0, Msg = "任务接受失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "任务接受完成" });
