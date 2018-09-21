@@ -62,13 +62,13 @@ namespace IMS.Web.Areas.Admin.Controllers
         [Permission("转发管理_转发审核")]
         public async Task<ActionResult> Confirm(long id, bool auditState)
         {
-            long res = await forwardService.ConfirmAsync(id, auditState);
+            long res = await forwardService.ConfirmAsync(id, true);
             if (res <= 0)
             {
-                if (res == -3)
-                {
-                    return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
-                }
+                //if (res == -3)
+                //{
+                //    return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
+                //}
                 return Json(new AjaxResult { Status = 0, Msg = "审核失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "审核成功" });
@@ -85,7 +85,7 @@ namespace IMS.Web.Areas.Admin.Controllers
             }
             foreach (long id in ids)
             {
-                long res = await forwardService.ConfirmAsync(id, auditState);
+                long res = await forwardService.ConfirmAsync(id, true);
                 if (res <= 0)
                 {
                     return Json(new AjaxResult { Status = 0, Msg = "批量审核出错" });
@@ -99,13 +99,13 @@ namespace IMS.Web.Areas.Admin.Controllers
         [Permission("转发管理_取消审核")]
         public async Task<ActionResult> Cancel(long id, bool auditState)
         {
-            long res = await forwardService.ConfirmAsync(id, auditState);
+            long res = await forwardService.ConfirmAsync(id, false);
             if (res <= 0)
             {
-                if (res == -3)
-                {
-                    return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
-                }
+                //if (res == -3)
+                //{
+                //    return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
+                //}
                 return Json(new AjaxResult { Status = 0, Msg = "取消任务失败" });
             }
             return Json(new AjaxResult { Status = 1, Msg = "取消任务成功" });
@@ -125,10 +125,6 @@ namespace IMS.Web.Areas.Admin.Controllers
                 long res = await forwardService.ConfirmAsync(id, auditState);
                 if (res <= 0)
                 {
-                    if (res == -3)
-                    {
-                        continue;
-                    }
                     return Json(new AjaxResult { Status = 0, Msg = "批量取消任务出错" });
                 }
             }

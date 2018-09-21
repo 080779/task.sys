@@ -34,7 +34,7 @@ namespace IMS.Web.Controllers
             //Session["Platform_UserId"] = id;
             CookieHelper.Login(id.ToString(), "Platform_UserId", false);
             HttpCookie UserCookie = new HttpCookie("Platform_UserId");
-            UserCookie["Mobile"] = await userService.GetMobileByIdAsync(id);
+            //UserCookie["Mobile"] = await userService.GetMobileByIdAsync(id);
             UserCookie["Id"] = id.ToString();
             Response.AppendCookie(UserCookie);
             return Json(new AjaxResult { Status = 1, Msg = "登录成功", Data = "/home/index" });

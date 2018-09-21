@@ -493,7 +493,6 @@
     <Content Include="Views\User\Center.cshtml" />
     <Content Include="Views\User\MyTask.cshtml" />
     <Content Include="Views\Home\Detail.cshtml" />
-    <Content Include="Views\User\BindInfo.cshtml" />
     <Content Include="Views\TakeCash\Take.cshtml" />
     <Content Include="Views\User\Contact.cshtml" />
     <Content Include="Views\UserTask\Incomes.cshtml" />
@@ -504,12 +503,15 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\Test\List.cshtml" />
     <Content Include="Views\Task\Info.cshtml" />
-    <Content Include="Views\User\ResetBindInfo.cshtml" />
+    <Content Include="Views\User\BindInfo.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Task\.idea\task.iml" />
     <Content Include="Task\js\flexible.4" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Test\Copy.cshtml" />
+    <Content Include="Views\UserTask\Going.cshtml" />
+    <Content Include="Views\UserTask\Complete.cshtml" />
+    <Content Include="Views\UserTask\GiveUp.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

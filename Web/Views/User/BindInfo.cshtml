@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model IMS.DTO.UserDTO
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,37 +8,53 @@
     <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
     <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
     <link rel="stylesheet" href="/Task/css/style.css">
-    <script src="~/Task/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Task/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
 </head>
-<body>
-    <div id="app" class="top">
-        <div class="code_content">
-            <!--账号-->
-            <div class="code_phone">
-                <div class="code_text">手机号：</div>
-                <input class="code_content_input" id="phone" placeholder="手机号码" maxlength="11" v-model="mobile">
-            </div>
-            <!--输入微信号-->
-            <div class="code_wx">
-                <div class="code_text">微信号：</div>
-                <input class="code_content_input" placeholder="输入微信号" v-model="wechat">
-            </div>
-            <!--输入支付宝-->
-            <div class="code_zhipay">
-                <div class="code_text">支付宝：</div>
-                <input class="code_content_input" placeholder="输入支付宝" v-model="alipay">
-            </div>
-            <!--验证码-->
-            <div class="code_phonecode">
-                <div class="code_text">翻身码：</div>
-                <input id="code_phonecode_input" placeholder="闲鱼翻身码" v-model="code">
-                <a onclick="sendCode(this)" class="code_phonecode_num">获取闲鱼翻身码</a>
-            </div>
-            <!--按钮-->
-            <a v-on:click="btnValid" class="code_button">
-                提交验证
-            </a>
+<body class="grey">
+    <div class="top">
+        <div class="wrap-white">
+            <i class="itemslist"><a href="#"></a></i>
+            <div class="ptitle-white">绑定信息</div>
         </div>
+    </div>
+    <div class="itemslist-bg">
+        <div class="itemslist-panel">
+            <p id="index_page"><a href="/home/index">首页</a></p>
+            <p id="index_mytask"><a href="/usertask/going"> 进行中的任务</a></p>
+            <p id="index_mytask1"><a href="/usertask/complete"> 已完成的任务</a></p>
+            <p id="index_mytask2"><a href="/usertask/giveup"> 放弃的任务</a></p>
+            <p id="index_mytask3"><a href="/user/bindinfo"> 我的钱包</a></p>
+            <p id="index_user"><a href="/user/center">个人中心</a> </p>
+        </div>
+    </div>
+
+    <div id="app" class="code_content">
+        <!--账号-->
+        <div class="code_phone">
+            <div class="code_text">手机号：</div>
+            <input class="code_content_input" id="phone" placeholder="手机号码" maxlength="11" v-model="mobile">
+        </div>
+        <!--输入微信号-->
+        <div class="code_wx">
+            <div class="code_text">微信号：</div>
+            <input class="code_content_input" placeholder="输入微信号" v-model="wechat">
+        </div>
+        <!--输入支付宝-->
+        <div class="code_zhipay">
+            <div class="code_text">支付宝：</div>
+            <input class="code_content_input" placeholder="输入支付宝" v-model="alipay">
+        </div>
+        <!--验证码-->
+        <div class="code_phonecode">
+            <div class="code_text">翻身码：</div>
+            <input id="code_phonecode_input" placeholder="闲鱼翻身码" v-model="code">
+            <a onclick="sendCode(this)" class="code_phonecode_num">获取闲鱼翻身码</a>
+        </div>
+        <!--按钮-->
+        <a v-on:click="btnValid" class="code_button">
+            提交验证
+        </a>
     </div>
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>
     <script src="~/Task/js/jquery.min.js"></script>
@@ -102,7 +119,7 @@
         var vue = new Vue({
             el: "#app",
             data: {
-                mobile: "", wechat: "", alipay: "", code: ""
+                mobile: "@Model.Mobile", wechat: "@Model.WechatPayCode", alipay: "@Model.AliPayCode", code: ""
             },
             methods: {
                 btnValid: function () {
@@ -130,7 +147,7 @@
                     this.$http.post('/user/bindinfo', { id: 1, mobile: this.mobile, wechat: this.wechat, alipay: this.alipay, code: this.code }, { emulateJSON: true }).then(function (result) {
                         if (result.data.status == 1) {
                             layer.alert(result.data.msg, { icon: 1, title: '提示框' }, function () {
-                                window.location.href = "/home/index";
+                                window.location.href = "/user/center";
                             });
                         }
                         else if (result.data.status == 0) {

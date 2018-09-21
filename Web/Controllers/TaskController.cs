@@ -18,6 +18,6 @@ namespace IMS.Web.Controllers
         {
             var res = await taskService.GetModelAsync(id, 0);
             return View(res);
-        }        
+        }
     }
 }

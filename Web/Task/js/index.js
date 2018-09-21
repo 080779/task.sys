@@ -5,7 +5,6 @@ $(document).ready(function(){
         $('.itemslist-panel').css('height',document.body.clientHeight+'rem');
         $('.itemslist-bg').css('display','block');
     });
-
 });
 //选项卡
 $(function () {

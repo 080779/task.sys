@@ -10,11 +10,12 @@ namespace IMS.IService
     public interface IForwardService : IServiceSupport
     {
         Task<long> AcceptAsync(long taskId, long userId);
+        Task<long> GiveUpAsync(long taskId, long userId);
         Task<long> ForwardAsync(long taskId, long userId, string imgUrl);
         Task<long> ConfirmAsync(long id,bool auditState);
         Task<bool> DelAsync(long id, long userId);
         Task<string> GetStateNameAsync(long userId,long taskId);
-        Task<long> GetUserForwardStatisticalAsync(long userId,DateTime? dateTime);
+        Task<long> GetUserForwardStatisticalAsync(long userId,DateTime? dateTime);//转发统计
         Task<ForwardStatisticalResult> GetDayAsync(DateTime? dateTime);
         Task<ForwardStatisticalResult> GetMonthAsync(DateTime? dateTime);
         Task<ForwardSearchResult> GetModelListAsync(string keyword, long? stateId, DateTime? startTime, DateTime? endTime, int pageIndex, int pageSize);

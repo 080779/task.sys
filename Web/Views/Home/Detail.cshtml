@@ -100,6 +100,10 @@
     {
         <a class="concact-button">审核中...</a>
     }
+    else if (Model.ForwardStateName == "已放弃")
+    {
+        <a class="concact-button">已放弃</a>
+    }
     else if (Model.ForwardStateName == "任务完成")
     {
         <a class="concact-button">任务完成</a>
@@ -186,7 +190,7 @@
                     success: function (res) {
                         if (res.status == 1) {
                             layer.alert(res.msg, { icon: 1, title: '提示框' }, function () {
-                                window.location.reload();
+                                window.location.href = res.data;
                             });
                         }
                         else if (res.status == 0) {

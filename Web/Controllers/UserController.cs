@@ -52,19 +52,9 @@ namespace IMS.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult BindInfo()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public async Task<ActionResult> ResetBindInfo()
+        public async Task<ActionResult> BindInfo()
         {
             var res = await userService.GetModelAsync(userId);
-            if (string.IsNullOrEmpty(res.Mobile))
-            {
-                return Redirect("/user/bindinfo");
-            }
             return View(res);
         }
 
@@ -138,62 +128,27 @@ namespace IMS.Web.Controllers
                 }
                 return Json(new AjaxResult { Status = 0, Msg = "绑定失败" });
             }
-            if (Request.Cookies["Platform_UserId"] != null)
-            {
-                HttpCookie UserCookie = Request.Cookies["Platform_UserId"];
-                UserCookie["Mobile"] = mobile;
-                Response.Cookies.Set(UserCookie);
-            }
+            //if (Request.Cookies["Platform_UserId"] != null)
+            //{
+            //    HttpCookie UserCookie = Request.Cookies["Platform_UserId"];
+            //    UserCookie["Mobile"] = mobile;
+            //    Response.Cookies.Set(UserCookie);
+            //}
             return Json(new AjaxResult { Status = 1, Msg = "绑定成功" });
         }
 
         [HttpPost]
-        public async Task<ActionResult> ResetBindInfo(string mobile, string trueName, string wechat, string alipay, string code)
+        public async Task<ActionResult> CheckBind()
         {
-            if (string.IsNullOrEmpty(mobile))
+            string mobile = await userService.GetMobileByIdAsync(userId);
+            if(string.IsNullOrEmpty(mobile))
             {
-                return Json(new AjaxResult { Status = 0, Msg = "用户手机号不能为空" });
+                return Json(new AjaxResult { Status = 0, Msg = "未绑定手机号、微信、支付宝信息",Data="/user/bindinfo" });
             }
-            if (!Regex.IsMatch(mobile, @"^1\d{10}$"))
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "用户手机号格式不正确" });
-            }
-            if ((await userService.CheckUserMobileAsync(userId, mobile)) <= 0)
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "输入的手机号与账号绑定的手机号不一致" });
-            }
-            //if (string.IsNullOrEmpty(trueName))
-            //{
-            //    return Json(new AjaxResult { Status = 0, Msg = "用户真实姓名不能为空" });
-            //}
-            if (string.IsNullOrEmpty(wechat))
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "用户微信号不能为空" });
-            }
-            if (string.IsNullOrEmpty(alipay))
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "用户支付宝账号不能为空" });
-            }
-            if (string.IsNullOrEmpty(code))
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "手机验证码不能为空" });
-            }
-            object obj = CacheHelper.GetCache("App_User_SendMsg" + mobile);
-            if (obj == null)
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "未发送短信验证或验证码过期" });
-            }
-            if (obj.ToString() != code)
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "手机验证码错误" });
-            }
-            long res = await userService.ResetBindInfoAsync(userId, mobile, trueName, wechat, alipay);
-            if (res <= 0)
-            {
-                return Json(new AjaxResult { Status = 0, Msg = "绑定失败" });
-            }
-            return Json(new AjaxResult { Status = 1, Msg = "绑定成功" });
+            return Json(new AjaxResult { Status = 1,Data="/takecash/list" });
         }
+
+
         [HttpGet]
         public ActionResult Edit()
         {

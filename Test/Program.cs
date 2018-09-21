@@ -28,11 +28,7 @@ namespace Test
                 {
                     Console.WriteLine(sql);
                 };
-                DateTime dateTime = DateTime.Now;
-                ForwardStatisticalResult result = new ForwardStatisticalResult();
-                IQueryable<ForwardEntity> forwards = dbc.GetAll<ForwardEntity>().Where(f => SqlFunctions.DateDiff("day", dateTime, f.CreateTime) == 0);
-                result.TotalBonus = forwards.Sum(f => f.Task.Bonus);
-                result.TotalCount = forwards.LongCount();
+                ForwardEntity forward = dbc.GetAll<ForwardEntity>().SingleOrDefault(f => f.UserId == 1 && f.TaskId == 4 && f.State.Name == "已接受");
             }
             Console.ReadKey();
         }

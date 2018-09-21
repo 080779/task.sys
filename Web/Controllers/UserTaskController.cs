@@ -30,6 +30,7 @@ namespace IMS.Web.Controllers
             var result = await taskService.GetModelListForwardAsync(userId, stateId, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = result });
         }
+        //任务转发收入列表
         [HttpGet]
         public ActionResult Incomes()
         {
@@ -43,5 +44,50 @@ namespace IMS.Web.Controllers
             JournalSearchResult result = await journalService.GetModelListAsync(userId, journalTypeId, null, null, null, pageIndex, pageSize);
             return Json(new AjaxResult { Status = 1, Data = result });
         }
+
+        #region 进行中的任务列表
+        [HttpGet]
+        public ActionResult Going()
+        {
+            return View();
+        }
+        
+        [HttpPost]
+        public async Task<ActionResult> Going(int pageIndex = 1)
+        {
+            var res = await taskService.GetModelListForwardingAsync(userId, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
+        #endregion
+
+        #region 已完成的任务列表
+
+        public ActionResult Complete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Complete(int pageIndex = 1)
+        {
+            long stateId = await forwardStateService.GetIdByNameAsync("任务完成");
+            var res = await taskService.GetModelListForwardAsync(userId,stateId, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
+        #endregion
+
+        #region 已放弃的任务列表
+        public ActionResult GiveUp()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<ActionResult> GiveUp(int pageIndex = 1)
+        {
+            long stateId = await forwardStateService.GetIdByNameAsync("已放弃");
+            var res = await taskService.GetModelListForwardAsync(userId, stateId, pageIndex, pageSize);
+            return Json(new AjaxResult { Status = 1, Data = res });
+        }
+        #endregion
     }
 }

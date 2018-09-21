@@ -90,12 +90,12 @@ namespace IMS.Web.Controllers
 
         public async Task<ActionResult> GiveUp(long id)
         {
-            bool res = await forwardService.DelAsync(id,userId);
-            if (!res)
+            long res = await forwardService.GiveUpAsync(id,userId);
+            if (res <= 0)
             {
                 return Json(new AjaxResult { Status = 0, Msg = "任务放弃失败" });
             }
-            return Json(new AjaxResult { Status = 1, Msg = "任务放弃成功" });
+            return Json(new AjaxResult { Status = 1, Msg = "任务放弃成功",Data="/usertask/giveup" });
         }
         [HttpGet]
         public ActionResult UpImg(long id)
@@ -128,7 +128,7 @@ namespace IMS.Web.Controllers
                 }
                 return Json(new AjaxResult { Status = 0, Msg = "提交审核失败" });
             }
-            return Json(new AjaxResult { Status = 1, Msg = "提交审核成功",Data="/home/detail?id="+id });
+            return Json(new AjaxResult { Status = 1, Msg = "提交审核成功",Data="/usertask/going" });
         }
     }
 }

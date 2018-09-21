@@ -124,15 +124,15 @@ namespace IMS.Web.App_Start.Filter
                     }
                     return;
                 }
-                else
-                {
-                    if(string.IsNullOrEmpty(CookieHelper.GetLoginMobile()) && !url.ToString().ToLower().Contains("/user/bindinfo") && !url.ToString().ToLower().Contains("/login/login") && !url.ToString().ToLower().Contains("/user/send"))
-                    {
-                        filterContext.Result = new RedirectResult("/user/bindinfo");
-                        return;
-                    }
-                    return;
-                }
+                //else
+                //{
+                //    if(string.IsNullOrEmpty(CookieHelper.GetLoginMobile()) && !url.ToString().ToLower().Contains("/user/bindinfo") && !url.ToString().ToLower().Contains("/login/login") && !url.ToString().ToLower().Contains("/user/send"))
+                //    {
+                //        filterContext.Result = new RedirectResult("/user/bindinfo");
+                //        return;
+                //    }
+                //    return;
+                //}
             }
         }
     }
