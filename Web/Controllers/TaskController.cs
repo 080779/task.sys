@@ -14,10 +14,11 @@ namespace IMS.Web.Controllers
     {
         public ITaskService taskService { get; set; }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult> Info(long id)
         {
-            var res = await taskService.GetModelAsync(id, 0);
-            return View(res);
+            string res = await taskService.GetContentAsync(id);
+            return View((object)res);
         }
     }
 }

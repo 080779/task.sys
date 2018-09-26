@@ -20,12 +20,37 @@
     </div>
     <div class="itemslist-bg">
         <div class="itemslist-panel">
-            <p id="index_page"><a href="/home/index">首页</a></p>
+            <div class="taskitems_content_index hight-color" onclick="window.location.href='/home/index'">
+                <div class="select_index"><img class="index_select" src="~/Task/images/index_select.png"></div>
+                <div class="page_index" id="index_page">首页</div>
+            </div>
+            <div class="taskitems_content_index" onclick="window.location.href='/usertask/going'">
+                <div class="duty_index"><img class="index_duty" src="~/Task/images/index_duty.png"></div>
+                <div class="mytask_index" id="index_mytask"> 进行中的任务</div>
+            </div>
+            <div class="taskitems_content_index" onclick="window.location.href='/usertask/complete'">
+                <div class="duty_index"><img class="index_duty" src="~/Task/images/index_duty.png"></div>
+                <div class="mytask_index" id="index_mytask"> 已完成的任务</div>
+            </div>
+            <div class="taskitems_content_index" onclick="window.location.href='/usertask/giveup'">
+                <div class="duty_index"><img class="index_duty" src="~/Task/images/index_duty.png"></div>
+                <div class="mytask_index" id="index_mytask"> 放弃的任务</div>
+            </div>
+            <div class="taskitems_content_index" onclick="window.location.href='/user/bindinfo'">
+                <div class="duty_index"><img class="index_duty" src="~/Task/images/index_duty.png"></div>
+                <div class="mytask_index" id="index_mytask"> 我的钱包</div>
+            </div>
+            <div class="taskitems_content_index" onclick="window.location.href='/user/center'">
+                <div class="duty_index"><img class="index_duty" src="~/Task/images/index_user.png"></div>
+                <div class="user_index" id="index_user">个人中心</div>
+            </div>
+
+            @*<p id="index_page"><a href="/home/index">首页</a></p>
             <p id="index_mytask"><a href="/usertask/going"> 进行中的任务</a></p>
             <p id="index_mytask1"><a href="/usertask/complete"> 已完成的任务</a></p>
             <p id="index_mytask2"><a href="/usertask/giveup"> 放弃的任务</a></p>
             <p id="index_mytask3"><a href="/user/bindinfo"> 我的钱包</a></p>
-            <p id="index_user"><a href="/user/center">个人中心</a> </p>
+            <p id="index_user"><a href="/user/center">个人中心</a> </p>*@
         </div>
     </div>
     <!--任务-->

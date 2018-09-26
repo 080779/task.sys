@@ -53,12 +53,12 @@
                 <div class="taskitems_text_n"><span>@(Model.Task.Bonus)元</span></div>
             </div>
             <!--完成条件-->
-            <div class="taskitems_content_text">
+            <div class="taskitems_expalin">
                 <div class="taskitems_text">
                     <div><img src="/Task/images/comp.png" /></div>
                     <div class="taskitems_text_num">完成条件</div>
                 </div>
-                <div class="taskitems_text_n">@Model.Task.Condition</div>
+                <div class="taskitems_expalin_text">@Model.Task.Condition</div>
             </div>
         </div>
         <!--其他说明-->
@@ -67,7 +67,7 @@
                 <div><img src="/Task/images/imfprp.png" /></div>
                 <div class="taskitems_text_num">其他说明</div>
             </div>
-            <textarea style="border:0px" readonly id="explain" class="taskitems_expalin_text">@Model.Task.Explain  @Model.Task.Url</textarea>
+            <textarea style="border:0px;height:120px;" readonly id="explain" class="taskitems_expalin_text">@Model.Task.Explain  @Model.Task.Url</textarea>
         </div>
         <!--复制按钮-->
         <div class="taskitems_content_w">
@@ -87,32 +87,32 @@
     <!--按钮-->
     @if (string.IsNullOrEmpty(Model.ForwardStateName))
     {
-        <a id="accept" class="concact-button">接受任务</a>
+        <a id="accept" class="login_content_tijiao">接受任务</a>
     }
     else if (Model.ForwardStateName == "已接受")
     {
         <div class="concact-button-btt">
-            <div class="button-left" id="giveup">放弃任务</div>
-            <div class="button-right"><a href="/home/upimg?id=@Model.Task.Id">提交审核</a></div>
+            <div class="login_content_tijiaohafl" id="giveup">放弃任务</div>
+            <div class="login_content_tijiaohafl"><a href="/home/upimg?id=@Model.Task.Id">提交审核</a></div>
         </div>
     }
     else if (Model.ForwardStateName == "审核中")
     {
-        <a class="concact-button">审核中...</a>
+        <a class="login_content_tijiao">审核中...</a>
     }
     else if (Model.ForwardStateName == "已放弃")
     {
-        <a class="concact-button">已放弃</a>
+        <a class="login_content_tijiao">已放弃</a>
     }
     else if (Model.ForwardStateName == "任务完成")
     {
-        <a class="concact-button">任务完成</a>
+        <a class="login_content_tijiao">任务完成</a>
     }
     else if (Model.ForwardStateName == "未通过审核")
     {
         <div class="concact-button-btt">
-            <div class="button-left">未通过审核</div>
-            <div id="accept" class="button-right">接受任务</div>
+            <div class="login_content_tijiaohafl">未通过审核</div>
+            <div id="accept" class="login_content_tijiaohafl">接受任务</div>
         </div>
     }
     <script type="text/javascript" charset="utf-8" src="/Task/js/flexible.js"></script>

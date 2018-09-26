@@ -12,7 +12,9 @@ namespace IMS.IService
         Task<long> AddAsync(string title,decimal bonus,string condition,string explain,string content, DateTime endTime, string publisher);
         Task<bool> EditAsync(long id, string title, decimal bonus, string condition, string explain, string content, DateTime endTime);
         Task<bool> DelAsync(long id);
+        Task<string> GetContentAsync(long id);
         Task<TaskDTO> GetModelAsync(long id, long userId);
+        Task<long[]> GetAllIdAsync();
         Task<TaskSearchResult> GetModelListForwardAsync(long? userId, long? forwardStateId, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListForwardingAsync(long? userId, int pageIndex, int pageSize);
         Task<TaskSearchResult> GetModelListCollectAsync(long? userId, int pageIndex, int pageSize);

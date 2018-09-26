@@ -119,6 +119,15 @@
                     }
                 });
             }
+        },
+        mounted: function() {
+            var that = this;
+            document.onkeydown = function (e) {
+                var key = window.event.keyCode;
+                if (key == 13) {
+                    that.login_btn();
+                }
+            }
         }
     });
 </script>

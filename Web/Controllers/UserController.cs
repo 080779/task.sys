@@ -146,7 +146,7 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "未绑定手机号、微信、支付宝信息",Data="/user/bindinfo" });
             }
-            return Json(new AjaxResult { Status = 1,Data="/takecash/list" });
+            return Json(new AjaxResult { Status = 1,Data="/takecash/take" });
         }
 
 

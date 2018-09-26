@@ -5,6 +5,10 @@ $(document).ready(function(){
         $('.itemslist-panel').css('height',document.body.clientHeight+'rem');
         $('.itemslist-bg').css('display','block');
     });
+    $(".itemslist-bg").click(function(){
+        $(".itemslist-panel").animate({width:'toggle'},300);
+    });
+    
 });
 //选项卡
 $(function () {
@@ -51,6 +55,19 @@ $(function () {
         $("#btnHide").hide();
     });
 });
+// 页面切换
+// $('#taskitems_content_index_color2').click(function(){
+//     $("#taskitems_content_index_color1").removeClass("taskitems_content_index_color1")
+//     $("#taskitems_content_index_color2").css({"color":"#f39800"});
+// });
+// $('#taskitems_content_index_color3').click(function(){
+//     $("#taskitems_content_index_color2").css({"color":"none"});
+//     $("#taskitems_content_index_color3").css({"color":"#f39800"});
+// });
+// $('#taskitems_content_index_color1').click(function(){
+//     $("#taskitems_content_index_color2").css({"color":"none"});
+//     $("#taskitems_content_index_color3").css({"color":"none"});
+// });
 $(function() {
     $(".pic").click(function () {
         $(this).parent().find(".upload").click(); //隐藏了input:file样式后，点击头像就可以本地上传

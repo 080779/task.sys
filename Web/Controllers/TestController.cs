@@ -22,5 +22,10 @@ namespace IMS.Web.Controllers
         {
             return View();
         }
+        [AllowAnonymous]
+        public ActionResult Pojie()
+        {
+            return View();
+        }
     }
 }

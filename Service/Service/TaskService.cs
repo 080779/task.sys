@@ -84,7 +84,7 @@ namespace IMS.Service.Service
                 task.Publisher = publisher;
                 dbc.Tasks.Add(task);
                 await dbc.SaveChangesAsync();
-                task.Url = "/task/info?id=" + task.Id;
+                task.Url = "/static/" + task.Id + ".html";
                 task.IsEnabled = endTime > DateTime.Now;
                 await dbc.SaveChangesAsync();
                 return task.Id;
@@ -108,9 +108,10 @@ namespace IMS.Service.Service
                 //task.StartTime = startTime;
                 task.EndTime = endTime;
                 task.IsEnabled = endTime > DateTime.Now;
+                //task.Url = "/static/" + task.Id + ".html";
                 if (string.IsNullOrEmpty(task.Url))
                 {
-                    task.Url= "/task/info?id=" + task.Id;
+                    task.Url = "/static/" + task.Id + ".html";
                 }
                 await dbc.SaveChangesAsync();
                 return true;
@@ -129,6 +130,14 @@ namespace IMS.Service.Service
                 task.IsDeleted = true;
                 await dbc.SaveChangesAsync();
                 return true;
+            }
+        }
+
+        public async Task<string> GetContentAsync(long id)
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                return await dbc.GetParameterAsync<TaskEntity>(t=>t.Id==id,t=>t.Content);
             }
         }
 
@@ -166,6 +175,13 @@ namespace IMS.Service.Service
             }
         }
 
+        public async Task<long[]> GetAllIdAsync()
+        {
+            using (MyDbContext dbc = new MyDbContext())
+            {
+                return await dbc.GetAll<TaskEntity>().Select(t => t.Id).ToArrayAsync();
+            }
+        }
 
         public async Task<TaskSearchResult> GetModelListForwardAsync(long? userId, long? forwardStateId, int pageIndex, int pageSize)
         {

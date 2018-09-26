@@ -39,7 +39,27 @@ namespace IMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "添加任务失败" });
             }
+            await CreateStaticPage(id);
             return Json(new AjaxResult { Status = 1, Msg = "添加任务成功" });
+        }
+
+        private async Task CreateStaticPage(long taskId)
+        {
+            string res = await taskService.GetContentAsync(taskId);
+            string html = MVCHelper.RenderViewToString(this.ControllerContext, @"~/Views/Task/Info.cshtml",(object)res);
+            string path = HttpContext.Request.PhysicalApplicationPath;
+            path = path + @"static\";
+            System.IO.File.WriteAllText(path + taskId + ".html", html);
+        }
+
+        public async Task<ActionResult> RebuildAllStaticPage()
+        {
+            long[] ids = await taskService.GetAllIdAsync();
+            foreach (long id in ids)
+            {
+                await CreateStaticPage(id);
+            }
+            return Content("ok");
         }
 
         public async Task<ActionResult> GetModel(long id)
@@ -65,6 +85,7 @@ namespace IMS.Web.Areas.Admin.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "修改任务失败" });
             }
+            await CreateStaticPage(id);
             return Json(new AjaxResult { Status = 1, Msg = "修改任务成功" });
         }
         [AdminLog("任务管理", "删除任务")]

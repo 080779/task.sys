@@ -73,7 +73,8 @@ namespace IMS.Service.Service
                     return -5;
                 }
                 forward.StateId = stateId;
-                await dbc.SaveChangesAsync();               
+                forward.ImgUrl = "";
+                await dbc.SaveChangesAsync();
                 return forward.Id;
             }
         }
