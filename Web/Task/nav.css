@@ -1,7 +1,9 @@
 ﻿#index_change #nav1 {
-    height: 50px;
     width: 100%;
-    background: white;
+    background: #ffffff;
+    padding-bottom: .2667rem;
+    position: fixed;
+    top: 1.1733rem;
 }
 
     #index_change #nav1 a {
@@ -18,3 +20,10 @@
             color: #366cb3;
             width: 50%;
         }
+
+.load_more {
+    margin-top: 15px;
+    height: 40px;
+    text-align: center;
+    font-size: 15px;
+}

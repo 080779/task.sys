@@ -53,8 +53,9 @@ namespace IMS.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> BindInfo()
+        public async Task<ActionResult> BindInfo(string type= "bar")
         {
+            ViewBag.Type = type;
             var res = await userService.GetModelAsync(userId);
             return View(res);
         }
@@ -163,13 +164,21 @@ namespace IMS.Web.Controllers
             {
                 return Json(new AjaxResult { Status = 0, Msg = "请选择头像图片" });
             }
-            string path;
-            bool flag = ImageHelper.SaveBase64(file, out path);
-            if (!flag)
+            bool res = false;
+            if (file.Contains(";base64,"))
             {
-                return Json(new AjaxResult { Status = 0, Msg = "图片保存失败" });
+                string path;
+                bool flag = ImageHelper.SaveBase64(file, out path);
+                if (!flag)
+                {
+                    return Json(new AjaxResult { Status = 0, Msg = "图片保存失败" });
+                }
+                res = await userService.UpdateInfoAsync(userId, nickName, path);
             }
-            bool res = await userService.UpdateInfoAsync(userId, nickName, path);
+            else
+            {
+                res = await userService.UpdateInfoAsync(userId, nickName, file);
+            }
             if (!res)
             {
                 return Json(new AjaxResult { Status = 0, Msg = "信息修改失败" });

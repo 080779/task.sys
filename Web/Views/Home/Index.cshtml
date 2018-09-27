@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
     <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
     <link rel="stylesheet" href="/Task/css/style.css">
+    <link href="~/Task/nav.css" rel="stylesheet" />
     <script type="text/javascript" charset="utf-8" src="/Task/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
 </head>
@@ -71,7 +72,7 @@
                     </a>
                     <div class="box-star"><img v-bind:id="'taskimgstar'+ task.id" v-on:click="taskcollect(task.id,1)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                 </div>
-                <div style="text-align:center;font-size:15px" id="loadmore" v-on:click="loadmore">加载更多</div>
+                <div class="load_more" id="loadmore" v-on:click="loadmore">加载更多</div>
             </div>
 
             <div class="index_box">
@@ -85,7 +86,7 @@
                     </a>
                     <div class="box-star"><img v-bind:id="'collectimgstar'+ task.id" v-on:click="taskcollect(task.id,0)" v-bind:src="task.isCollect==false?'/Task/images/star.png':'/Task/images/orstar.png'" alt="" /></div>
                 </div>
-                <div style="text-align:center;font-size:15px" id="loadmore1" v-on:click="loadmore1">加载更多</div>
+                <div class="load_more" id="loadmore1" v-on:click="loadmore1">加载更多</div>
             </div>
         </div>
     </div>
@@ -148,14 +149,12 @@
                         var that = this;
                         this.$http.post('/home/get', { within: 0, pageIndex: this.tasks.pageIndex++ }, { emulateJSON: true }).then(function (result) {
                             that.tasks.pageCount = result.data.data.pageCount;
-                            if (that.tasks.pageCount <= 0) {
+                            if (that.tasks.pageCount < that.tasks.pageIndex) {
                                 $("#loadmore").text("没有更多了");
                             }
-                            else {
-                                $.each(result.data.data.tasks, function (i, task) {
-                                    that.newtasks.push(task);
-                                });
-                            }
+                            $.each(result.data.data.tasks, function (i, task) {
+                                that.newtasks.push(task);
+                            });
                         });
                     }
                     else {
@@ -167,14 +166,12 @@
                         var that = this;
                         this.$http.post('/home/get', { pageIndex: this.collects.pageIndex++ }, { emulateJSON: true }).then(function (result) {
                             that.collects.pageCount = result.data.data.pageCount;
-                            if (that.collects.pageCount <= 0) {
+                            if (that.collects.pageCount < that.collects.pageIndex) {
                                 $("#loadmore1").text("没有更多了");
                             }
-                            else {
-                                $.each(result.data.data.tasks, function (i, task) {
-                                    that.alltasks.push(task);
-                                });
-                            }
+                            $.each(result.data.data.tasks, function (i, task) {
+                                that.alltasks.push(task);
+                            });
                         });
                     }
                     else {

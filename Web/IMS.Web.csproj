@@ -363,6 +363,7 @@
     <Content Include="Task\images\blue_bgbutton.png" />
     <Content Include="Task\images\button.png" />
     <Content Include="Task\images\changeuser.png" />
+    <Content Include="Task\images\cloud_icon.png" />
     <Content Include="Task\images\comp.png" />
     <Content Include="Task\images\conred.png" />
     <Content Include="Task\images\exit.png" />
@@ -381,6 +382,7 @@
     <Content Include="Task\images\money.png" />
     <Content Include="Task\images\nicheng.png" />
     <Content Include="Task\images\orstar.png" />
+    <Content Include="Task\images\registerbg.png" />
     <Content Include="Task\images\right_img.png" />
     <Content Include="Task\images\searchicon-gray.png" />
     <Content Include="Task\images\searchicon.png" />
@@ -398,7 +400,7 @@
     <Content Include="Task\js\jquery.min.js" />
     <Content Include="Task\js\swiper.jquery.min.js" />
     <Content Include="Task\js\text.js" />
-    <Content Include="Task\nav1.css" />
+    <Content Include="Task\nav.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

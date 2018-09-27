@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
     <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
     <link rel="stylesheet" href="/Task/css/style.css">
-    <link href="~/Task/nav1.css" rel="stylesheet" />
+    <link href="~/Task/nav.css" rel="stylesheet" />
     <script type="text/javascript" charset="utf-8" src="/Task/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
 </head>
@@ -25,12 +25,13 @@
             <a class="index_close">收入佣金(元)</a>
         </div>
         <div id="index_contentBox">
-            <div class="index_box active" v-for="journal in journals">
-                <div class="index_box_active">
+            <div class="index_box active">
+                <div class="index_box_active" style="border-bottom: 1px solid #e0e0e0;" v-for="journal in journals">
                     <div class="box_left_num" v-html="journal.remark"></div>
                     <div class="box_left_text" v-html="'+'+journal.inAmount"></div>
                 </div>
             </div>
+            <div class="load_more" id="loadmore" v-on:click="loadmore">加载更多</div>
         </div>
     </div>
 
@@ -43,13 +44,33 @@
         var vue = new Vue({
             el: "#index_change",
             data: {
-                journals: []
+                journals: [], pageIndex: 1, pageCount: 1
             },
             methods: {
-                
+                loadmore: function () {
+                    if (this.pageIndex <= this.pageCount) {
+                        var that = this;
+                        this.$http.post('/usertask/incomes', { pageIndex: this.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                            that.pageCount = result.data.data.pageCount;
+                            if (that.pageCount < that.pageIndex) {
+                                $("#loadmore").text("没有更多了");
+                            }
+                            $.each(result.data.data.journals, function (i, journal) {
+                                that.journals.push(journal);
+                            });
+                        });
+                    }
+                    else {
+                        $("#loadmore").text("没有更多了");
+                    }
+                }
             },
             mounted: function () {
-                this.$http.post('/usertask/incomes', {}, { emulateJSON: true }).then(function (result) {
+                this.$http.post('/usertask/incomes', { pageIndex: this.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                    this.pageCount = result.data.data.pageCount;
+                    if (this.pageCount < this.pageIndex) {
+                        $("#loadmore").text("没有更多了");
+                    }
                     this.journals = result.data.data.journals;
                 });
             }

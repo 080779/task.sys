@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/Task/css/common.css" />
     <link rel="stylesheet" type="text/css" href="/Task/css/main.css" />
     <link rel="stylesheet" href="/Task/css/style.css">
-    <link href="~/Task/nav1.css" rel="stylesheet" />
+    <link href="~/Task/nav.css" rel="stylesheet" />
     <script type="text/javascript" charset="utf-8" src="/Task/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="/Task/js/index.js"></script>
 </head>
@@ -26,12 +26,13 @@
             </div>
         <div id="index_contentBox">
             <div id="index_contentBox">
-                <div class="index_box active" v-for="takecash in takeCashes">
-                    <div class="index_box_active">
+                <div class="index_box active">
+                    <div class="index_box_active" style="border-bottom:1px solid #e0e0e0;" v-for="takecash in takeCashes">
                         <div class="box_left_num" v-html="takecash.typeName"></div>
                         <div class="box_left_text" v-html="'-'+takecash.amount"></div>
                     </div>
                 </div>
+                <div class="load_more" id="loadmore" v-on:click="loadmore">加载更多</div>
             </div>
         </div>
     </div>
@@ -45,13 +46,33 @@
         var vue = new Vue({
             el: "#index_change",
             data: {
-                takeCashes: []
+                takeCashes: [], pageIndex: 1, pageCount: 1
             },
             methods: {
-
+                loadmore: function () {
+                    if (this.pageIndex <= this.pageCount) {
+                        var that = this;
+                        this.$http.post('/takecash/list', { pageIndex: this.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                            that.pageCount = result.data.data.pageCount;
+                            if (that.pageCount < that.pageIndex) {
+                                $("#loadmore").text("没有更多了");
+                            }
+                            $.each(result.data.data.takeCashes, function (i, takeCash) {
+                                that.takeCashes.push(takeCash);
+                            });
+                        });
+                    }
+                    else {
+                        $("#loadmore").text("没有更多了");
+                    }
+                }
             },
             mounted: function () {
-                this.$http.post('/takecash/list', {}, { emulateJSON: true }).then(function (result) {
+                this.$http.post('/takecash/list', { pageIndex: this.pageIndex++ }, { emulateJSON: true }).then(function (result) {
+                    this.pageCount = result.data.data.pageCount;
+                    if (this.pageCount < this.pageIndex) {
+                        $("#loadmore").text("没有更多了");
+                    }
                     this.takeCashes = result.data.data.takeCashes;
                 });
             }

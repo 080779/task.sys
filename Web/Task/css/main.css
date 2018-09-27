@@ -52,7 +52,7 @@ body {
 .top .searchicon {
     width: .3334rem;
     height: .3334rem;
-    background: url(../images/searchicon.png) repeat top left/100%;
+    background: url(../images/searchicon.png) no-repeat center/8%;
     position: absolute;
     top: 50%;
     left: .28rem;
@@ -105,7 +105,8 @@ body {
 .top .ptitle-white {
     color: white;
     font-size: .5067rem;
-    text-align: center
+    text-align: center;
+	line-height: 1.1733rem;
 }
 
 .top .itemslist {
@@ -141,7 +142,7 @@ body {
 .top .searchi {
     width: .64rem;
     height: .64rem;
-    background: url(../images/searchicon.png) repeat top left/100%;
+    background: url(../images/searchicon.png) no-repeat top left/80%;
     position: absolute;
     top: 50%;
     right: .56rem;

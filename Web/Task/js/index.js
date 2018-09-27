@@ -2,7 +2,7 @@
 $(document).ready(function(){
     $(".itemslist").click(function(){
         $(".itemslist-panel").animate({width:'toggle'},300);
-        $('.itemslist-panel').css('height',document.body.clientHeight+'rem');
+        $('.itemslist-panel').css('height',document.body.clientHeight);
         $('.itemslist-bg').css('display','block');
     });
     $(".itemslist-bg").click(function(){

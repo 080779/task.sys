@@ -14,7 +14,14 @@
 <body class="grey">
     <div class="top">
         <div class="wrap-white">
-            <i class="itemslist"><a href="#"></a></i>
+            @if (ViewBag.Type == "bar")
+            {
+                <i class="itemslist"><a href="#"></a></i>
+            }
+            else
+            {
+                <i class="backto"><a href="javascript:history.back(-1);"></a></i>
+            }
             <div class="ptitle-white">绑定信息</div>
         </div>
     </div>

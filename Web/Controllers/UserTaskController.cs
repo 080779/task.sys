@@ -47,8 +47,9 @@ namespace IMS.Web.Controllers
 
         #region 进行中的任务列表
         [HttpGet]
-        public ActionResult Going()
+        public ActionResult Going(string type = "bar")
         {
+            ViewBag.Type = type;
             return View();
         }
         
@@ -62,8 +63,9 @@ namespace IMS.Web.Controllers
 
         #region 已完成的任务列表
 
-        public ActionResult Complete()
+        public ActionResult Complete(string type = "bar")
         {
+            ViewBag.Type = type;
             return View();
         }
 
@@ -77,8 +79,9 @@ namespace IMS.Web.Controllers
         #endregion
 
         #region 已放弃的任务列表
-        public ActionResult GiveUp()
+        public ActionResult GiveUp(string type = "bar")
         {
+            ViewBag.Type = type;
             return View();
         }
         [HttpPost]

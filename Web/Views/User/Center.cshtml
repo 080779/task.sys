@@ -83,30 +83,38 @@
                 </div>
                 @*<div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>*@
             </a>
-            @*<!--任务记录-->
-        <a href="/usertask/list" class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img src="/Task/images/imfblue.png"></div>
-                <div class="rcond_text">任务记录</div>
-            </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
-        </a>
-        <!--绑定信息-->
-        <a href="/user/resetbindinfo" class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img src="/Task/images/imfblue.png"></div>
-                <div class="rcond_text">绑定信息</div>
-            </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
-        </a>
-        <!--修改个人信息-->
-        <a href="/user/edit" class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img id="userimg" src="/Task/images/changeuser.png"></div>
-                <div class="rcond_text">修改信息</div>
-            </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
-        </a>*@
+            <!--任务记录-->
+            <a href="/usertask/going?type='center'" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img src="/Task/images/imfblue.png"></div>
+                    <div class="rcond_text">正在进行的任务</div>
+                </div>
+                @*<div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>*@
+            </a>
+            <!--绑定信息-->
+            <a href="/usertask/complete?type='center'" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img src="/Task/images/imfblue.png"></div>
+                    <div class="rcond_text">已完成的任务</div>
+                </div>
+                @*<div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>*@
+            </a>
+            <!--修改个人信息-->
+            <a href="/usertask/giveup?type='center'" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img id="userimg" src="/Task/images/changeuser.png"></div>
+                    <div class="rcond_text">放弃的任务</div>
+                </div>
+                @*<div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>*@
+            </a>
+            <!--我的钱包-->
+            <a href="/user/bindinfo?type='center'" class="list_content_rcond">
+                <div class="content_rcond_text">
+                    <div class="rcond_text_img"><img src="/Task/images/conred.png"></div>
+                    <div class="rcond_text">我的钱包</div>
+                </div>
+                @*<div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>*@
+            </a>
             <!--关于我们-->
             <a href="/home/about" class="list_content_rcond">
                 <div class="content_rcond_text">
@@ -115,14 +123,6 @@
                 </div>
                 @*<div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>*@
             </a>
-            @*<!--联系客服-->
-        <a href="/user/contact" class="list_content_rcond">
-            <div class="content_rcond_text">
-                <div class="rcond_text_img"><img src="/Task/images/conred.png"></div>
-                <div class="rcond_text">联系客服</div>
-            </div>
-            <div class="rcond_text_img"><img src="/Task/images/right_img.png" /></div>
-        </a>*@
             <!--退出-->
             <a href="/user/logout" class="list_content_rcond">
                 <div class="content_rcond_text">
